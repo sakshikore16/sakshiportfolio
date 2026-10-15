@@ -78,7 +78,7 @@ export const ExperienceStudyDesk = () => {
             <span>Interactive Study Desk</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-light tracking-tight">
-            Know My <span className="font-serif italic text-amber-700">Experience</span>
+            Explore My <span className="font-serif italic text-amber-700">Experience</span>
           </h2>
           <p className="text-xs sm:text-sm font-light text-slate-600">
             Click any hardbound book on the desk (Vol 01: Harrier, Vol 02: Digital Loop, Vol 03: Godshalwar) to flip open career accomplishments &amp; measurable numbers.

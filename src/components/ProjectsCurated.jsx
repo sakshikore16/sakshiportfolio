@@ -10,8 +10,9 @@ import { playClick, playPop } from '../utils/sound';
 
 export const ProjectsCurated = () => {
   const [selectedCaseStudy, setSelectedCaseStudy] = useState(null);
-  const [activeIndex, setActiveIndex] = useState(0);
   const carouselRef = useRef(null);
+  const isHoveredRef = useRef(false);
+  const animationFrameRef = useRef(null);
 
   const handleOpenCaseStudy = (projId) => {
     playPop();
@@ -19,21 +20,33 @@ export const ProjectsCurated = () => {
     setSelectedCaseStudy(fullProject);
   };
 
-  const handleScroll = () => {
-    if (!carouselRef.current) return;
-    const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
-    const maxScroll = scrollWidth - clientWidth;
-    if (maxScroll <= 0) return;
-    const itemWidth = 360 + 24; // card width + gap
-    const index = Math.round(scrollLeft / itemWidth);
-    setActiveIndex(Math.min(Math.max(0, index), featuredProjects.length - 1));
-  };
-
+  // Continuous horizontal auto-scrolling with instant freeze on hover
   useEffect(() => {
     const el = carouselRef.current;
     if (!el) return;
-    el.addEventListener('scroll', handleScroll, { passive: true });
-    return () => el.removeEventListener('scroll', handleScroll);
+
+    const scrollSpeed = 0.85; // Butter-smooth continuous horizontal drift
+
+    const step = () => {
+      if (!isHoveredRef.current && el) {
+        el.scrollLeft += scrollSpeed;
+
+        // When scrolled past half the duplicated width, wrap seamlessly with zero jump
+        const halfWidth = el.scrollWidth / 2;
+        if (halfWidth > 0 && el.scrollLeft >= halfWidth) {
+          el.scrollLeft -= halfWidth;
+        }
+      }
+      animationFrameRef.current = requestAnimationFrame(step);
+    };
+
+    animationFrameRef.current = requestAnimationFrame(step);
+
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
   }, []);
 
   const scrollCarousel = (direction) => {
@@ -46,16 +59,6 @@ export const ProjectsCurated = () => {
     });
   };
 
-  const scrollToProject = (index) => {
-    playClick();
-    if (!carouselRef.current) return;
-    const itemWidth = 360 + 24;
-    carouselRef.current.scrollTo({
-      left: index * itemWidth,
-      behavior: 'smooth'
-    });
-  };
-
   return (
     <section id="projects" className="py-16 sm:py-20 relative overflow-hidden bg-transparent">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5 sm:space-y-6">
@@ -64,13 +67,13 @@ export const ProjectsCurated = () => {
         <div className="text-center max-w-xl mx-auto space-y-2.5">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E07A5F]/15 text-[#E07A5F] text-xs font-mono font-medium">
             <Sparkles size={13} />
-            <span>Master Works</span>
+            <span>Master Works • Hover to Pause</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-light tracking-tight text-[#2D2A26]">
             Featured <span className="font-serif italic text-[#E07A5F]">Projects</span>
           </h2>
           <p className="text-xs sm:text-sm font-light text-[#5A564F]">
-            Interactive UI previews with laptop &amp; mobile screen previews.
+            Interactive UI previews with laptop &amp; mobile screen previews. Hover anywhere over the reel to pause.
           </p>
 
           {/* Carousel Navigation Arrow Controls (Centered, Clean Prev/Next) */}
@@ -93,9 +96,15 @@ export const ProjectsCurated = () => {
         </div>
 
         {/* ========================================================
-            PROJECTS HORIZONTAL SNAP CAROUSEL (SPACIOUS & CLEAN)
+            PROJECTS CONTINUOUS HORIZONTAL GLIDE CAROUSEL
         ======================================================== */}
-        <div className="relative">
+        <div 
+          className="relative"
+          onMouseEnter={() => { isHoveredRef.current = true; }}
+          onMouseLeave={() => { isHoveredRef.current = false; }}
+          onTouchStart={() => { isHoveredRef.current = true; }}
+          onTouchEnd={() => { setTimeout(() => { isHoveredRef.current = false; }, 1200); }}
+        >
           {/* Edge Blur Gradients */}
           <div className="absolute left-0 inset-y-0 w-8 bg-gradient-to-r from-[#FAF8F5] to-transparent pointer-events-none z-20 hidden md:block" />
           <div className="absolute right-0 inset-y-0 w-8 bg-gradient-to-l from-[#FAF8F5] to-transparent pointer-events-none z-20 hidden md:block" />
@@ -103,17 +112,17 @@ export const ProjectsCurated = () => {
           {/* Carousel Track */}
           <div 
             ref={carouselRef}
-            className="flex gap-6 overflow-x-auto snap-x snap-mandatory pt-1.5 pb-4 px-2 sm:px-4 scroll-smooth"
+            className="flex gap-6 overflow-x-auto pt-1.5 pb-4 px-2 sm:px-4"
             style={{ 
               scrollbarWidth: 'none', 
               msOverflowStyle: 'none',
               WebkitOverflowScrolling: 'touch' 
             }}
           >
-            {featuredProjects.map((project) => (
+            {[...featuredProjects, ...featuredProjects].map((project, pIdx) => (
               <div
-                key={project.id}
-                className="snap-center shrink-0 w-[305px] sm:w-[360px] min-h-[430px] sm:min-h-[455px] flex flex-col group select-none"
+                key={`${project.id}-${pIdx}`}
+                className="shrink-0 w-[305px] sm:w-[360px] min-h-[430px] sm:min-h-[455px] flex flex-col group select-none"
               >
                 {/* Studio Canvas Card */}
                 <div

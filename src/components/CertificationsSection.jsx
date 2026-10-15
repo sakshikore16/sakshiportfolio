@@ -51,7 +51,7 @@ export const CertificationsSection = () => {
             <span>Honors &amp; Credentials</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-light tracking-tight text-[#2D2A26]">
-            Certifications &amp; <span className="font-serif italic text-[#E07A5F]">Winnings</span>
+            Certifications &amp; <span className="font-serif italic text-[#E07A5F]">Achievements</span>
           </h2>
           <p className="text-xs sm:text-sm font-light text-[#5A564F]">
             Click any certificate or hackathon achievement to inspect credentials, verification links, and certificates.

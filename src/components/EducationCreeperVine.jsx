@@ -258,7 +258,7 @@ export const EducationCreeperVine = () => {
             <span>Academic Milestones</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-light tracking-tight">
-            What My <span className="font-serif italic text-emerald-600">Past Education</span>
+            What's My <span className="font-serif italic text-emerald-600">Past Education?</span>
           </h2>
           <p className="text-xs sm:text-sm font-light text-slate-600">
             Click any flower or hanging tag along the full-width botanical trellis to inspect each milestone.

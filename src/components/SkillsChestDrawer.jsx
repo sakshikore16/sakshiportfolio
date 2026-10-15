@@ -139,7 +139,7 @@ export const SkillsChestDrawer = () => {
             <span>Interactive Chest</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-light tracking-tight">
-            What are <span className="font-serif italic text-[#E29578]">my Skills</span>
+            What Are <span className="font-serif italic text-[#E29578]">My Skills?</span>
           </h2>
           <p className="text-xs sm:text-sm font-light text-[#5A564F]">
             Hover over any drawer to pull it open. Move your cursor away to close it.
