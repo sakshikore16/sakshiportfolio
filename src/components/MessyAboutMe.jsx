@@ -150,7 +150,7 @@ export const MessyAboutMe = () => {
               <span>Behind the Screen • Unified Spread</span>
             </div>
 
-            <h2 className="text-2xl sm:text-3xl lg:text-[38px] font-light tracking-tight text-[#2D2A26] leading-tight">
+            <h2 className="text-3xl sm:text-5xl font-light tracking-tight text-[#2D2A26]">
               Curated <span className="font-serif italic text-[#3D8B7A]">Scrapbook</span>
             </h2>
 
