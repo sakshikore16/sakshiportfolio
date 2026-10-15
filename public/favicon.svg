@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="skBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCE7F3" />
+      <stop offset="100%" stop-color="#F3E8FF" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Outer Soft Pink-Purple Capsule / Squircle Background -->
+  <rect x="3" y="3" width="94" height="94" rx="26" fill="url(#skBgGrad)" stroke="#F472B6" stroke-width="3" stroke-opacity="0.45" />
+  
+  <!-- Inner Subtle Glow Rim -->
+  <rect x="5.5" y="5.5" width="89" height="89" rx="23.5" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-opacity="0.8" />
+
+  <!-- "SK" Serif Monogram in Burgundy / Rose-900 -->
+  <text 
+    x="12" 
+    y="65" 
+    font-family="'Instrument Serif', 'Georgia', 'Times New Roman', serif" 
+    font-weight="bold" 
+    font-size="44" 
+    fill="#881337" 
+    letter-spacing="-1"
+  >SK</text>
+
+  <!-- Tied Ribbon Bow matching TopIslandNav -->
+  <g transform="translate(56, 32) scale(1.65)">
+    <!-- Left Loop -->
+    <path d="M 12 10 C 9 4, 3 4, 4 9 C 5 12, 10 11, 12 10 Z" fill="#F48B96" stroke="#E2727E" stroke-width="1.1" />
+    <!-- Right Loop -->
+    <path d="M 12 10 C 15 4, 21 4, 20 9 C 19 12, 14 11, 12 10 Z" fill="#F48B96" stroke="#E2727E" stroke-width="1.1" />
+    <!-- Left Ribbon Tail -->
+    <path d="M 11 11 Q 8 16 6 18 Q 8 16 10 13" fill="#F48B96" stroke="#E2727E" stroke-width="1.1" stroke-linecap="round" />
+    <!-- Right Ribbon Tail -->
+    <path d="M 13 11 Q 16 16 18 18 Q 16 16 14 13" fill="#F48B96" stroke="#E2727E" stroke-width="1.1" stroke-linecap="round" />
+    <!-- Center Knot -->
+    <circle cx="12" cy="10" r="2.3" fill="#E86E7B" stroke="#D35865" stroke-width="0.9" />
+  </g>
+</svg>
