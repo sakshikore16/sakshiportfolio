@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Award, ShieldCheck, ExternalLink, X, Sparkles, Trophy, FileText } from 'lucide-react';
 import { certificationsAndWinnings } from '../data/portfolioData';
@@ -16,6 +16,28 @@ export const CertificationsSection = () => {
     playClick();
     setSelectedCert(null);
   };
+
+  // Lock background scroll and auto-hide floating island navbar when certification modal is open
+  useEffect(() => {
+    if (selectedCert) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      document.body.classList.add('modal-open');
+
+      const handleKeyDown = (e) => {
+        if (e.key === 'Escape') {
+          handleCloseModal();
+        }
+      };
+
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        document.body.style.overflow = originalOverflow;
+        document.body.classList.remove('modal-open');
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    }
+  }, [selectedCert]);
 
   const containerVariants = {
     hidden: { opacity: 0 },

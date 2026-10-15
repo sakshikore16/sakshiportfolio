@@ -20,6 +20,7 @@ export const ExperienceStudyDesk = () => {
   
   // openBookIndex: null (closed on desk) | 0 (Harrier) | 1 (Digital Loop) | 2 (Godshalwar)
   const [openBookIndex, setOpenBookIndex] = useState(null);
+  const [isClosing, setIsClosing] = useState(false);
   const [hoveredBook, setHoveredBook] = useState(null);
 
   const experienceBooks = experienceData;
@@ -33,8 +34,7 @@ export const ExperienceStudyDesk = () => {
 
       const handleKeyDown = (e) => {
         if (e.key === 'Escape') {
-          playBookClose();
-          setOpenBookIndex(null);
+          handleCloseBook();
         }
       };
 
@@ -45,16 +45,22 @@ export const ExperienceStudyDesk = () => {
         window.removeEventListener('keydown', handleKeyDown);
       };
     }
-  }, [openBookIndex]);
+  }, [openBookIndex, isClosing]);
 
   const handleBookClick = (index) => {
     playBookOpen();
+    setIsClosing(false);
     setOpenBookIndex(index);
   };
 
   const handleCloseBook = () => {
+    if (isClosing) return;
     playBookClose();
-    setOpenBookIndex(null);
+    setIsClosing(true);
+    setTimeout(() => {
+      setOpenBookIndex(null);
+      setIsClosing(false);
+    }, 500);
   };
 
   const toggleLamp = () => {
@@ -518,11 +524,11 @@ export const ExperienceStudyDesk = () => {
                     rotateX: 10
                   }}
                   animate={{ 
-                    scale: 1, 
-                    opacity: 1, 
-                    y: 0, 
+                    scale: isClosing ? 0.88 : 1, 
+                    opacity: isClosing ? 0.95 : 1, 
+                    y: isClosing ? 15 : 0, 
                     rotateY: 0,
-                    rotateX: 0,
+                    rotateX: isClosing ? 8 : 0,
                     transition: { 
                       type: "spring", 
                       stiffness: 280, 
@@ -533,22 +539,28 @@ export const ExperienceStudyDesk = () => {
                     scale: 0.76, 
                     opacity: 0, 
                     y: 35, 
-                    rotateY: -70,
-                    rotateX: 15,
+                    rotateY: -45,
                     transition: { 
-                      duration: 0.42, 
+                      duration: 0.35, 
                       ease: [0.4, 0, 0.2, 1] 
                     } 
                   }}
                   style={{ 
-                    perspective: 1400,
+                    perspective: 1600,
                     transformStyle: "preserve-3d" 
                   }}
                   className="relative w-[94vw] max-w-[670px] sm:max-w-[710px] mx-auto select-text flex flex-col my-auto"
                 >
                   
-                  {/* 0. CLEAN NOTEBOOK BADGE BAR ABOVE THE BOOK COVER (ZERO OVERLAPPING WITH BOOK BORDER) */}
-                  <div className="flex items-center justify-between pb-2 px-1 text-[11px] font-mono z-30">
+                  {/* 0. CLEAN NOTEBOOK BADGE BAR ABOVE THE BOOK COVER */}
+                  <div 
+                    className="flex items-center justify-between pb-2 px-1 text-[11px] font-mono z-30 transition-all duration-200"
+                    style={{ 
+                      opacity: isClosing ? 0 : 1,
+                      transform: isClosing ? 'translateY(-8px)' : 'none',
+                      pointerEvents: isClosing ? 'none' : 'auto'
+                    }}
+                  >
                     <div className="px-3 py-1 rounded-md bg-[#FFFDF7] text-stone-900 border border-stone-300 text-[10px] font-mono font-semibold tracking-wider uppercase shadow-xs flex items-center gap-1.5">
                       <Bookmark size={11} className="text-[#C86445]" />
                       <span>{activeBook.volume} • {activeBook.company}</span>
@@ -558,184 +570,242 @@ export const ExperienceStudyDesk = () => {
                       className="flex items-center gap-1.5 px-3 py-1 rounded-md bg-[#2D241E] hover:bg-stone-800 text-stone-100 text-[10px] font-mono font-medium transition-colors shadow-xs cursor-pointer"
                     >
                       <X size={12} />
-                      <span>Close Notebook</span>
+                      <span>Close Book</span>
                     </button>
                   </div>
 
-                  {/* 1. PHYSICAL HARDBOUND BOOK COVER BACKPLATE */}
+                  {/* 1. PHYSICAL 3D NOTEBOOK CONTAINER */}
                   <div 
-                    className="p-2 sm:p-2.5 rounded-[12px] shadow-[0_16px_40px_rgba(0,0,0,0.22)] relative overflow-visible flex flex-col"
+                    className="relative grid grid-cols-2 rounded-[12px] shadow-[0_20px_50px_rgba(0,0,0,0.28)]"
                     style={{
-                      backgroundColor: activeBook.coverColor,
-                      backgroundImage: `linear-gradient(135deg, ${activeBook.coverColor} 0%, rgba(0,0,0,0.12) 100%)`,
-                      border: `1.5px solid rgba(0,0,0,0.18)`
+                      perspective: 1600,
+                      transformStyle: "preserve-3d",
                     }}
                   >
-
-                    {/* 2. THE PHYSICAL TWO-PAGE PAPER SPREAD */}
+                    
+                    {/* A. LEFT HALF (STATIONARY ON THE DESK: BACK COVER + PAGE 1) */}
                     <div 
-                      className="relative rounded-[8px] bg-[#FFFDF7] text-stone-900 border border-[#E3DAC8] flex flex-col overflow-hidden min-h-[365px] sm:min-h-[390px]"
+                      className="relative p-2 sm:p-2.5 rounded-l-[12px] border-l-2 border-y-2 border-black/20 flex flex-col min-h-[365px] sm:min-h-[390px] overflow-hidden"
                       style={{
-                        boxShadow: `
-                          inset 5px 0 14px rgba(0,0,0,0.05),
-                          inset -5px 0 14px rgba(0,0,0,0.05),
-                          0 3px 10px rgba(0,0,0,0.06)
-                        `,
-                        perspective: 1200
+                        backgroundColor: activeBook.coverColor,
+                        backgroundImage: `linear-gradient(135deg, ${activeBook.coverColor} 0%, rgba(0,0,0,0.18) 100%)`,
+                        boxShadow: 'inset 4px 0 10px rgba(0,0,0,0.2)'
                       }}
                     >
-                      
-                      {/* Paper Page Edge Thickness (Left & Right simulated page leaves) */}
-                      <div className="absolute inset-y-0 left-0 w-1.5 bg-gradient-to-r from-[#E0D7C4] to-transparent pointer-events-none opacity-80 z-20" />
-                      <div className="absolute inset-y-0 right-0 w-1.5 bg-gradient-to-l from-[#E0D7C4] to-transparent pointer-events-none opacity-80 z-20" />
-
-                      {/* CENTER SPINE CREASE & FINE STITCHED THREAD NOTCHES */}
-                      <div className="hidden md:flex absolute inset-y-0 left-1/2 -translate-x-1/2 w-5 pointer-events-none z-20 flex-col justify-between items-center">
-                        <div className="w-full h-full bg-gradient-to-r from-black/10 via-black/20 to-black/10" />
-                        <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-0.5 border-r border-dashed border-[#8C7A6B]/50" />
-                      </div>
-
-                      {/* Silk Ribbon Bookmark trailing down through the spine */}
+                      {/* Left Page Paper Spread */}
                       <div 
-                        className="hidden md:block absolute -top-1.5 left-1/2 -translate-x-1/2 w-2.5 h-full pointer-events-none z-25 shadow-xs opacity-90"
+                        className="relative flex-1 rounded-l-[7px] bg-[#FFFDF7] text-stone-900 border-l border-y border-[#E3DAC8] flex flex-col justify-between overflow-hidden p-3.5 sm:p-4 space-y-2.5"
+                        style={{
+                          boxShadow: 'inset 5px 0 14px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.04)'
+                        }}
+                      >
+                        {/* Page Edge Thickness */}
+                        <div className="absolute inset-y-0 left-0 w-1.5 bg-gradient-to-r from-[#E0D7C4] to-transparent pointer-events-none opacity-80 z-20" />
+
+                        {/* Page 1 Content */}
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between border-b border-[#E8DEC8] pb-1">
+                            <span className="font-mono text-[8px] sm:text-[9px] uppercase tracking-widest text-stone-500 font-semibold">
+                              Entry: {activeBook.volume}
+                            </span>
+                            <span className="font-handwriting font-medium text-[11px] sm:text-xs text-[#C86445]">
+                              📅 {activeBook.period}
+                            </span>
+                          </div>
+
+                          <div className="space-y-0.5">
+                            <h3 className="font-serif italic font-bold text-base sm:text-[17px] text-stone-900 leading-snug">
+                              {activeBook.company}
+                            </h3>
+                            <p className="font-handwriting font-medium text-xs sm:text-[12.5px] text-[#C86445] tracking-wide">
+                              Role: {activeBook.role}
+                            </p>
+                          </div>
+
+                          <div className="pt-0.5">
+                            <p className="font-handwriting font-normal text-[10.5px] sm:text-[11.5px] text-stone-700 leading-relaxed tracking-wide">
+                              "{activeBook.summary}"
+                            </p>
+                          </div>
+
+                          <div className="pt-1 space-y-1">
+                            <h4 className="font-mono text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-stone-700">
+                              Technologies & Stack
+                            </h4>
+                            <div className="flex flex-wrap gap-1">
+                              {activeBook.skills.map((sk, sIdx) => (
+                                <span 
+                                  key={sIdx}
+                                  className="px-2 py-0.5 rounded-xs bg-white border border-stone-300 text-[9.5px] font-mono font-medium text-stone-800 shadow-2xs"
+                                >
+                                  {sk}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Margin Botanical Leaf Doodle & Page Number */}
+                        <div className="pt-2 border-t border-[#E8DEC8]/60 flex items-center justify-between text-[10px] text-stone-500 font-handwriting">
+                          <span className="flex items-center gap-1 text-stone-500 font-medium">
+                            <span>🌿</span>
+                            <span>Studio Log Record</span>
+                          </span>
+                          <span className="font-mono text-[9px] text-stone-500 font-semibold">
+                            Page 1
+                          </span>
+                        </div>
+
+                        {/* Realistic Dynamic Shadow cast onto Page 1 as the right page folds over */}
+                        <div 
+                          className="absolute inset-0 bg-stone-900 pointer-events-none transition-opacity duration-300 z-30"
+                          style={{ opacity: isClosing ? 0.35 : 0 }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* CENTER STITCHED SPINE NOTCH & RIBBON */}
+                    <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-4 pointer-events-none z-30 flex flex-col justify-between items-center">
+                      <div className="w-full h-full bg-gradient-to-r from-black/15 via-black/25 to-black/15" />
+                      <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-0.5 border-r border-dashed border-[#8C7A6B]/60" />
+                      {/* Silk Ribbon Bookmark */}
+                      <div 
+                        className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-2.5 h-full pointer-events-none z-35 shadow-xs opacity-90"
                         style={{
                           backgroundColor: activeBook.ribbonColor,
                           clipPath: 'polygon(0% 0%, 100% 0%, 100% 95%, 50% 90%, 0% 95%)'
                         }}
                       />
-
-                      {/* 2-PAGE SPREAD CONTENT (PAGE 1 & PAGE 2) */}
-                      <div className="relative flex-1 p-0.5 overflow-hidden">
-                        <div className="grid grid-cols-1 md:grid-cols-2 h-full">
-                          
-                          {/* SPREAD - LEFT PAGE (PAGE 1): ROLE, SUMMARY & TECH STACK */}
-                          <div className="p-3.5 sm:p-4 md:pr-5 space-y-2.5 relative flex flex-col justify-between pb-3">
-                            <div className="space-y-2">
-                              {/* Header Note: Date Stamp & Volume */}
-                              <div className="flex items-center justify-between border-b border-[#E8DEC8] pb-1">
-                                <span className="font-mono text-[8px] sm:text-[9px] uppercase tracking-widest text-stone-500 font-semibold">
-                                  Entry: {activeBook.volume}
-                                </span>
-                                <span className="font-handwriting font-medium text-[11px] sm:text-xs text-[#C86445]">
-                                  📅 {activeBook.period}
-                                </span>
-                              </div>
-
-                              {/* Company & Role */}
-                              <div className="space-y-0.5">
-                                <h3 className="font-serif italic font-bold text-base sm:text-[17px] text-stone-900 leading-snug">
-                                  {activeBook.company}
-                                </h3>
-                                <p className="font-handwriting font-medium text-xs sm:text-[12.5px] text-[#C86445] tracking-wide">
-                                  Role: {activeBook.role}
-                                </p>
-                              </div>
-
-                              {/* Handwritten Summary */}
-                              <div className="pt-0.5">
-                                <p className="font-handwriting font-normal text-[10.5px] sm:text-[11.5px] text-stone-700 leading-relaxed tracking-wide">
-                                  "{activeBook.summary}"
-                                </p>
-                              </div>
-
-                              {/* Technologies & Engineering Stack */}
-                              <div className="pt-1 space-y-1">
-                                <h4 className="font-mono text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-stone-700">
-                                  Technologies & Stack
-                                </h4>
-                                <div className="flex flex-wrap gap-1">
-                                  {activeBook.skills.map((sk, sIdx) => (
-                                    <span 
-                                      key={sIdx}
-                                      className="px-2 py-0.5 rounded-xs bg-white border border-stone-300 text-[9.5px] font-mono font-medium text-stone-800 shadow-2xs"
-                                    >
-                                      {sk}
-                                    </span>
-                                  ))}
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* Margin Botanical Leaf Doodle & Page Number */}
-                            <div className="pt-2 border-t border-[#E8DEC8]/60 flex items-center justify-between text-[10px] text-stone-500 font-handwriting">
-                              <span className="flex items-center gap-1 text-stone-500 font-medium">
-                                <span>🌿</span>
-                                <span>Studio Log Record</span>
-                              </span>
-                              <span className="font-mono text-[9px] text-stone-500 font-semibold">
-                                Page 1
-                              </span>
-                            </div>
-                          </div>
-
-                          {/* SPREAD - RIGHT PAGE (PAGE 2): KEY ACCOMPLISHMENTS & FIELD IMPACT */}
-                          <div className="p-3.5 sm:p-4 md:pl-5 space-y-2.5 bg-gradient-to-r from-transparent via-[#FFFDF7] to-[#FAF5E8] relative flex flex-col justify-between pb-3">
-                            <div className="space-y-2">
-                              <div className="flex items-center justify-between border-b border-[#E8DEC8] pb-1">
-                                <div className="flex items-center gap-1">
-                                  <Sparkles size={11} className="text-amber-600" />
-                                  <h4 className="font-mono text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-stone-700">
-                                    Key Accomplishments & Wins
-                                  </h4>
-                                </div>
-                              </div>
-
-                              {/* Checked Bullet Points */}
-                              <ul className="space-y-1.5 pt-0.5">
-                                {activeBook.workHighlights.map((hl, hIdx) => (
-                                  <li key={hIdx} className="flex items-start gap-1.5 font-handwriting font-normal text-[10px] sm:text-[11px] text-stone-800 leading-relaxed tracking-wide">
-                                    <span className="text-emerald-600 font-bold shrink-0 text-[10px] font-mono mt-0.5">✓</span>
-                                    <span>{hl}</span>
-                                  </li>
-                                ))}
-                              </ul>
-
-                              {/* Field Impact Milestone */}
-                              <div className="space-y-1 pt-1">
-                                <div className="font-mono text-[8.5px] sm:text-[9px] uppercase text-stone-600 font-bold tracking-wider">
-                                  Field Impact Milestone:
-                                </div>
-                                <div className={`p-2 rounded-sm font-handwriting font-bold text-[10.5px] sm:text-[11.5px] text-stone-950 ${activeBook.highlighterBg} shadow-xs border border-black/10 leading-snug`}>
-                                  ★ {activeBook.metrics}
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* Page 2 Footer */}
-                            <div className="pt-2 border-t border-[#E8DEC8]/60 flex items-center justify-between text-[10px] text-stone-500">
-                              <span className="font-handwriting text-stone-600 font-medium text-[10.5px]">
-                                Production Value Log
-                              </span>
-                              <span className="font-mono text-[9px] text-stone-500 font-semibold">
-                                Page 2
-                              </span>
-                            </div>
-                          </div>
-
-                        </div>
-                      </div>
-
-                      {/* PHYSICAL NOTEBOOK BOTTOM BAR */}
-                      <div className="flex items-center justify-between px-4 py-2 border-t border-[#E8DEC8] bg-[#FAF5E8]/95 text-stone-600 font-mono text-[10px] select-none z-30">
-                        <div className="flex items-center gap-1.5 text-stone-500">
-                          <BookOpen size={12} className="text-[#C86445]" />
-                          <span>Two-Page Work Log Spread</span>
-                        </div>
-
-                        <span className="font-handwriting text-xs text-stone-700 font-medium">
-                          {activeBook.company}
-                        </span>
-
-                        <button
-                          onClick={handleCloseBook}
-                          className="flex items-center gap-1 px-3 py-1 rounded-sm bg-[#2D241E] hover:bg-stone-800 text-stone-100 font-normal transition-colors shadow-2xs cursor-pointer text-[10px]"
-                        >
-                          <CheckSquare size={10} className="text-emerald-400" />
-                          <span>Done Reading</span>
-                        </button>
-                      </div>
-
                     </div>
+
+                    {/* B. RIGHT HALF (PHYSICAL 3D FOLDING WING: ROTATES -180 DEG OVER THE SPINE) */}
+                    <motion.div
+                      style={{
+                        transformOrigin: "left center",
+                        transformStyle: "preserve-3d",
+                        zIndex: isClosing ? 40 : 20,
+                      }}
+                      animate={{
+                        rotateY: isClosing ? -180 : 0,
+                      }}
+                      transition={{
+                        duration: 0.48,
+                        ease: [0.45, 0.05, 0.15, 0.95],
+                      }}
+                      className="relative min-h-[365px] sm:min-h-[390px]"
+                    >
+                      {/* B1. FRONT FACE: OPEN RIGHT PAGE (PAGE 2) */}
+                      <div 
+                        className="p-2 sm:p-2.5 rounded-r-[12px] border-r-2 border-y-2 border-black/20 flex flex-col h-full overflow-hidden"
+                        style={{
+                          backgroundColor: activeBook.coverColor,
+                          backgroundImage: `linear-gradient(135deg, ${activeBook.coverColor} 0%, rgba(0,0,0,0.18) 100%)`,
+                          boxShadow: 'inset -4px 0 10px rgba(0,0,0,0.2)',
+                          backfaceVisibility: 'hidden',
+                          WebkitBackfaceVisibility: 'hidden',
+                        }}
+                      >
+                        <div 
+                          className="relative flex-1 rounded-r-[7px] bg-[#FFFDF7] text-stone-900 border-r border-y border-[#E3DAC8] flex flex-col justify-between overflow-hidden p-3.5 sm:p-4 space-y-2.5"
+                          style={{
+                            boxShadow: 'inset -5px 0 14px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.04)'
+                          }}
+                        >
+                          {/* Right Page Edge Thickness */}
+                          <div className="absolute inset-y-0 right-0 w-1.5 bg-gradient-to-l from-[#E0D7C4] to-transparent pointer-events-none opacity-80 z-20" />
+
+                          {/* Page 2 Content */}
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between border-b border-[#E8DEC8] pb-1">
+                              <div className="flex items-center gap-1">
+                                <Sparkles size={11} className="text-amber-600" />
+                                <h4 className="font-mono text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-stone-700">
+                                  Key Accomplishments & Wins
+                                </h4>
+                              </div>
+                            </div>
+
+                            {/* Checked Bullet Points */}
+                            <ul className="space-y-1.5 pt-0.5">
+                              {activeBook.workHighlights.map((hl, hIdx) => (
+                                <li key={hIdx} className="flex items-start gap-1.5 font-handwriting font-normal text-[10px] sm:text-[11px] text-stone-800 leading-relaxed tracking-wide">
+                                  <span className="text-emerald-600 font-bold shrink-0 text-[10px] font-mono mt-0.5">✓</span>
+                                  <span>{hl}</span>
+                                </li>
+                              ))}
+                            </ul>
+
+                            {/* Field Impact Milestone */}
+                            <div className="space-y-1 pt-1">
+                              <div className="font-mono text-[8.5px] sm:text-[9px] uppercase text-stone-600 font-bold tracking-wider">
+                                Field Impact Milestone:
+                              </div>
+                              <div className={`p-2 rounded-sm font-handwriting font-bold text-[10.5px] sm:text-[11.5px] text-stone-950 ${activeBook.highlighterBg} shadow-xs border border-black/10 leading-snug`}>
+                                ★ {activeBook.metrics}
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Page 2 Footer with Close Book Button */}
+                          <div className="pt-2 border-t border-[#E8DEC8]/60 flex items-center justify-between text-[10px] text-stone-500">
+                            <span className="font-mono text-[9px] text-stone-500 font-semibold">
+                              Page 2
+                            </span>
+                            <button
+                              onClick={handleCloseBook}
+                              className="flex items-center gap-1 px-2.5 py-1 rounded-sm bg-[#2D241E] hover:bg-stone-800 text-stone-100 font-normal transition-colors shadow-2xs cursor-pointer text-[10px]"
+                            >
+                              <BookOpen size={10} className="text-amber-400" />
+                              <span>Close Book</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* B2. BACK FACE: ELEGANT HARDBOUND FRONT COVER (Swings 180° into view as book snaps shut!) */}
+                      <div 
+                        className="absolute inset-0 rounded-[12px] p-5 flex flex-col justify-between text-white shadow-2xl select-none"
+                        style={{
+                          transform: 'rotateY(180deg)',
+                          backfaceVisibility: 'hidden',
+                          WebkitBackfaceVisibility: 'hidden',
+                          backgroundColor: activeBook.coverColor,
+                          backgroundImage: `linear-gradient(135deg, ${activeBook.coverColor} 0%, rgba(0,0,0,0.38) 100%)`,
+                          border: '2px solid rgba(255,255,255,0.22)',
+                          boxShadow: 'inset 0 0 25px rgba(0,0,0,0.35), -8px 12px 28px rgba(0,0,0,0.45)'
+                        }}
+                      >
+                        {/* Embossed Gold Foil Outer Border */}
+                        <div className="absolute inset-2.5 border border-amber-200/50 rounded-[6px] pointer-events-none" />
+                        
+                        {/* Top Cover Emblem */}
+                        <div className="relative z-10 text-center pt-1">
+                          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/10 backdrop-blur-xs text-[9px] font-mono tracking-widest uppercase text-amber-200 border border-amber-200/30">
+                            <Sparkles size={9} />
+                            <span>FIELD NOTEBOOK</span>
+                          </div>
+                        </div>
+
+                        {/* Center Volume Title & Company */}
+                        <div className="relative z-10 text-center space-y-1.5 my-auto">
+                          <div className="font-serif italic font-bold text-xl sm:text-2xl text-stone-100 tracking-wide drop-shadow-sm">
+                            {activeBook.volume}
+                          </div>
+                          <div className="font-sans font-semibold text-xs sm:text-sm text-amber-100 tracking-wider uppercase">
+                            {activeBook.company}
+                          </div>
+                          <div className="w-16 h-0.5 bg-amber-300/50 mx-auto mt-2" />
+                        </div>
+
+                        {/* Bottom Cover Author / Closed Stamp */}
+                        <div className="relative z-10 text-center pb-1">
+                          <span className="font-mono text-[9px] text-stone-300 uppercase tracking-widest">
+                            Sakshi Kore • Software Engineer
+                          </span>
+                        </div>
+                      </div>
+
+                    </motion.div>
 
                   </div>
 

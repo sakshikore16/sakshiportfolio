@@ -34,10 +34,10 @@ export const ProjectsCurated = () => {
       <style>{`
         @keyframes continuousProjectGlide {
           0% {
-            transform: translate3d(0, 0, 0);
+            transform: translate3d(-50%, 0, 0);
           }
           100% {
-            transform: translate3d(-50%, 0, 0);
+            transform: translate3d(0, 0, 0);
           }
         }
         .projects-glide-track {
@@ -45,7 +45,7 @@ export const ProjectsCurated = () => {
           gap: 1.5rem;
           width: max-content;
           will-change: transform;
-          animation: continuousProjectGlide 36s linear infinite;
+          animation: continuousProjectGlide 24s linear infinite;
         }
         .projects-glide-track:hover,
         .projects-glide-track.is-paused {

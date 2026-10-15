@@ -32,7 +32,7 @@ export const MessyAboutMe = () => {
     },
     award: {
       id: 'award',
-      title: 'Builder Meetup',
+      title: 'College Competition',
       image: '/scrapbook/award-winning.jpg',
       objectPos: 'object-center',
       tapeColor: 'bg-[#FEF08A]/95',
@@ -129,20 +129,8 @@ export const MessyAboutMe = () => {
         ================================================================== */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-5 items-start">
           
-          {/* Row 1 Left: Kedarnath + Slanted Top-Left College Win Note + Trek Note */}
+          {/* Row 1 Left: Kedarnath + Trek Note */}
           <div className="lg:col-span-3 flex flex-col items-center lg:items-start relative">
-            
-            {/* Slanted Top Left Note: College Tech Competition for Creative Development */}
-            <div className="mb-1.5 bg-[#FEF08A] px-2.5 py-1 rounded-sm shadow-xs border border-amber-300/90 transform -rotate-3 pointer-events-none relative max-w-[215px] z-20">
-              <div className="absolute -top-1 left-4 w-6 h-1.5 bg-[#FDE047]/90 border-y border-black/5" />
-              <p className="font-handwriting font-bold text-[10.5px] text-amber-950 leading-tight">
-                College Tech Win 🏆
-              </p>
-              <p className="font-handwriting text-[9.5px] text-amber-900 leading-tight mt-0.5">
-                Won 1st prize in college tech competition for creative development.
-              </p>
-            </div>
-
             <div className="relative">
               <PolaroidCard item={polaroids.kedarnath} />
               
@@ -308,15 +296,20 @@ export const MessyAboutMe = () => {
             </div>
           </div>
 
-          {/* 2. Builder Meetup */}
+          {/* 2. College Competition */}
           <div className="relative flex flex-col items-center w-full">
             <div className="mx-auto flex flex-col items-center">
               <PolaroidCard item={polaroids.award} />
               
-              <div className="mt-1 bg-[#FEF3C7] px-2.5 py-0.5 rounded-xs shadow-xs border border-amber-200/80 rotate-1 pointer-events-none relative inline-block">
-                <span className="font-handwriting text-[10px] text-amber-950">
-                  Tech Circles &amp; Meetups 💡
-                </span>
+              {/* College Tech Win Note */}
+              <div className="mt-1 bg-[#FEF08A] px-2.5 py-1 rounded-xs shadow-xs border border-amber-300/90 rotate-1 pointer-events-none relative max-w-[190px] text-center">
+                <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-6 h-1 bg-[#FDE047]/90 border-y border-black/5" />
+                <p className="font-handwriting font-bold text-[10px] text-amber-950 leading-tight">
+                  College Tech Win 🏆
+                </p>
+                <p className="font-handwriting text-[9px] text-amber-900 leading-tight mt-0.5">
+                  Won 1st prize in college tech competition for creative development.
+                </p>
               </div>
             </div>
           </div>
