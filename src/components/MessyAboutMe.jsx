@@ -4,7 +4,7 @@ import { Sparkles, ArrowDown } from 'lucide-react';
 import { playClick, playSticker } from '../utils/sound';
 
 export const MessyAboutMe = () => {
-  // Curated Scrapbook Polaroids with clean, simple titles
+  // Curated Scrapbook Polaroids with clean, minimal titles
   const polaroids = {
     kedarnath: {
       id: 'kedarnath',
@@ -32,7 +32,7 @@ export const MessyAboutMe = () => {
     },
     award: {
       id: 'award',
-      title: 'Hackathon Award',
+      title: 'Builder Meetup',
       image: '/scrapbook/award-winning.jpg',
       objectPos: 'object-center',
       tapeColor: 'bg-[#FEF08A]/95',
@@ -40,7 +40,7 @@ export const MessyAboutMe = () => {
     },
     bunny: {
       id: 'bunny',
-      title: 'Mountain Trails',
+      title: 'Wilderness',
       image: '/scrapbook/fluffy-bunny.jpg',
       objectPos: 'object-[center_20%]',
       tapeColor: 'bg-[#FFE5B4]/95',
@@ -64,7 +64,7 @@ export const MessyAboutMe = () => {
     },
     snow: {
       id: 'snow',
-      title: 'Winter Expeditions',
+      title: 'Winter Trails',
       image: '/scrapbook/snowman-travel.jpg',
       objectPos: 'object-center',
       tapeColor: 'bg-[#BAE6FD]/95',
@@ -72,13 +72,13 @@ export const MessyAboutMe = () => {
     }
   };
 
-  // SQUARE SHAPE Polaroid Card Component (1:1 square photo, clean minimal bottom chin)
+  // SQUARE SHAPE Polaroid Card Component (Compact footprint so entire section fits in 1 view)
   const PolaroidCard = ({ item, className = "" }) => (
     <motion.div
-      initial={{ scale: 0.8, opacity: 0 }}
+      initial={{ scale: 0.85, opacity: 0 }}
       whileInView={{ scale: 1, opacity: 1 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ type: "spring", stiffness: 240, damping: 20 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ type: "spring", stiffness: 260, damping: 22 }}
       whileHover={{ 
         scale: 1.05, 
         rotate: 0,
@@ -87,11 +87,11 @@ export const MessyAboutMe = () => {
       }}
       onClick={() => playSticker()}
       style={{ rotate: `${item.rotate}deg` }}
-      className={`relative w-40 sm:w-44 md:w-46 lg:w-48 bg-white p-2 sm:p-2.5 pb-2 rounded-xs shadow-[0_4px_16px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_28px_rgba(244,162,97,0.22)] border border-stone-200/80 hover:border-amber-200/80 cursor-default select-none group transition-all duration-200 flex flex-col ${className}`}
+      className={`relative w-36 sm:w-40 md:w-42 lg:w-44 bg-white p-2 pb-1.5 rounded-xs shadow-[0_4px_14px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_24px_rgba(244,162,97,0.22)] border border-stone-200/80 hover:border-amber-200/80 cursor-default select-none group transition-all duration-200 flex flex-col ${className}`}
     >
       {/* Washi Tape Strip on Top */}
       <div 
-        className={`absolute -top-2.5 left-1/2 -translate-x-1/2 w-12 sm:w-14 h-3.5 ${item.tapeColor} shadow-2xs border-y border-black/5 z-20 pointer-events-none`}
+        className={`absolute -top-2 left-1/2 -translate-x-1/2 w-12 sm:w-14 h-3 ${item.tapeColor} shadow-2xs border-y border-black/5 z-20 pointer-events-none`}
         style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px)' }}
       />
 
@@ -107,9 +107,9 @@ export const MessyAboutMe = () => {
         </div>
       </div>
 
-      {/* Clean, Simple Handwritten Title */}
-      <div className="pt-1.5 px-1 text-center">
-        <p className="font-handwriting font-medium text-xs sm:text-[13px] text-stone-700 leading-tight">
+      {/* Clean, Minimal Handwritten Title */}
+      <div className="pt-1 px-1 text-center">
+        <p className="font-handwriting font-medium text-[11px] sm:text-xs text-stone-700 leading-tight">
           {item.title}
         </p>
       </div>
@@ -119,59 +119,59 @@ export const MessyAboutMe = () => {
   return (
     <section 
       id="about" 
-      className="py-8 sm:py-12 relative overflow-hidden bg-transparent text-[#2D2A26] select-none"
+      className="py-4 sm:py-6 relative overflow-hidden bg-transparent text-[#2D2A26] select-none"
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10 space-y-6 sm:space-y-7">
+      {/* Container with tight vertical spacing so entire 3-row scrapbook fits in one view */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10 space-y-3 sm:space-y-4">
         
         {/* ==================================================================
-            ROW 1: KEDARNATH (Left) + CENTER HEADING + TECH ECOSYSTEM (Right)
+            ROW 1: KEDARNATH (Left) + CENTER HEADER + TECH ECOSYSTEM (Right)
         ================================================================== */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-5 items-start">
           
-          {/* Row 1 Left: Kedarnath + Small Personal Hobby Note */}
-          <div className="lg:col-span-3 flex flex-col items-center lg:items-start">
+          {/* Row 1 Left: Kedarnath */}
+          <div className="lg:col-span-3 flex flex-col items-center lg:items-start relative">
             <div className="relative">
               <PolaroidCard item={polaroids.kedarnath} />
               
-              {/* Small Personal Sticky Note: Hobbies */}
-              <div className="mt-2 -ml-1 bg-[#F3E8FF] px-2.5 py-1 rounded-xs shadow-xs border border-purple-200/80 transform rotate-2 pointer-events-none relative inline-block">
-                <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-6 h-1.5 bg-[#E9D5FF]/90 border-y border-black/5 -rotate-1" />
-                <p className="font-handwriting text-xs text-purple-950 leading-tight">
-                  Alpine Trekking &amp; Peaks 🏔️
-                </p>
+              {/* Wide Personal Tag */}
+              <div className="mt-1 bg-[#F3E8FF] px-2.5 py-0.5 rounded-xs shadow-xs border border-purple-200/80 -rotate-1 pointer-events-none relative inline-block whitespace-nowrap">
+                <span className="font-handwriting text-[10.5px] text-purple-950">
+                  Alpine Mountain Trails 🏔️
+                </span>
               </div>
             </div>
           </div>
 
-          {/* Row 1 Center: Heading & Subtitle */}
-          <div className="lg:col-span-6 flex flex-col items-center text-center space-y-2 pt-0">
-            <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white/85 border border-stone-200/80 shadow-2xs backdrop-blur-md text-[10px] font-mono text-stone-600">
-              <Sparkles size={10} className="text-[#3D8B7A]" />
+          {/* Row 1 Center: Header (Tight vertical footprint) */}
+          <div className="lg:col-span-6 flex flex-col items-center text-center space-y-1 pt-0">
+            <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white/85 border border-stone-200/80 shadow-2xs backdrop-blur-md text-[9.5px] font-mono text-stone-600">
+              <Sparkles size={9} className="text-[#3D8B7A]" />
               <span>Behind the Screen • Unified Spread</span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-light tracking-tight text-[#2D2A26] leading-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-[38px] font-light tracking-tight text-[#2D2A26] leading-tight">
               Curated <span className="font-serif italic text-[#3D8B7A]">Scrapbook</span>
             </h2>
 
-            <p className="text-[11px] sm:text-xs font-light text-stone-600 max-w-xs sm:max-w-md mx-auto">
-              A studio montage of living software systems, developer community milestones, and analog craft.
+            <p className="text-[10.5px] sm:text-[11px] font-light text-stone-600 max-w-sm sm:max-w-md mx-auto">
+              A studio collage of living software craft, tech meetups, and real-life balance.
             </p>
           </div>
 
-          {/* Row 1 Right: Tech Ecosystem + 2-Line Tech Sticky Note */}
-          <div className="lg:col-span-3 flex flex-col items-center lg:items-end">
-            <div className="relative">
+          {/* Row 1 Right: Tech Ecosystem + Wide Horizontal Note */}
+          <div className="lg:col-span-3 flex flex-col items-center lg:items-end relative">
+            <div className="relative flex flex-col items-center lg:items-end">
               <PolaroidCard item={polaroids.mtw} />
               
-              {/* 2-Line Tech Note: Systems Architecture */}
-              <div className="mt-2 -mr-1 bg-[#E8F0FE] p-2 sm:p-2.5 rounded-xs shadow-xs border border-blue-200/80 transform -rotate-1 pointer-events-none relative max-w-[195px] text-left">
-                <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-7 h-1.5 bg-[#D2E3FC]/90 border-y border-black/5 rotate-1" />
-                <p className="font-handwriting font-bold text-xs text-blue-950 leading-tight">
-                  Systems Architecture 💻
+              {/* WIDE Horizontal Tech Note (Wide instead of tall so it doesn't push down) */}
+              <div className="mt-1 bg-[#E8F0FE] px-2.5 py-1 rounded-xs shadow-xs border border-blue-200/80 rotate-1 pointer-events-none relative w-full max-w-[215px] text-left">
+                <div className="absolute -top-1 right-4 w-6 h-1 bg-[#D2E3FC]/90 border-y border-black/5" />
+                <p className="font-handwriting font-bold text-[10.5px] text-blue-950 leading-tight">
+                  Tech Ecosystem &amp; Summits 🚀
                 </p>
-                <p className="font-handwriting text-[10px] sm:text-[10.5px] text-blue-900 leading-snug mt-0.5">
-                  Building scalable React, Node.js &amp; modular REST APIs with clean patterns.
+                <p className="font-handwriting text-[9.5px] text-blue-900 leading-tight mt-0.5">
+                  Attending builder events, dev meetups &amp; exchanging architecture ideas.
                 </p>
               </div>
             </div>
@@ -180,89 +180,91 @@ export const MessyAboutMe = () => {
         </div>
 
         {/* ==================================================================
-            ROW 2: TECH TALK (Left) + CENTER BIO CARD + COASTAL WAVES (Right)
+            ROW 2: TECH TALK (Left) + WIDE CENTER TECH/LIFE BOX + COASTAL (Right)
         ================================================================== */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-5 items-start">
           
-          {/* Row 2 Left: Tech Talk + 2-Line Tech Note */}
-          <div className="lg:col-span-3 flex flex-col items-center lg:items-start">
+          {/* Row 2 Left: Tech Talk + Wide Tech Note */}
+          <div className="lg:col-span-3 flex flex-col items-center lg:items-start relative">
             <div className="relative">
               <PolaroidCard item={polaroids.speaking} />
               
-              {/* 2-Line Tech Note: Developer Mentorship */}
-              <div className="mt-2 ml-1 bg-[#FEF9C3] p-2 sm:p-2.5 rounded-xs shadow-xs border border-amber-300/80 transform rotate-2 pointer-events-none relative max-w-[195px] text-left">
-                <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-7 h-1.5 bg-[#FDE68A]/90 border-y border-black/5 -rotate-2" />
-                <p className="font-handwriting font-bold text-xs text-amber-950 leading-tight">
-                  Tech Talks &amp; Community 🎙️
+              {/* WIDE Horizontal Tech Note */}
+              <div className="mt-1 bg-[#FEF9C3] px-2.5 py-1 rounded-xs shadow-xs border border-amber-300/80 -rotate-1 pointer-events-none relative w-full max-w-[215px] text-left">
+                <div className="absolute -top-1 left-4 w-6 h-1 bg-[#FDE68A]/90 border-y border-black/5" />
+                <p className="font-handwriting font-bold text-[10.5px] text-amber-950 leading-tight">
+                  Exploring Modern Tech Stacks ⚡
                 </p>
-                <p className="font-handwriting text-[10px] sm:text-[10.5px] text-amber-900 leading-snug mt-0.5">
-                  Demystifying system designs &amp; mentoring fellow developers at GDG.
+                <p className="font-handwriting text-[9.5px] text-amber-900 leading-tight mt-0.5">
+                  Experimenting with React, TypeScript, Node.js &amp; next-gen AI tooling.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Row 2 Center: Balanced Personal & Professional Philosophy Card */}
+          {/* Row 2 Center: WIDER, COMPACT-HEIGHT TECH & LIFE PHILOSOPHY CARD */}
           <div className="lg:col-span-6 flex justify-center items-center pt-0">
-            <div className="relative w-full max-w-sm sm:max-w-md mt-0 lg:-mt-[110px]">
+            <div className="relative w-full max-w-lg lg:max-w-xl xl:max-w-2xl mt-0 lg:-mt-[95px]">
               
               <motion.div
-                whileHover={{ scale: 1.012 }}
-                className="relative w-full bg-[#FAF4E8] p-4 sm:p-5 rounded-sm shadow-xs border border-[#E2D5C3] text-center space-y-2 z-10"
+                whileHover={{ scale: 1.01 }}
+                className="relative w-full bg-[#FAF4E8] p-3 sm:p-4 rounded-sm shadow-xs border border-[#E2D5C3] text-center space-y-1.5 z-10"
                 style={{
                   clipPath: 'polygon(0% 1.5%, 2% 0%, 98% 0.5%, 100% 2%, 99.5% 98%, 97% 100%, 2% 99%, 0% 97%)'
                 }}
               >
-                <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 w-14 h-2.5 bg-[#E8DCC4]/90 border-y border-black/5 rotate-1" />
+                <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-14 h-2 bg-[#E8DCC4]/90 border-y border-black/5 rotate-1" />
 
-                <span className="text-[9px] font-mono uppercase tracking-widest text-stone-500 font-medium block">
-                  ✦ About Me &amp; Engineering Philosophy
+                <span className="text-[8.5px] font-mono uppercase tracking-widest text-stone-500 font-semibold block">
+                  ✦ What Drives Me &amp; Tech Passions
                 </span>
 
-                <h3 className="font-handwriting font-normal text-sm sm:text-base text-stone-800 leading-snug tracking-wide">
-                  “Balancing technical rigor in software with open trails &amp; analog curiosity.”
+                <h3 className="font-handwriting font-medium text-xs sm:text-sm text-stone-800 leading-snug tracking-wide">
+                  “Where curious engineering meets builder energy &amp; open horizons.”
                 </h3>
 
-                <p className="font-sans font-normal text-[11px] sm:text-[12px] text-stone-600 leading-relaxed text-center px-1 max-w-sm mx-auto">
-                  I engineer reliable full-stack applications, interactive UI systems, and AI/ML pipelines with deep technical rigor. Outside the terminal, I recharge by trekking Himalayan mountain trails, walking coastal shores, and capturing ideas through analog sketches. Combining engineering discipline with genuine human curiosity brings fresh clarity to every technical challenge I solve.
+                <p className="font-sans font-normal text-[10.5px] sm:text-[11px] text-stone-600 leading-relaxed text-center px-1 max-w-lg mx-auto">
+                  I’ve always loved building things—from exploring algorithmic puzzles and crafting full-stack web applications to outdoor Himalayan treks and analog sketching. I’m especially passionate about diving into new technologies: modern reactive architectures, intelligent AI/ML pipelines, and developer tooling. You’ll frequently find me attending tech conferences, participating in hackathons, and hanging out at developer meetups like Google Developer Groups to collaborate with inspiring builders.
                 </p>
 
-                <div className="pt-1 flex flex-wrap items-center justify-center gap-1.5 text-[10px] font-mono text-stone-500">
-                  <span className="px-2 py-0.5 rounded-full bg-white/70 border border-stone-200/60 text-stone-600 text-[10px] font-sans">💻 Full-Stack Architecture</span>
-                  <span className="px-2 py-0.5 rounded-full bg-white/70 border border-stone-200/60 text-stone-600 text-[10px] font-sans">⚡ AI/ML Data Pipelines</span>
-                  <span className="px-2 py-0.5 rounded-full bg-white/70 border border-stone-200/60 text-stone-600 text-[10px] font-sans">🏔️ Alpine Trekking</span>
-                  <span className="px-2 py-0.5 rounded-full bg-white/70 border border-stone-200/60 text-stone-600 text-[10px] font-sans">🌊 Coastal Calm</span>
+                {/* Wide Badges Row */}
+                <div className="pt-0.5 flex flex-wrap items-center justify-center gap-1.5 text-[9px] font-mono text-stone-600">
+                  <span className="px-2 py-0.5 rounded-full bg-white/80 border border-stone-200/80">⚡ Next-Gen Web &amp; AI</span>
+                  <span className="px-2 py-0.5 rounded-full bg-white/80 border border-stone-200/80">🎙️ Builder Meetups &amp; GDG</span>
+                  <span className="px-2 py-0.5 rounded-full bg-white/80 border border-stone-200/80">💻 Full-Stack Architecture</span>
+                  <span className="px-2 py-0.5 rounded-full bg-white/80 border border-stone-200/80">🏔️ Himalayan Trails</span>
                 </div>
               </motion.div>
 
-              {/* Sticky Note: Professional Dedication */}
-              <div className="absolute -top-2.5 -right-2 bg-[#FFE5EC] px-2.5 py-1 rounded-xs shadow-xs border border-rose-200/60 transform rotate-3 z-20 pointer-events-none">
-                <p className="font-handwriting font-bold text-[11px] text-rose-950 tracking-wide">
-                  Clean Code &amp; Craft 💻 ✦
-                </p>
+              {/* Decorative Corner Element: Cute Pushpin */}
+              <div className="absolute -top-2.5 -right-2 bg-[#FFE5EC] px-2 py-0.5 rounded-xs shadow-xs border border-rose-200/60 transform rotate-3 z-20 pointer-events-none flex items-center gap-1">
+                <span>📌</span>
+                <span className="font-handwriting font-bold text-[10px] text-rose-950">
+                  Curious Mindset
+                </span>
               </div>
 
-              {/* Sticky Note: Creative Perspective */}
-              <div className="absolute -bottom-2.5 -left-2 bg-[#D8F3DC] px-2.5 py-1 rounded-xs shadow-xs border border-emerald-300/60 transform -rotate-3 z-20 pointer-events-none">
-                <p className="font-handwriting font-bold text-[11px] text-emerald-950 tracking-wide">
-                  Curiosity &amp; Innovation 💡 ✨
-                </p>
+              {/* Decorative Corner Element: Paperclip */}
+              <div className="absolute -bottom-2 -left-2 bg-[#D8F3DC] px-2 py-0.5 rounded-xs shadow-xs border border-emerald-300/60 transform -rotate-2 z-20 pointer-events-none flex items-center gap-1">
+                <span>📎</span>
+                <span className="font-handwriting font-bold text-[10px] text-emerald-950">
+                  Continuous Learning
+                </span>
               </div>
 
             </div>
           </div>
 
-          {/* Row 2 Right: Coastal Waves + Small Personal Hobby Note */}
-          <div className="lg:col-span-3 flex flex-col items-center lg:items-end">
+          {/* Row 2 Right: Coastal Waves */}
+          <div className="lg:col-span-3 flex flex-col items-center lg:items-end relative">
             <div className="relative">
               <PolaroidCard item={polaroids.coastal} />
               
-              {/* Small Personal Sticky Note: Hobbies */}
-              <div className="mt-2 mr-1 bg-[#D1FAE5] px-2.5 py-1 rounded-xs shadow-xs border border-emerald-300/80 transform rotate-2 pointer-events-none relative inline-block">
-                <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-6 h-1.5 bg-[#A7F3D0]/90 border-y border-black/5 -rotate-1" />
-                <p className="font-handwriting text-xs text-emerald-950 leading-tight">
-                  Ocean Breeze &amp; Beach Calm 🌊
-                </p>
+              {/* Wide Personal Tag */}
+              <div className="mt-1 bg-[#D1FAE5] px-2.5 py-0.5 rounded-xs shadow-xs border border-emerald-300/80 rotate-1 pointer-events-none relative inline-block whitespace-nowrap">
+                <span className="font-handwriting text-[10.5px] text-emerald-950">
+                  Ocean Breeze &amp; Beach Walks 🌊
+                </span>
               </div>
             </div>
           </div>
@@ -270,69 +272,36 @@ export const MessyAboutMe = () => {
         </div>
 
         {/* ==================================================================
-            ROW 3: 4 EQUIDISTANT POLAROIDS WITH CURATED STICKY NOTES
-            - 1. Sketchbook (Hobby Note)
-            - 2. Hackathon Award (Tech Career Note)
-            - 3. Mountain Trails (Hobby Note)
-            - 4. Snow Expeditions (AI/ML Tech Note)
+            ROW 3: 4 EQUIDISTANT COMPACT POLAROIDS (NO TALL BOTTOM BOXES)
+            Keeps the entire section compact so all 3 rows fit cleanly in 1 view!
         ================================================================== */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 items-start justify-items-center w-full">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 items-start justify-items-center w-full pt-1">
           
-          {/* 1. Sketchbook + Small Hobby Note */}
+          {/* 1. Sketchbook */}
           <div className="relative flex flex-col items-center lg:items-start w-full">
             <div className="mx-auto lg:ml-0">
               <PolaroidCard item={polaroids.drawing} />
-              <div className="mt-2 -ml-1 bg-[#FFE4E6] px-2.5 py-1 rounded-xs shadow-xs border border-rose-200/80 transform -rotate-2 pointer-events-none relative inline-block">
-                <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-6 h-1.5 bg-[#FECDD3]/90 border-y border-black/5 rotate-1" />
-                <p className="font-handwriting text-xs text-rose-950 leading-tight">
-                  Analog Sketches &amp; Poetry ✏️
-                </p>
-              </div>
             </div>
           </div>
 
-          {/* 2. Hackathon Award + 2-Line Tech Career Note */}
+          {/* 2. Builder Meetup */}
           <div className="relative flex flex-col items-center w-full">
             <div className="mx-auto">
               <PolaroidCard item={polaroids.award} />
-              <div className="mt-2 bg-[#FEF3C7] p-2 rounded-xs shadow-xs border border-amber-200/80 transform -rotate-1 pointer-events-none relative max-w-[185px] text-center">
-                <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-7 h-1.5 bg-[#FDE68A]/90 border-y border-black/5 -rotate-1" />
-                <p className="font-handwriting font-bold text-xs text-amber-950 leading-tight">
-                  Hackathon Finalist 🏆
-                </p>
-                <p className="font-handwriting text-[10px] text-amber-900 leading-snug mt-0.5">
-                  Pan-IIT PIWOT national finalist &amp; team engineering distinction.
-                </p>
-              </div>
             </div>
           </div>
 
-          {/* 3. Mountain Trails + Small Personal Note */}
+          {/* 3. Mountain Wilderness */}
           <div className="relative flex flex-col items-center w-full">
             <div className="mx-auto">
               <PolaroidCard item={polaroids.bunny} />
-              <div className="mt-2 bg-[#FEF9C3] px-2.5 py-1 rounded-xs shadow-xs border border-amber-200/80 transform rotate-2 pointer-events-none relative inline-block">
-                <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-6 h-1.5 bg-[#FDE68A]/90 border-y border-black/5 rotate-1" />
-                <p className="font-handwriting text-xs text-amber-950 leading-tight">
-                  Mountain Wilderness 🌿
-                </p>
-              </div>
             </div>
           </div>
 
-          {/* 4. Snow Expeditions + 2-Line AI/ML Tech Note */}
+          {/* 4. Winter Trails */}
           <div className="relative flex flex-col items-center lg:items-end w-full">
             <div className="mx-auto lg:mr-0">
               <PolaroidCard item={polaroids.snow} />
-              <div className="mt-2 -mr-1 bg-[#E0F2FE] p-2 rounded-xs shadow-xs border border-sky-200/80 transform rotate-1 pointer-events-none relative max-w-[185px] text-center">
-                <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-7 h-1.5 bg-[#BAE6FD]/90 border-y border-black/5 rotate-1" />
-                <p className="font-handwriting font-bold text-xs text-sky-950 leading-tight">
-                  AI/ML &amp; Data Telemetry ⚡
-                </p>
-                <p className="font-handwriting text-[10px] text-sky-900 leading-snug mt-0.5">
-                  Predictive modeling, feature pipelines &amp; sub-15ms inference.
-                </p>
-              </div>
             </div>
           </div>
 
@@ -341,13 +310,13 @@ export const MessyAboutMe = () => {
       </div>
 
       {/* Subtle Bottom Transition Cue */}
-      <div className="w-full flex justify-center pt-6 pb-1 z-20">
+      <div className="w-full flex justify-center pt-3 pb-0 z-20">
         <a 
           href="#experience"
           onClick={() => playClick()}
-          className="inline-flex items-center gap-1.5 text-[10px] font-mono text-stone-500 hover:text-stone-800 transition-colors"
+          className="inline-flex items-center gap-1.5 text-[9.5px] font-mono text-stone-500 hover:text-stone-800 transition-colors"
         >
-          <span>Continue down to the Study Desk &amp; Timeline</span>
+          <span>Continue down to Study Desk &amp; Experience</span>
           <ArrowDown size={10} className="animate-bounce text-[#3D8B7A]" />
         </a>
       </div>

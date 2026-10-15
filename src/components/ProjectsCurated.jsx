@@ -10,9 +10,8 @@ import { playClick, playPop } from '../utils/sound';
 
 export const ProjectsCurated = () => {
   const [selectedCaseStudy, setSelectedCaseStudy] = useState(null);
-  const carouselRef = useRef(null);
-  const isHoveredRef = useRef(false);
-  const animationFrameRef = useRef(null);
+  const [isPaused, setIsPaused] = useState(false);
+  const scrollContainerRef = useRef(null);
 
   const handleOpenCaseStudy = (projId) => {
     playPop();
@@ -20,73 +19,66 @@ export const ProjectsCurated = () => {
     setSelectedCaseStudy(fullProject);
   };
 
-  // Continuous horizontal auto-scrolling with instant freeze on hover
-  useEffect(() => {
-    const el = carouselRef.current;
-    if (!el) return;
-
-    const scrollSpeed = 0.85; // Butter-smooth continuous horizontal drift
-
-    const step = () => {
-      if (!isHoveredRef.current && el) {
-        el.scrollLeft += scrollSpeed;
-
-        // When scrolled past half the duplicated width, wrap seamlessly with zero jump
-        const halfWidth = el.scrollWidth / 2;
-        if (halfWidth > 0 && el.scrollLeft >= halfWidth) {
-          el.scrollLeft -= halfWidth;
-        }
-      }
-      animationFrameRef.current = requestAnimationFrame(step);
-    };
-
-    animationFrameRef.current = requestAnimationFrame(step);
-
-    return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-    };
-  }, []);
-
-  const scrollCarousel = (direction) => {
+  const nudgeScroll = (direction) => {
     playClick();
-    if (!carouselRef.current) return;
-    const itemWidth = 360 + 24;
-    carouselRef.current.scrollBy({
-      left: direction === 'left' ? -itemWidth : itemWidth,
+    if (!scrollContainerRef.current) return;
+    scrollContainerRef.current.scrollBy({
+      left: direction === 'left' ? -384 : 384,
       behavior: 'smooth'
     });
   };
 
   return (
     <section id="projects" className="py-16 sm:py-20 relative overflow-hidden bg-transparent">
+      {/* Embedded GPU-Accelerated Infinite Marquee Keyframes */}
+      <style>{`
+        @keyframes continuousProjectGlide {
+          0% {
+            transform: translate3d(0, 0, 0);
+          }
+          100% {
+            transform: translate3d(-50%, 0, 0);
+          }
+        }
+        .projects-glide-track {
+          display: flex;
+          gap: 1.5rem;
+          width: max-content;
+          will-change: transform;
+          animation: continuousProjectGlide 36s linear infinite;
+        }
+        .projects-glide-track:hover,
+        .projects-glide-track.is-paused {
+          animation-play-state: paused !important;
+        }
+      `}</style>
+
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5 sm:space-y-6">
         
         {/* Section Header (Centered like all other sections) */}
         <div className="text-center max-w-xl mx-auto space-y-2.5">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E07A5F]/15 text-[#E07A5F] text-xs font-mono font-medium">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E07A5F]/15 text-[#E07A5F] text-xs font-mono font-medium transition-colors">
             <Sparkles size={13} />
-            <span>Master Works • Hover to Pause</span>
+            <span>{isPaused ? '⏸ Paused (Exploring Project)' : '▶ Auto-Moving • Hover to Pause'}</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-light tracking-tight text-[#2D2A26]">
             Featured <span className="font-serif italic text-[#E07A5F]">Projects</span>
           </h2>
           <p className="text-xs sm:text-sm font-light text-[#5A564F]">
-            Interactive UI previews with laptop &amp; mobile screen previews. Hover anywhere over the reel to pause.
+            Projects continuously glide horizontally. Hover over any card to freeze and explore details.
           </p>
 
           {/* Carousel Navigation Arrow Controls (Centered, Clean Prev/Next) */}
           <div className="flex items-center justify-center gap-3 pt-1">
             <button
-              onClick={() => scrollCarousel('left')}
+              onClick={() => nudgeScroll('left')}
               aria-label="Previous project"
               className="w-9 h-9 rounded-full bg-white/90 hover:bg-[#2D2A26] text-[#2D2A26] hover:text-white border border-[#D4B996]/60 backdrop-blur-md flex items-center justify-center transition-all shadow-xs cursor-pointer active:scale-95"
             >
               <ChevronLeft size={16} />
             </button>
             <button
-              onClick={() => scrollCarousel('right')}
+              onClick={() => nudgeScroll('right')}
               aria-label="Next project"
               className="w-9 h-9 rounded-full bg-white/90 hover:bg-[#2D2A26] text-[#2D2A26] hover:text-white border border-[#D4B996]/60 backdrop-blur-md flex items-center justify-center transition-all shadow-xs cursor-pointer active:scale-95"
             >
@@ -99,26 +91,19 @@ export const ProjectsCurated = () => {
             PROJECTS CONTINUOUS HORIZONTAL GLIDE CAROUSEL
         ======================================================== */}
         <div 
-          className="relative"
-          onMouseEnter={() => { isHoveredRef.current = true; }}
-          onMouseLeave={() => { isHoveredRef.current = false; }}
-          onTouchStart={() => { isHoveredRef.current = true; }}
-          onTouchEnd={() => { setTimeout(() => { isHoveredRef.current = false; }, 1200); }}
+          ref={scrollContainerRef}
+          className="relative overflow-x-hidden w-full py-2"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={() => setIsPaused(true)}
+          onTouchEnd={() => setTimeout(() => setIsPaused(false), 2000)}
         >
           {/* Edge Blur Gradients */}
-          <div className="absolute left-0 inset-y-0 w-8 bg-gradient-to-r from-[#FAF8F5] to-transparent pointer-events-none z-20 hidden md:block" />
-          <div className="absolute right-0 inset-y-0 w-8 bg-gradient-to-l from-[#FAF8F5] to-transparent pointer-events-none z-20 hidden md:block" />
+          <div className="absolute left-0 inset-y-0 w-8 sm:w-12 bg-gradient-to-r from-[#FAF8F5] to-transparent pointer-events-none z-20 hidden md:block" />
+          <div className="absolute right-0 inset-y-0 w-8 sm:w-12 bg-gradient-to-l from-[#FAF8F5] to-transparent pointer-events-none z-20 hidden md:block" />
 
-          {/* Carousel Track */}
-          <div 
-            ref={carouselRef}
-            className="flex gap-6 overflow-x-auto pt-1.5 pb-4 px-2 sm:px-4"
-            style={{ 
-              scrollbarWidth: 'none', 
-              msOverflowStyle: 'none',
-              WebkitOverflowScrolling: 'touch' 
-            }}
-          >
+          {/* Continuous Moving Track */}
+          <div className={`projects-glide-track ${isPaused ? 'is-paused' : ''}`}>
             {[...featuredProjects, ...featuredProjects].map((project, pIdx) => (
               <div
                 key={`${project.id}-${pIdx}`}

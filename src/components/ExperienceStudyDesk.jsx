@@ -510,10 +510,40 @@ export const ExperienceStudyDesk = () => {
                 
                 <motion.div
                   onClick={(e) => e.stopPropagation()}
-                  initial={{ scale: 0.9, opacity: 0, y: 16 }}
-                  animate={{ scale: 1, opacity: 1, y: 0 }}
-                  exit={{ scale: 0.9, opacity: 0, y: 16 }}
-                  transition={{ type: "spring", stiffness: 320, damping: 28 }}
+                  initial={{ 
+                    scale: 0.82, 
+                    opacity: 0, 
+                    y: 20, 
+                    rotateY: -35,
+                    rotateX: 10
+                  }}
+                  animate={{ 
+                    scale: 1, 
+                    opacity: 1, 
+                    y: 0, 
+                    rotateY: 0,
+                    rotateX: 0,
+                    transition: { 
+                      type: "spring", 
+                      stiffness: 280, 
+                      damping: 24 
+                    } 
+                  }}
+                  exit={{ 
+                    scale: 0.76, 
+                    opacity: 0, 
+                    y: 35, 
+                    rotateY: -70,
+                    rotateX: 15,
+                    transition: { 
+                      duration: 0.42, 
+                      ease: [0.4, 0, 0.2, 1] 
+                    } 
+                  }}
+                  style={{ 
+                    perspective: 1400,
+                    transformStyle: "preserve-3d" 
+                  }}
                   className="relative w-[94vw] max-w-[670px] sm:max-w-[710px] mx-auto select-text flex flex-col my-auto"
                 >
                   
