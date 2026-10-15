@@ -40,7 +40,7 @@ export const MessyAboutMe = () => {
     },
     bunny: {
       id: 'bunny',
-      title: 'Wilderness',
+      title: 'Fluffy Friend',
       image: '/scrapbook/fluffy-bunny.jpg',
       objectPos: 'object-[center_20%]',
       tapeColor: 'bg-[#FFE5B4]/95',
@@ -129,16 +129,28 @@ export const MessyAboutMe = () => {
         ================================================================== */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-5 items-start">
           
-          {/* Row 1 Left: Kedarnath */}
+          {/* Row 1 Left: Kedarnath + Slanted Top-Left College Win Note + Trek Note */}
           <div className="lg:col-span-3 flex flex-col items-center lg:items-start relative">
+            
+            {/* Slanted Top Left Note: College Tech Competition for Creative Development */}
+            <div className="mb-1.5 bg-[#FEF08A] px-2.5 py-1 rounded-sm shadow-xs border border-amber-300/90 transform -rotate-3 pointer-events-none relative max-w-[215px] z-20">
+              <div className="absolute -top-1 left-4 w-6 h-1.5 bg-[#FDE047]/90 border-y border-black/5" />
+              <p className="font-handwriting font-bold text-[10.5px] text-amber-950 leading-tight">
+                College Tech Win 🏆
+              </p>
+              <p className="font-handwriting text-[9.5px] text-amber-900 leading-tight mt-0.5">
+                Won 1st prize in college tech competition for creative development.
+              </p>
+            </div>
+
             <div className="relative">
               <PolaroidCard item={polaroids.kedarnath} />
               
-              {/* Wide Personal Tag */}
-              <div className="mt-1 bg-[#F3E8FF] px-2.5 py-0.5 rounded-xs shadow-xs border border-purple-200/80 -rotate-1 pointer-events-none relative inline-block whitespace-nowrap">
-                <span className="font-handwriting text-[10.5px] text-purple-950">
-                  Alpine Mountain Trails 🏔️
-                </span>
+              {/* Kedarnath Trek Note */}
+              <div className="mt-1 bg-[#F3E8FF] px-2.5 py-1 rounded-xs shadow-xs border border-purple-200/80 -rotate-1 pointer-events-none relative max-w-[215px]">
+                <p className="font-handwriting text-[10px] text-purple-950 leading-snug">
+                  Trekking with its own view. Just love this. This trek can never be forgotten 🏔️ ✨
+                </p>
               </div>
             </div>
           </div>
@@ -255,16 +267,17 @@ export const MessyAboutMe = () => {
             </div>
           </div>
 
-          {/* Row 2 Right: Coastal Waves */}
+          {/* Row 2 Right: Coastal Waves + Travel & Peace Moments Note */}
           <div className="lg:col-span-3 flex flex-col items-center lg:items-end relative">
-            <div className="relative">
+            <div className="relative flex flex-col items-center lg:items-end">
               <PolaroidCard item={polaroids.coastal} />
               
-              {/* Wide Personal Tag */}
-              <div className="mt-1 bg-[#D1FAE5] px-2.5 py-0.5 rounded-xs shadow-xs border border-emerald-300/80 rotate-1 pointer-events-none relative inline-block whitespace-nowrap">
-                <span className="font-handwriting text-[10.5px] text-emerald-950">
-                  Ocean Breeze &amp; Beach Walks 🌊
-                </span>
+              {/* Travel Peace Moments Note (Between Coastal & Snow) */}
+              <div className="mt-1 bg-[#E0F2FE] px-2.5 py-1 rounded-xs shadow-xs border border-sky-200/90 -rotate-1 pointer-events-none relative max-w-[215px] text-left">
+                <div className="absolute -top-1 right-5 w-6 h-1.5 bg-[#BAE6FD]/90 border-y border-black/5" />
+                <p className="font-handwriting text-[10px] text-sky-950 leading-snug">
+                  Can’t just overcome love for traveling. These are my peace moments 🌊 ❄️
+                </p>
               </div>
             </div>
           </div>
@@ -272,36 +285,66 @@ export const MessyAboutMe = () => {
         </div>
 
         {/* ==================================================================
-            ROW 3: 4 EQUIDISTANT COMPACT POLAROIDS (NO TALL BOTTOM BOXES)
-            Keeps the entire section compact so all 3 rows fit cleanly in 1 view!
+            ROW 3: 4 EQUIDISTANT POLAROIDS
+            - 1. Sketchbook + Creativity on Paper Note
+            - 2. Builder Meetup
+            - 3. Fluffy Friend + Love the Animals Note
+            - 4. Winter Trails
         ================================================================== */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 items-start justify-items-center w-full pt-1">
           
-          {/* 1. Sketchbook */}
+          {/* 1. Sketchbook + "This is the start of creativity. Creativity starts on paper." */}
           <div className="relative flex flex-col items-center lg:items-start w-full">
-            <div className="mx-auto lg:ml-0">
+            <div className="mx-auto lg:ml-0 flex flex-col items-center lg:items-start">
               <PolaroidCard item={polaroids.drawing} />
+              
+              {/* Creativity Starts on Paper Note */}
+              <div className="mt-1 bg-[#FFE4E6] px-2.5 py-1 rounded-xs shadow-xs border border-rose-200/90 -rotate-2 pointer-events-none relative max-w-[190px]">
+                <div className="absolute -top-1 left-4 w-6 h-1.5 bg-[#FECDD3]/90 border-y border-black/5" />
+                <p className="font-handwriting text-[9.5px] sm:text-[10px] text-rose-950 leading-snug">
+                  This is the start of creativity. Creativity starts on paper ✏️ 📖
+                </p>
+              </div>
             </div>
           </div>
 
           {/* 2. Builder Meetup */}
           <div className="relative flex flex-col items-center w-full">
-            <div className="mx-auto">
+            <div className="mx-auto flex flex-col items-center">
               <PolaroidCard item={polaroids.award} />
+              
+              <div className="mt-1 bg-[#FEF3C7] px-2.5 py-0.5 rounded-xs shadow-xs border border-amber-200/80 rotate-1 pointer-events-none relative inline-block">
+                <span className="font-handwriting text-[10px] text-amber-950">
+                  Tech Circles &amp; Meetups 💡
+                </span>
+              </div>
             </div>
           </div>
 
-          {/* 3. Mountain Wilderness */}
+          {/* 3. Fluffy Friend + "Love the animals." */}
           <div className="relative flex flex-col items-center w-full">
-            <div className="mx-auto">
+            <div className="mx-auto flex flex-col items-center">
               <PolaroidCard item={polaroids.bunny} />
+              
+              {/* Love the animals Sticky Note */}
+              <div className="mt-1 bg-[#FEF9C3] px-2.5 py-0.5 rounded-xs shadow-xs border border-amber-200/80 rotate-1 pointer-events-none relative inline-block">
+                <span className="font-handwriting text-[10px] text-amber-950">
+                  Love the animals 🐰 🌿
+                </span>
+              </div>
             </div>
           </div>
 
           {/* 4. Winter Trails */}
           <div className="relative flex flex-col items-center lg:items-end w-full">
-            <div className="mx-auto lg:mr-0">
+            <div className="mx-auto lg:mr-0 flex flex-col items-center lg:items-end">
               <PolaroidCard item={polaroids.snow} />
+              
+              <div className="mt-1 bg-[#E0F2FE] px-2.5 py-0.5 rounded-xs shadow-xs border border-sky-200/80 -rotate-1 pointer-events-none relative inline-block">
+                <span className="font-handwriting text-[10px] text-sky-950">
+                  Snow Trails &amp; Calm ⛄
+                </span>
+              </div>
             </div>
           </div>
 
