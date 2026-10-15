@@ -171,7 +171,7 @@ export const MessyAboutMe = () => {
                   Tech Ecosystem &amp; Summits 🚀
                 </p>
                 <p className="font-handwriting text-[9.5px] text-blue-900 leading-tight mt-0.5">
-                  Attending builder events, dev meetups &amp; exchanging architecture ideas.
+                  Attending tech events &amp; understanding different business and startup ideas.
                 </p>
               </div>
             </div>
@@ -220,18 +220,18 @@ export const MessyAboutMe = () => {
                 </span>
 
                 <h3 className="font-handwriting font-medium text-xs sm:text-sm text-stone-800 leading-snug tracking-wide">
-                  “Where curious engineering meets builder energy &amp; open horizons.”
+                  “Where curious engineering meets startup ideas &amp; open horizons.”
                 </h3>
 
                 <p className="font-sans font-normal text-[10.5px] sm:text-[11px] text-stone-600 leading-relaxed text-center px-1 max-w-lg mx-auto">
-                  I’ve always loved building things—from exploring algorithmic puzzles and crafting full-stack web applications to outdoor Himalayan treks and analog sketching. I’m especially passionate about diving into new technologies: modern reactive architectures, intelligent AI/ML pipelines, and developer tooling. You’ll frequently find me attending tech conferences, participating in hackathons, and hanging out at developer meetups like Google Developer Groups to collaborate with inspiring builders.
+                  I’ve always loved building things—from exploring algorithmic puzzles and crafting full-stack web applications to outdoor Himalayan treks and analog sketching. I’m especially passionate about diving into new technologies: modern reactive stacks, intelligent AI/ML pipelines, and developer tooling. You’ll frequently find me attending tech conferences, participating in hackathons, and hanging out at developer meetups like Google Developer Groups to collaborate with inspiring innovators and founders.
                 </p>
 
                 {/* Wide Badges Row */}
                 <div className="pt-0.5 flex flex-wrap items-center justify-center gap-1.5 text-[9px] font-mono text-stone-600">
                   <span className="px-2 py-0.5 rounded-full bg-white/80 border border-stone-200/80">⚡ Next-Gen Web &amp; AI</span>
-                  <span className="px-2 py-0.5 rounded-full bg-white/80 border border-stone-200/80">🎙️ Builder Meetups &amp; GDG</span>
-                  <span className="px-2 py-0.5 rounded-full bg-white/80 border border-stone-200/80">💻 Full-Stack Architecture</span>
+                  <span className="px-2 py-0.5 rounded-full bg-white/80 border border-stone-200/80">🎙️ Tech Meetups &amp; GDG</span>
+                  <span className="px-2 py-0.5 rounded-full bg-white/80 border border-stone-200/80">💡 Startups &amp; Business</span>
                   <span className="px-2 py-0.5 rounded-full bg-white/80 border border-stone-200/80">🏔️ Himalayan Trails</span>
                 </div>
               </motion.div>
