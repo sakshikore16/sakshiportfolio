@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
-  ArrowUpRight, Eye, ChevronLeft, ChevronRight, 
+  ArrowUpRight, Eye, 
   Sparkles, ExternalLink, Github, Laptop, Smartphone
 } from 'lucide-react';
 import { featuredProjects, projects } from '../data/portfolioData';
@@ -17,15 +17,6 @@ export const ProjectsCurated = () => {
     playPop();
     const fullProject = projects.find(p => p.id === projId) || featuredProjects.find(p => p.id === projId) || featuredProjects[0];
     setSelectedCaseStudy(fullProject);
-  };
-
-  const nudgeScroll = (direction) => {
-    playClick();
-    if (!scrollContainerRef.current) return;
-    scrollContainerRef.current.scrollBy({
-      left: direction === 'left' ? -384 : 384,
-      behavior: 'smooth'
-    });
   };
 
   return (
@@ -67,25 +58,9 @@ export const ProjectsCurated = () => {
           <p className="text-xs sm:text-sm font-light text-[#5A564F]">
             Projects continuously glide horizontally. Hover over any card to freeze and explore details.
           </p>
-
-          {/* Carousel Navigation Arrow Controls (Centered, Clean Prev/Next) */}
-          <div className="flex items-center justify-center gap-3 pt-1">
-            <button
-              onClick={() => nudgeScroll('left')}
-              aria-label="Previous project"
-              className="w-9 h-9 rounded-full bg-white/90 hover:bg-[#2D2A26] text-[#2D2A26] hover:text-white border border-[#D4B996]/60 backdrop-blur-md flex items-center justify-center transition-all shadow-xs cursor-pointer active:scale-95"
-            >
-              <ChevronLeft size={16} />
-            </button>
-            <button
-              onClick={() => nudgeScroll('right')}
-              aria-label="Next project"
-              className="w-9 h-9 rounded-full bg-white/90 hover:bg-[#2D2A26] text-[#2D2A26] hover:text-white border border-[#D4B996]/60 backdrop-blur-md flex items-center justify-center transition-all shadow-xs cursor-pointer active:scale-95"
-            >
-              <ChevronRight size={16} />
-            </button>
-          </div>
         </div>
+
+
 
         {/* ========================================================
             PROJECTS CONTINUOUS HORIZONTAL GLIDE CAROUSEL
