@@ -1,0 +1,174 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    background-color: #FAF8F5;
+    color: #2D2A26;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+/* Scrapbook & Paper Textures */
+.bg-grid-pattern {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+}
+
+.bg-dots-pattern {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.06) 1.5px, transparent 1.5px);
+  background-size: 20px 20px;
+}
+
+/* Washi Tape Accent */
+.tape-strip {
+  position: relative;
+}
+.tape-strip::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-1.5deg);
+  width: 90px;
+  height: 24px;
+  background: rgba(245, 222, 179, 0.7);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  border-left: 2px dashed rgba(0,0,0,0.1);
+  border-right: 2px dashed rgba(0,0,0,0.1);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Polaroid Card */
+.polaroid {
+  background: #ffffff;
+  padding: 12px 12px 28px 12px;
+  box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+/* Stamp Effect */
+.stamp {
+  border: 2px dashed currentColor;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 800;
+  transform: rotate(-3deg);
+  display: inline-block;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(180, 165, 150, 0.35);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(180, 165, 150, 0.6);
+}
+
+/* Neo-Brutalist Border Helper */
+.border-neo {
+  border: 2px solid #2D2A26;
+}
+
+/* Sticker Hover */
+.sticker-item {
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.25s ease;
+}
+.sticker-item:hover {
+  transform: scale(1.08) rotate(3deg);
+  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.08));
+}
+
+/* Frosted Glass Utilities */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(234, 219, 206, 0.7);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.glass-pill {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(234, 219, 206, 0.7);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+}
+
+/* Ambient Floating Keyframes */
+@keyframes float-drift-1 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(35px, -45px) scale(1.06);
+  }
+  66% {
+    transform: translate(-25px, 30px) scale(0.96);
+  }
+}
+
+@keyframes float-drift-2 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(-40px, 40px) scale(1.04);
+  }
+  66% {
+    transform: translate(30px, -35px) scale(0.96);
+  }
+}
+
+@keyframes float-drift-3 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(25px, 35px) scale(1.08);
+  }
+}
+
+.animate-float-drift-1 {
+  animation: float-drift-1 18s ease-in-out infinite;
+}
+
+.animate-float-drift-2 {
+  animation: float-drift-2 22s ease-in-out infinite;
+}
+
+.animate-float-drift-3 {
+  animation: float-drift-3 15s ease-in-out infinite;
+}
+
+/* Hide Top Island Nav when Project or Scrapbook Photo Modal is open */
+body.project-modal-open .top-island-nav,
+body.scrapbook-modal-open .top-island-nav,
+body.modal-open .top-island-nav {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translate(-50%, -100px) !important;
+  transition: opacity 0.3s ease, transform 0.3s ease !important;
+}

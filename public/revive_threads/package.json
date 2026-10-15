@@ -1,0 +1,16 @@
+{
+  "name": "revive_threads",
+  "version": "1.0.0",
+  "description": "> **A Comprehensive Venture Case Study, Product Management (PRD) Suite, Business Analytics Model, and Interactive Web Platform.** > Designed and built for portfolio and resume showcase demonstrating elite **Product Management**, **Business Strategy & Analytics**, **Brand Architecture**, and **Full-Stack Execution**.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

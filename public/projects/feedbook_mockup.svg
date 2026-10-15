@@ -1,0 +1,316 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 750' width='1200' height='750'>
+  <defs>
+    <linearGradient id='feedbookBg' x1='0%' y1='0%' x2='100%' y2='100%'>
+      <stop offset='0%' stop-color='#FAF5FF' />
+      <stop offset='50%' stop-color='#F3E8FF' />
+      <stop offset='100%' stop-color='#E9D5FF' />
+    </linearGradient>
+    <linearGradient id='purpleGrad' x1='0%' y1='0%' x2='100%' y2='100%'>
+      <stop offset='0%' stop-color='#7B2CBF' />
+      <stop offset='100%' stop-color='#9D4EDD' />
+    </linearGradient>
+    <filter id='dropCard' x='-10%' y='-10%' width='130%' height='130%'>
+      <feDropShadow dx='0' dy='12' stdDeviation='18' flood-color='#4A154B' flood-opacity='0.16' />
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width='1200' height='750' fill='url(#feedbookBg)' />
+  
+  <!-- Subtle Designer Grid Background -->
+  <g opacity='0.08'>
+    <pattern id='gridPattern' width='40' height='40' patternUnits='userSpaceOnUse'>
+      <path d='M 40 0 L 0 0 0 40' fill='none' stroke='#7B2CBF' stroke-width='1' />
+    </pattern>
+    <rect width='1200' height='750' fill='url(#gridPattern)' />
+  </g>
+
+  <!-- Ambient Blurred Glows -->
+  <circle cx='200' cy='180' r='240' fill='#C77DFF' opacity='0.15' />
+  <circle cx='1050' cy='580' r='280' fill='#7B2CBF' opacity='0.12' />
+
+  <!-- Top Header Title Ribbon -->
+  <g transform='translate(60, 40)'>
+    <rect x='0' y='0' width='380' height='36' rx='18' fill='#FFFFFF' stroke='#E9D5FF' stroke-width='1.5' filter='url(#dropCard)' />
+    <circle cx='20' cy='18' r='6' fill='#7B2CBF' />
+    <text x='36' y='22' fill='#5A189A' font-family='system-ui, sans-serif' font-weight='700' font-size='12' letter-spacing='0.5'>FEEDBOOK • FIGMA UI/UX CASE STUDY</text>
+    <rect x='280' y='6' width='90' height='24' rx='12' fill='#7B2CBF' />
+    <text x='325' y='22' fill='#FFFFFF' font-family='system-ui, sans-serif' font-weight='700' font-size='10' text-anchor='middle'>3 FIDELITIES</text>
+  </g>
+
+  <!-- 3 TIERS OF FIDELITY SIDE-BY-SIDE PANELS -->
+
+  <!-- ========================================== -->
+  <!-- 1. LOW-FIDELITY PANEL (Paper & Architecture) -->
+  <!-- ========================================== -->
+  <g transform='translate(60, 95)' filter='url(#dropCard)'>
+    <!-- Panel Container -->
+    <rect x='0' y='0' width='330' height='580' rx='16' fill='#FCFAF7' stroke='#D4C3B3' stroke-width='1.5' stroke-dasharray='4 4' />
+    
+    <!-- Header -->
+    <rect x='16' y='16' width='110' height='24' rx='6' fill='#EADBC8' />
+    <text x='71' y='32' fill='#5D4037' font-family='system-ui, sans-serif' font-weight='800' font-size='10' text-anchor='middle'>1. LOW-FIDELITY</text>
+    <text x='138' y='32' fill='#8D6E63' font-family='system-ui, sans-serif' font-size='10'>Paper Sketches &amp; IA</text>
+    
+    <!-- Sketch 1: User Journey Flow Map -->
+    <g transform='translate(16, 56)'>
+      <rect x='0' y='0' width='298' height='150' rx='10' fill='#FFFFFF' stroke='#E0D7CE' stroke-width='1' />
+      <text x='14' y='24' fill='#795548' font-family='monospace' font-size='10' font-weight='bold'>// USER FLOW &amp; JOURNEY MAP</text>
+      
+      <!-- Flow Nodes (Hand-drawn look) -->
+      <rect x='14' y='42' width='60' height='36' rx='6' fill='#F5EBE6' stroke='#8D6E63' stroke-width='1.5' />
+      <text x='44' y='64' fill='#5D4037' font-family='system-ui, sans-serif' font-size='9' font-weight='bold' text-anchor='middle'>Discover</text>
+      
+      <!-- Arrow -->
+      <path d='M 74 60 L 98 60 M 94 56 L 98 60 L 94 64' fill='none' stroke='#8D6E63' stroke-width='1.5' stroke-linecap='round' />
+      
+      <rect x='100' y='42' width='80' height='36' rx='6' fill='#F5EBE6' stroke='#8D6E63' stroke-width='1.5' />
+      <text x='140' y='64' fill='#5D4037' font-family='system-ui, sans-serif' font-size='9' font-weight='bold' text-anchor='middle'>Prompt Card</text>
+      
+      <!-- Arrow -->
+      <path d='M 180 60 L 204 60 M 200 56 L 204 60 L 200 64' fill='none' stroke='#8D6E63' stroke-width='1.5' stroke-linecap='round' />
+      
+      <rect x='206' y='42' width='78' height='36' rx='6' fill='#F5EBE6' stroke='#8D6E63' stroke-width='1.5' />
+      <text x='245' y='64' fill='#5D4037' font-family='system-ui, sans-serif' font-size='9' font-weight='bold' text-anchor='middle'>Micro-Review</text>
+      
+      <!-- Journey Notes -->
+      <line x1='14' y1='98' x2='284' y2='98' stroke='#E0D7CE' stroke-dasharray='2 2' />
+      <text x='14' y='116' fill='#8D6E63' font-family='system-ui, sans-serif' font-size='9'>• Friction point: Multi-field questionnaires cause 78% dropoff</text>
+      <text x='14' y='134' fill='#8D6E63' font-family='system-ui, sans-serif' font-size='9'>• Hypothesis: Single-tap sentiment cards double participation</text>
+    </g>
+
+    <!-- Sketch 2: Rough Wireframe Sketch -->
+    <g transform='translate(16, 222)'>
+      <rect x='0' y='0' width='298' height='230' rx='10' fill='#FFFFFF' stroke='#E0D7CE' stroke-width='1' />
+      <text x='14' y='24' fill='#795548' font-family='monospace' font-size='10' font-weight='bold'>// PAPER WIREFRAME PROTOTYPE</text>
+      
+      <!-- Rough sketch box -->
+      <rect x='14' y='38' width='270' height='36' rx='6' fill='#F9F6F0' stroke='#A1887F' stroke-width='1.2' stroke-dasharray='3 3' />
+      <line x1='28' y1='56' x2='90' y2='56' stroke='#A1887F' stroke-width='3' stroke-linecap='round' />
+      <circle cx='260' cy='56' r='10' fill='#D7CCC8' />
+      
+      <!-- Rough Question Card -->
+      <rect x='14' y='86' width='270' height='120' rx='6' fill='#F9F6F0' stroke='#A1887F' stroke-width='1.2' stroke-dasharray='3 3' />
+      <line x1='28' y1='106' x2='200' y2='106' stroke='#8D6E63' stroke-width='3' stroke-linecap='round' />
+      <line x1='28' y1='122' x2='150' y2='122' stroke='#BCAAA4' stroke-width='2' stroke-linecap='round' />
+      
+      <!-- 3 Rating Pills -->
+      <rect x='28' y='142' width='60' height='26' rx='13' fill='#EFEBE9' stroke='#8D6E63' stroke-width='1' />
+      <circle cx='44' cy='155' r='5' fill='#8D6E63' />
+      <rect x='98' y='142' width='60' height='26' rx='13' fill='#EFEBE9' stroke='#8D6E63' stroke-width='1' />
+      <circle cx='114' cy='155' r='5' fill='#8D6E63' />
+      <rect x='168' y='142' width='60' height='26' rx='13' fill='#EFEBE9' stroke='#8D6E63' stroke-width='1' />
+      <circle cx='184' cy='155' r='5' fill='#8D6E63' />
+    </g>
+
+    <!-- Bottom Low-Fi Takeaways -->
+    <g transform='translate(16, 468)'>
+      <rect x='0' y='0' width='298' height='94' rx='8' fill='#F5EBE6' />
+      <text x='14' y='22' fill='#5D4037' font-family='system-ui, sans-serif' font-weight='700' font-size='10'>KEY LOW-FI VALIDATIONS:</text>
+      <text x='14' y='42' fill='#6D4C41' font-family='system-ui, sans-serif' font-size='9'>✓ Isolated 3 essential feedback dimensions</text>
+      <text x='14' y='60' fill='#6D4C41' font-family='system-ui, sans-serif' font-size='9'>✓ Eliminated 6 redundant form fields</text>
+      <text x='14' y='78' fill='#6D4C41' font-family='system-ui, sans-serif' font-size='9'>✓ Cut completion time from 4 mins to 35 secs</text>
+    </g>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- 2. MID-FIDELITY PANEL (8pt Grid & Grayscale) -->
+  <!-- ========================================== -->
+  <g transform='translate(420, 95)' filter='url(#dropCard)'>
+    <!-- Panel Container -->
+    <rect x='0' y='0' width='330' height='580' rx='16' fill='#FFFFFF' stroke='#CFD8DC' stroke-width='1.5' />
+    
+    <!-- Header -->
+    <rect x='16' y='16' width='110' height='24' rx='6' fill='#ECEFF1' />
+    <text x='71' y='32' fill='#37474F' font-family='system-ui, sans-serif' font-weight='800' font-size='10' text-anchor='middle'>2. MID-FIDELITY</text>
+    <text x='138' y='32' fill='#546E7A' font-family='system-ui, sans-serif' font-size='10'>8pt Grid Wireframes</text>
+    
+    <!-- Grayscale Screen Container -->
+    <g transform='translate(16, 56)'>
+      <rect x='0' y='0' width='298' height='396' rx='12' fill='#FAFAFA' stroke='#B0BEC5' stroke-width='1.5' />
+      
+      <!-- Top App Bar -->
+      <rect x='0' y='0' width='298' height='44' rx='12' fill='#ECEFF1' />
+      <rect x='16' y='16' width='70' height='12' rx='3' fill='#78909C' />
+      <circle cx='250' cy='22' r='10' fill='#CFD8DC' />
+      <circle cx='276' cy='22' r='10' fill='#90A4AE' />
+
+      <!-- Breadcrumbs / Tab Bar -->
+      <g transform='translate(16, 56)'>
+        <rect x='0' y='0' width='80' height='20' rx='4' fill='#455A64' />
+        <text x='40' y='14' fill='#FFFFFF' font-family='system-ui, sans-serif' font-size='8' font-weight='bold' text-anchor='middle'>Feed Stream</text>
+        
+        <rect x='88' y='0' width='70' height='20' rx='4' fill='#ECEFF1' />
+        <text x='123' y='14' fill='#78909C' font-family='system-ui, sans-serif' font-size='8' font-weight='bold' text-anchor='middle'>Analytics</text>
+        
+        <rect x='166' y='0' width='60' height='20' rx='4' fill='#ECEFF1' />
+        <text x='196' y='14' fill='#78909C' font-family='system-ui, sans-serif' font-size='8' font-weight='bold' text-anchor='middle'>Team</text>
+      </g>
+
+      <!-- Grayscale Card 1 -->
+      <g transform='translate(16, 88)'>
+        <rect x='0' y='0' width='266' height='136' rx='8' fill='#FFFFFF' stroke='#CFD8DC' stroke-width='1' />
+        <circle cx='24' cy='26' r='12' fill='#B0BEC5' />
+        <rect x='46' y='18' width='90' height='10' rx='2' fill='#37474F' />
+        <rect x='46' y='32' width='60' height='6' rx='2' fill='#90A4AE' />
+        <rect x='214' y='18' width='38' height='16' rx='4' fill='#ECEFF1' />
+        
+        <rect x='16' y='54' width='234' height='6' rx='2' fill='#78909C' />
+        <rect x='16' y='66' width='180' height='6' rx='2' fill='#B0BEC5' />
+        
+        <!-- Score Bar Matrix -->
+        <rect x='16' y='86' width='70' height='36' rx='6' fill='#ECEFF1' />
+        <rect x='24' y='94' width='40' height='8' rx='2' fill='#546E7A' />
+        <rect x='24' y='106' width='50' height='8' rx='2' fill='#90A4AE' />
+        
+        <rect x='94' y='86' width='70' height='36' rx='6' fill='#ECEFF1' />
+        <rect x='102' y='94' width='40' height='8' rx='2' fill='#546E7A' />
+        <rect x='102' y='106' width='50' height='8' rx='2' fill='#90A4AE' />
+
+        <rect x='172' y='86' width='78' height='36' rx='6' fill='#37474F' />
+        <rect x='182' y='100' width='58' height='8' rx='2' fill='#ECEFF1' />
+      </g>
+
+      <!-- Grayscale Card 2 -->
+      <g transform='translate(16, 234)'>
+        <rect x='0' y='0' width='266' height='146' rx='8' fill='#FFFFFF' stroke='#CFD8DC' stroke-width='1' />
+        <circle cx='24' cy='26' r='12' fill='#90A4AE' />
+        <rect x='46' y='18' width='110' height='10' rx='2' fill='#37474F' />
+        <rect x='46' y='32' width='70' height='6' rx='2' fill='#90A4AE' />
+        
+        <rect x='16' y='54' width='234' height='40' rx='6' fill='#F5F5F5' stroke='#E0E0E0' stroke-width='1' />
+        <rect x='28' y='66' width='160' height='8' rx='2' fill='#78909C' />
+        <rect x='28' y='78' width='120' height='6' rx='2' fill='#B0BEC5' />
+        
+        <!-- Action Row -->
+        <rect x='16' y='106' width='80' height='26' rx='13' fill='#455A64' />
+        <rect x='104' y='106' width='80' height='26' rx='13' fill='#ECEFF1' />
+      </g>
+    </g>
+
+    <!-- Bottom Mid-Fi Architecture Specs -->
+    <g transform='translate(16, 468)'>
+      <rect x='0' y='0' width='298' height='94' rx='8' fill='#ECEFF1' />
+      <text x='14' y='22' fill='#263238' font-family='system-ui, sans-serif' font-weight='700' font-size='10'>8PT GRID &amp; STRUCTURAL SPECS:</text>
+      <text x='14' y='42' fill='#455A64' font-family='system-ui, sans-serif' font-size='9'>✓ Standardized 8pt baseline vertical rhythm</text>
+      <text x='14' y='60' fill='#455A64' font-family='system-ui, sans-serif' font-size='9'>✓ Content cards with 16pt / 24pt padding</text>
+      <text x='14' y='78' fill='#455A64' font-family='system-ui, sans-serif' font-size='9'>✓ Grayscale visual hierarchy without color bias</text>
+    </g>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- 3. HIGH-FIDELITY PANEL (Design System & Polish) -->
+  <!-- ========================================== -->
+  <g transform='translate(780, 95)' filter='url(#dropCard)'>
+    <!-- Panel Container -->
+    <rect x='0' y='0' width='360' height='580' rx='16' fill='#FFFFFF' stroke='#7B2CBF' stroke-width='2' />
+    
+    <!-- Header with Sparkles -->
+    <rect x='16' y='16' width='120' height='24' rx='6' fill='#7B2CBF' />
+    <text x='76' y='32' fill='#FFFFFF' font-family='system-ui, sans-serif' font-weight='800' font-size='10' text-anchor='middle'>3. HIGH-FIDELITY ✨</text>
+    <text x='148' y='32' fill='#5A189A' font-family='system-ui, sans-serif' font-size='10' font-weight='bold'>Atomic Design System</text>
+    
+    <!-- Polished Vibrant App Screen -->
+    <g transform='translate(16, 56)'>
+      <rect x='0' y='0' width='328' height='396' rx='14' fill='#FAF5FF' stroke='#E9D5FF' stroke-width='1.5' />
+      
+      <!-- Top App Bar -->
+      <rect x='0' y='0' width='328' height='50' rx='14' fill='url(#purpleGrad)' />
+      <text x='20' y='30' fill='#FFFFFF' font-family='Georgia, serif' font-size='16' font-weight='bold' font-style='italic'>feedbook</text>
+      
+      <!-- Search Input in Header -->
+      <rect x='110' y='13' width='140' height='26' rx='13' fill='rgba(255,255,255,0.2)' />
+      <text x='124' y='30' fill='#F3E8FF' font-family='system-ui, sans-serif' font-size='9'>🔍 Search reviews...</text>
+      
+      <!-- Notification + Avatar -->
+      <circle cx='272' cy='26' r='10' fill='rgba(255,255,255,0.25)' />
+      <text x='272' y='30' fill='#FFFFFF' font-size='10' text-anchor='middle'>🔔</text>
+      <circle cx='302' cy='26' r='12' fill='#FFD166' stroke='#FFFFFF' stroke-width='1.5' />
+      <text x='302' y='30' fill='#2D2A26' font-size='9' font-weight='bold' text-anchor='middle'>SK</text>
+
+      <!-- Active Mode Pill Selectors -->
+      <g transform='translate(16, 62)'>
+        <rect x='0' y='0' width='92' height='24' rx='12' fill='#7B2CBF' />
+        <text x='46' y='16' fill='#FFFFFF' font-family='system-ui, sans-serif' font-size='9' font-weight='bold' text-anchor='middle'>All Activity (18)</text>
+        
+        <rect x='100' y='0' width='88' height='24' rx='12' fill='#FFFFFF' stroke='#E9D5FF' stroke-width='1' />
+        <text x='144' y='16' fill='#5A189A' font-family='system-ui, sans-serif' font-size='9' font-weight='600' text-anchor='middle'>Kudos Received</text>
+        
+        <rect x='196' y='0' width='88' height='24' rx='12' fill='#FFFFFF' stroke='#E9D5FF' stroke-width='1' />
+        <text x='240' y='16' fill='#7B2CBF' font-family='system-ui, sans-serif' font-size='9' font-weight='600' text-anchor='middle'>+ Give Feedback</text>
+      </g>
+
+      <!-- Polished Review Card 1 (Rich Violet & Emerald Accents) -->
+      <g transform='translate(16, 96)'>
+        <rect x='0' y='0' width='296' height='138' rx='10' fill='#FFFFFF' stroke='#E9D5FF' stroke-width='1.2' />
+        
+        <!-- Author Info -->
+        <circle cx='24' cy='26' r='13' fill='#FF6B6B' />
+        <text x='24' y='30' fill='#FFFFFF' font-size='11' font-weight='bold' text-anchor='middle'>JD</text>
+        <text x='46' y='22' fill='#2D2A26' font-family='system-ui, sans-serif' font-weight='bold' font-size='11'>Jessica Day</text>
+        <text x='46' y='34' fill='#7B2CBF' font-family='system-ui, sans-serif' font-size='9'>Design Systems Lead • 12m ago</text>
+        
+        <!-- Tag -->
+        <rect x='226' y='16' width='58' height='18' rx='9' fill='#E8F5E9' />
+        <text x='255' y='28' fill='#2E7D32' font-family='system-ui, sans-serif' font-size='8' font-weight='bold' text-anchor='middle'>⭐ KUDOS</text>
+        
+        <!-- Review Body -->
+        <text x='16' y='60' fill='#374151' font-family='system-ui, sans-serif' font-size='10' font-weight='500'>
+          “Sakshi’s auto-layout refactor on the mobile navigation
+        </text>
+        <text x='16' y='74' fill='#374151' font-family='system-ui, sans-serif' font-size='10' font-weight='500'>
+          cut responsive bug tickets by 70%. Super elegant!”
+        </text>
+
+        <!-- Metric Badges -->
+        <rect x='16' y='88' width='82' height='36' rx='6' fill='#F3E8FF' stroke='#D8B4FE' stroke-width='1' />
+        <text x='24' y='102' fill='#6B21A8' font-family='system-ui, sans-serif' font-size='8' font-weight='bold'>Clarity</text>
+        <text x='24' y='116' fill='#4C1D95' font-family='system-ui, sans-serif' font-size='11' font-weight='800'>9.8 / 10</text>
+        
+        <rect x='106' y='88' width='82' height='36' rx='6' fill='#ECFDF5' stroke='#A7F3D0' stroke-width='1' />
+        <text x='114' y='102' fill='#047857' font-family='system-ui, sans-serif' font-size='8' font-weight='bold'>Execution</text>
+        <text x='114' y='116' fill='#065F46' font-family='system-ui, sans-serif' font-size='11' font-weight='800'>10 / 10</text>
+        
+        <rect x='196' y='88' width='84' height='36' rx='6' fill='#7B2CBF' />
+        <text x='238' y='104' fill='#FFFFFF' font-family='system-ui, sans-serif' font-size='8' font-weight='bold' text-anchor='middle'>Give High Five</text>
+        <text x='238' y='117' fill='#E9D5FF' font-family='system-ui, sans-serif' font-size='9' text-anchor='middle'>🙌 24</text>
+      </g>
+
+      <!-- Polished Review Card 2 -->
+      <g transform='translate(16, 244)'>
+        <rect x='0' y='0' width='296' height='136' rx='10' fill='#FFFFFF' stroke='#E9D5FF' stroke-width='1.2' />
+        <circle cx='24' cy='26' r='13' fill='#4ECDC4' />
+        <text x='24' y='30' fill='#FFFFFF' font-size='11' font-weight='bold' text-anchor='middle'>AR</text>
+        <text x='46' y='22' fill='#2D2A26' font-family='system-ui, sans-serif' font-weight='bold' font-size='11'>Arjun Rao</text>
+        <text x='46' y='34' fill='#7B2CBF' font-family='system-ui, sans-serif' font-size='9'>Engineering Director • 2h ago</text>
+        
+        <rect x='226' y='16' width='58' height='18' rx='9' fill='#FFF3E0' />
+        <text x='255' y='28' fill='#E65100' font-family='system-ui, sans-serif' font-size='8' font-weight='bold' text-anchor='middle'>💡 IMPACT</text>
+        
+        <text x='16' y='60' fill='#374151' font-family='system-ui, sans-serif' font-size='10' font-weight='500'>
+          “The interaction state prototype feels like a live app!
+        </text>
+        <text x='16' y='74' fill='#374151' font-family='system-ui, sans-serif' font-size='10' font-weight='500'>
+          Dev handoff was completely frictionless.”
+        </text>
+        
+        <!-- Action Buttons -->
+        <rect x='16' y='92' width='100' height='28' rx='14' fill='#7B2CBF' />
+        <text x='66' y='110' fill='#FFFFFF' font-family='system-ui, sans-serif' font-size='9' font-weight='bold' text-anchor='middle'>Cheer Work 🎉</text>
+
+        <rect x='124' y='92' width='100' height='28' rx='14' fill='#F3E8FF' stroke='#7B2CBF' stroke-width='1' />
+        <text x='174' y='110' fill='#7B2CBF' font-family='system-ui, sans-serif' font-size='9' font-weight='bold' text-anchor='middle'>Add Note ✍️</text>
+      </g>
+    </g>
+
+    <!-- Bottom High-Fi Design System Specs -->
+    <g transform='translate(16, 468)'>
+      <rect x='0' y='0' width='328' height='94' rx='8' fill='#F3E8FF' />
+      <text x='14' y='22' fill='#4C1D95' font-family='system-ui, sans-serif' font-weight='700' font-size='10'>FIGMA ATOMIC DESIGN SYSTEM:</text>
+      <text x='14' y='42' fill='#5A189A' font-family='system-ui, sans-serif' font-size='9'>✓ 40+ components with nested Auto-Layout 5.0 variants</text>
+      <text x='14' y='60' fill='#5A189A' font-family='system-ui, sans-serif' font-size='9'>✓ Color tokens: Amethyst #7B2CBF, Emerald #10B981, Ink #2D2A26</text>
+      <text x='14' y='78' fill='#5A189A' font-family='system-ui, sans-serif' font-size='9'>✓ WCAG AA compliant contrast ratio (7.2:1 text contrast)</text>
+    </g>
+  </g>
+
+</svg>

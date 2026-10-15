@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 240" width="100%" height="100%">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&amp;family=Montserrat:wght@200;300;400;500&amp;display=swap');
+      .brand-title {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-weight: 400;
+        letter-spacing: 0.22em;
+        font-size: 52px;
+        fill: #203126;
+      }
+      .brand-title-bold {
+        font-weight: 600;
+        fill: #203126;
+      }
+      .brand-subtitle {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 300;
+        letter-spacing: 0.38em;
+        font-size: 13px;
+        fill: #738779;
+        text-transform: uppercase;
+      }
+      .brand-tagline {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-style: italic;
+        font-weight: 400;
+        letter-spacing: 0.12em;
+        font-size: 15px;
+        fill: #C8A97E;
+      }
+    </style>
+    <linearGradient id="primarySage" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8FA895"/>
+      <stop offset="100%" stop-color="#556E5C"/>
+    </linearGradient>
+    <linearGradient id="primaryRose" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D48B77"/>
+      <stop offset="100%" stop-color="#EAAFA0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Left Icon Lockup (Center Y = 120, Center X = 130) -->
+  <g transform="translate(30, 20)">
+    <!-- Outer Delicate Thread Ring -->
+    <circle cx="100" cy="100" r="92" fill="#FAF7F2" stroke="#E5DEC9" stroke-width="1"/>
+    <circle cx="100" cy="100" r="82" fill="none" stroke="#6B8572" stroke-width="0.8" stroke-dasharray="4 3" opacity="0.6"/>
+
+    <!-- Circular Infinity Thread Path -->
+    <path d="M 100 100 C 82 68, 50 68, 50 100 C 50 128, 76 136, 100 100 C 124 64, 150 72, 150 100 C 150 132, 118 132, 100 100 Z" 
+          fill="none" 
+          stroke="url(#primarySage)" 
+          stroke-width="2.2" 
+          stroke-linecap="round"/>
+
+    <!-- Interlocking Rose Thread -->
+    <path d="M 100 100 C 76 128, 58 122, 58 100 C 58 82, 80 78, 100 100 C 120 122, 142 118, 142 100 C 142 78, 120 78, 100 100 Z" 
+          fill="none" 
+          stroke="url(#primaryRose)" 
+          stroke-width="1.4" 
+          stroke-linecap="round" 
+          opacity="0.85"/>
+
+    <!-- Sprouting Leaf Detail -->
+    <path d="M 75 84 C 72 72, 62 65, 50 65 C 53 77, 62 84, 75 84 Z" 
+          fill="#8FA895" 
+          opacity="0.85"/>
+
+    <!-- Thread Spool Core -->
+    <circle cx="100" cy="100" r="4.5" fill="#FCFAF7" stroke="#203126" stroke-width="1.5"/>
+    <circle cx="100" cy="100" r="1.8" fill="#D48B77"/>
+  </g>
+
+  <!-- Vertical Divider Line -->
+  <line x1="260" y1="55" x2="260" y2="185" stroke="#E3DACF" stroke-width="1"/>
+
+  <!-- Typography Lockup -->
+  <!-- Main Brand Name -->
+  <text x="295" y="112" class="brand-title">REVIVE <tspan class="brand-title-bold">THREADS</tspan></text>
+  
+  <!-- Subtitle Category Definition -->
+  <text x="300" y="146" class="brand-subtitle">THRIFT • RENT • REDESIGN • DONATE</text>
+
+  <!-- Sustainable Accent Tagline -->
+  <text x="300" y="176" class="brand-tagline">Crafting India&#39;s Circular Wardrobe</text>
+</svg>

@@ -1,0 +1,2746 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revive Threads — India's Unified Circular Fashion Ecosystem</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- React 18 & Babel Standalone CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sage: {
+              50: '#F4F7F4',
+              100: '#E4ECE5',
+              200: '#C9D9CC',
+              300: '#A9C2AD',
+              400: '#8FA895',
+              500: '#6B8572',
+              600: '#546C5B',
+              700: '#435749',
+              800: '#324036',
+              900: '#203126',
+            },
+            terracotta: {
+              50: '#FDF8F6',
+              100: '#FAF0EB',
+              200: '#F4DCD3',
+              300: '#EABFB0',
+              400: '#E09F8C',
+              500: '#D48B77',
+              600: '#B86F5C',
+              700: '#965545',
+              800: '#754034',
+              900: '#5B3026',
+            },
+            linen: {
+              50: '#FCFAF7',
+              100: '#FAF7F2',
+              200: '#F4EFE6',
+              300: '#EAE1D2',
+              400: '#DDD1BD',
+              500: '#C8A97E',
+            },
+            forest: '#203126',
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Montserrat"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #FAF7F2;
+      color: #203126;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+    }
+    .font-cormorant {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F4EFE6;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #C9D9CC;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #8FA895;
+    }
+    .hero-mesh {
+      background-image: radial-gradient(at 10% 20%, rgba(212, 139, 119, 0.08) 0px, transparent 50%),
+                        radial-gradient(at 90% 80%, rgba(107, 133, 114, 0.10) 0px, transparent 50%),
+                        radial-gradient(at 50% 50%, rgba(200, 169, 126, 0.06) 0px, transparent 60%);
+    }
+    input, select, textarea, button {
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+  
+  <div id="root" class="flex-1 flex flex-col"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useMemo, useRef } = React;
+
+    // ========================================================
+    // CUSTOM LUXURY DROPDOWN (NO UGLY OS NATIVE SELECT POPOVER)
+    // ========================================================
+    const CustomSelect = ({ value, onChange, options, label, name, className = "", buttonClassName = "", placeholder = "Select option..." }) => {
+      const [isOpen, setIsOpen] = useState(false);
+      const selectRef = useRef(null);
+
+      useEffect(() => {
+        const handleClickOutside = (e) => {
+          if (selectRef.current && !selectRef.current.contains(e.target)) {
+            setIsOpen(false);
+          }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+      }, []);
+
+      const activeOpt = options.find(o => String(o.value) === String(value)) || options[0] || { label: placeholder, value: "" };
+
+      return (
+        <div className={`relative ${className}`} ref={selectRef}>
+          {name && <input type="hidden" name={name} value={value} />}
+          {label && (
+            <label className="block text-xs font-semibold uppercase tracking-wider text-forest/80 mb-2">
+              {label}
+            </label>
+          )}
+          <button
+            type="button"
+            onClick={() => setIsOpen(!isOpen)}
+            className={`w-full flex items-center justify-between px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm font-medium text-forest bg-white hover:bg-linen-50/80 border border-linen-300 focus:border-sage-500 rounded-xl transition-all shadow-2xs text-left select-none ${buttonClassName}`}
+          >
+            <span className="truncate">{activeOpt.label}</span>
+            <svg 
+              className={`w-4 h-4 text-sage-600 ml-2 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180 text-forest' : ''}`} 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            >
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+
+          {isOpen && (
+            <div className="absolute z-50 mt-1.5 w-full min-w-[200px] bg-white rounded-2xl border border-linen-300 shadow-xl py-1.5 max-h-60 overflow-y-auto animate-fadeIn backdrop-blur-md">
+              {options.map((opt) => {
+                const isSelected = String(opt.value) === String(value);
+                return (
+                  <div
+                    key={opt.value}
+                    onClick={() => {
+                      onChange(opt.value);
+                      setIsOpen(false);
+                    }}
+                    className={`px-4 py-2.5 text-xs sm:text-sm font-medium cursor-pointer transition-colors flex items-center justify-between ${
+                      isSelected 
+                        ? 'bg-sage-100 text-forest font-bold' 
+                        : 'text-sage-800 hover:bg-linen-100 hover:text-forest'
+                    }`}
+                  >
+                    <span>{opt.label}</span>
+                    {isSelected && (
+                      <svg className="w-4 h-4 text-forest shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      );
+    };
+
+    // ========================================================
+    // PURE REACT SVG ICONS (NEVER FLICKER, NEVER BREAK)
+    // ========================================================
+    const Icon = ({ name, className = "w-4 h-4", ...props }) => {
+      switch (name) {
+        case "bag":
+          return (
+            <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+              <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+            </svg>
+          );
+        case "search":
+          return (
+            <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+            </svg>
+          );
+        case "plus":
+          return (
+            <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+              <path d="M5 12h14"/><path d="M12 5v14"/>
+            </svg>
+          );
+        case "check":
+          return (
+            <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          );
+        case "check-circle":
+          return (
+            <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+              <circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>
+            </svg>
+          );
+        case "droplet":
+          return (
+            <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+              <path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/>
+            </svg>
+          );
+        case "leaf":
+          return (
+            <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+              <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+            </svg>
+          );
+        case "scissors":
+          return (
+            <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+              <circle cx="6" cy="6" r="3"/><path d="M8.12 8.12 12 12"/><path d="M20 4 8.12 15.88"/><circle cx="6" cy="18" r="3"/><path d="M14.8 14.8 20 20"/>
+            </svg>
+          );
+        case "heart":
+          return (
+            <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+            </svg>
+          );
+        case "shield":
+          return (
+            <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          );
+        case "lock":
+          return (
+            <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+              <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          );
+        case "truck":
+          return (
+            <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+              <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/>
+            </svg>
+          );
+        case "calendar":
+          return (
+            <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+              <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/>
+            </svg>
+          );
+        case "trash":
+          return (
+            <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+              <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+            </svg>
+          );
+        case "arrow-right":
+          return (
+            <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          );
+        case "x":
+          return (
+            <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+              <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+            </svg>
+          );
+        case "sparkles":
+          return (
+            <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+              <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+            </svg>
+          );
+        case "crown":
+          return (
+            <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+              <path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/>
+            </svg>
+          );
+        case "filter":
+          return (
+            <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+            </svg>
+          );
+        case "camera":
+          return (
+            <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+              <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+              <circle cx="12" cy="13" r="3"/>
+            </svg>
+          );
+        case "upload":
+          return (
+            <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/>
+            </svg>
+          );
+        case "image":
+          return (
+            <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+              <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+            </svg>
+          );
+        case "menu":
+          return (
+            <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+              <line x1="4" x2="20" y1="12" y2="20"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/>
+            </svg>
+          );
+        default:
+          return null;
+      }
+    };
+
+    // ========================================================
+    // RICH INITIAL DATASET (Daily Wear + Occasion + Atelier)
+    // ========================================================
+    const INITIAL_CATALOG = [
+      {
+            "id": "prod-lehenga-1",
+            "title": "Sabyasachi Heritage Raw Silk Embroidered Zardozi Bridal Lehenga",
+            "category": "lehenga",
+            "listing_mode": "rent",
+            "price": 0,
+            "rental_price_3_day": 4499,
+            "mrp": 75000,
+            "condition": "Pristine Consignment",
+            "size": "M (Adjustable 28-32\" waist)",
+            "measurements": {
+                  "lehengaLength": "43\"",
+                  "blouseBust": "36\""
+            },
+            "fabric": "Pure Raw Silk with Hand Zardozi & Antique Gold Work",
+            "seller": "Meera Sen (Verified Consignor \u2b50 5.0)",
+            "water_saved": "18,000 L",
+            "co2_offset": "32.0 kg",
+            "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=700&auto=format&fit=crop",
+            "description": "Showstopper deep crimson raw silk bridal lehenga with heavy antique gold peacock zardozi work, velvet scalloped borders, and twin net dupattas. Ozone sanitized with garment bag kit.",
+            "status": "active",
+            "created_at": "2026-10-01T10:00:00Z"
+      },
+      {
+            "id": "prod-lehenga-2",
+            "title": "Anita Dongre Style Dusty Rose Floral Organza Sangeet Lehenga",
+            "category": "lehenga",
+            "listing_mode": "rent",
+            "price": 0,
+            "rental_price_3_day": 3699,
+            "mrp": 58000,
+            "condition": "Pristine Consignment",
+            "size": "S (Adjustable 26-30\" waist)",
+            "measurements": {
+                  "lehengaLength": "42\"",
+                  "blouseBust": "34\""
+            },
+            "fabric": "Handwoven Silk Organza with Gota Patti & Resham Work",
+            "seller": "Rhea Malhotra (Verified Consignor \u2b50 4.9)",
+            "water_saved": "15,500 L",
+            "co2_offset": "26.5 kg",
+            "image": "https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=700&auto=format&fit=crop",
+            "description": "Dreamy pastel dusty rose organza lehenga with delicate gotapatti detailing, paired with an embroidered sweetheart-neck blouse and sheer scalloped dupatta.",
+            "status": "active",
+            "created_at": "2026-10-01T11:30:00Z"
+      },
+      {
+            "id": "prod-gown-1",
+            "title": "Emerald Hand-Embroidered Sequin Mermaid Gala Evening Gown",
+            "category": "gown",
+            "listing_mode": "rent",
+            "price": 0,
+            "rental_price_3_day": 2999,
+            "mrp": 42000,
+            "condition": "Pristine Consignment",
+            "size": "M",
+            "measurements": {
+                  "bust": "36\"",
+                  "waist": "29\"",
+                  "length": "58\""
+            },
+            "fabric": "Heavy Georgette with Glass Micro-Sequins & Satin Lining",
+            "seller": "Alia Sengupta (Verified Consignor \u2b50 5.0)",
+            "water_saved": "12,000 L",
+            "co2_offset": "20.5 kg",
+            "image": "https://images.unsplash.com/photo-1566174053879-31528523f8ae?q=80&w=700&auto=format&fit=crop",
+            "description": "Red-carpet ready deep emerald mermaid silhouette featuring hand-placed micro-sequins, dramatic sweep train, and structured corset cup support.",
+            "status": "active",
+            "created_at": "2026-10-01T12:00:00Z"
+      },
+      {
+            "id": "prod-gown-2",
+            "title": "Champagne Draped Cowl Back Silk Satin Red-Carpet Gown",
+            "category": "gown",
+            "listing_mode": "rent",
+            "price": 0,
+            "rental_price_3_day": 2499,
+            "mrp": 34000,
+            "condition": "Like New (Pristine)",
+            "size": "S",
+            "measurements": {
+                  "bust": "34\"",
+                  "waist": "27\"",
+                  "length": "56\""
+            },
+            "fabric": "Heavy Weight Lustrous Silk-Satin",
+            "seller": "Natasha Vohra (Verified Consignor \u2b50 4.9)",
+            "water_saved": "9,800 L",
+            "co2_offset": "16.2 kg",
+            "image": "https://images.unsplash.com/photo-1518049362265-d5b2a6467637?q=80&w=700&auto=format&fit=crop",
+            "description": "Floor-length fluid champagne satin gown with an exquisite deep cowl back, Swarovski crystal encrusted waistband, and high thigh slit.",
+            "status": "active",
+            "created_at": "2026-10-01T13:15:00Z"
+      },
+      {
+            "id": "prod-party-1",
+            "title": "Metallic Gold Pleated Indo-Western Cape & Dhoti Pants Set",
+            "category": "occasion",
+            "listing_mode": "both",
+            "price": 4899,
+            "rental_price_3_day": 1999,
+            "mrp": 26000,
+            "condition": "Like New (Pristine)",
+            "size": "M",
+            "measurements": {
+                  "bust": "36\"",
+                  "dhotiWaist": "28-32\""
+            },
+            "fabric": "Pleated Tissue Silk with Cutdana Embroidered Bustier",
+            "seller": "Ridhima Kapoor (Verified Seller \u2b50 4.9)",
+            "water_saved": "8,500 L",
+            "co2_offset": "13.5 kg",
+            "image": "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=700&auto=format&fit=crop",
+            "description": "Contemporary statement partywear: structured hand-embroidered mirrorwork bustier, pre-draped fluid dhoti pants, and floor-sweeping sheer cape.",
+            "status": "active",
+            "created_at": "2026-10-01T14:30:00Z"
+      },
+      {
+            "id": "prod-sharara-1",
+            "title": "Ivory Lucknowi Hand-Embroidered Chikankari Mukaish Sharara Set",
+            "category": "sharara",
+            "listing_mode": "rent",
+            "price": 0,
+            "rental_price_3_day": 3299,
+            "mrp": 48000,
+            "condition": "Pristine Consignment",
+            "size": "M (Adjustable)",
+            "measurements": {
+                  "kurtaBust": "38\"",
+                  "shararaLength": "42\""
+            },
+            "fabric": "Pure Georgette with Real Silver Mukaish Work & Organza Dupatta",
+            "seller": "Fatima Baig (Verified Consignor \u2b50 5.0)",
+            "water_saved": "13,400 L",
+            "co2_offset": "22.0 kg",
+            "image": "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?q=80&w=700&auto=format&fit=crop",
+            "description": "Traditional royal Lucknowi artisan sharara set with intricate hand embroidery, golden mukaish work, dramatic flared umbrella sharara, and featherlight dupatta.",
+            "status": "active",
+            "created_at": "2026-10-01T15:00:00Z"
+      },
+      {
+            "id": "prod-sharara-2",
+            "title": "Wine Plum Heavy Zari Tiered Royal Gharara Set with Stole",
+            "category": "sharara",
+            "listing_mode": "rent",
+            "price": 0,
+            "rental_price_3_day": 2899,
+            "mrp": 39000,
+            "condition": "Like New (Pristine)",
+            "size": "L",
+            "measurements": {
+                  "kurtaBust": "40\"",
+                  "ghararaLength": "43\""
+            },
+            "fabric": "Micro-Velvet with Kashmiri Tilla Threadwork",
+            "seller": "Zoya Qureshi (Verified Consignor \u2b50 4.8)",
+            "water_saved": "11,000 L",
+            "co2_offset": "18.5 kg",
+            "image": "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?q=80&w=700&auto=format&fit=crop",
+            "description": "Regal deep wine velvet peplum kurti paired with a multi-tiered flared gharara embellished with intricate antique tilla gold borders.",
+            "status": "active",
+            "created_at": "2026-10-01T16:00:00Z"
+      },
+      {
+            "id": "prod-saree-1",
+            "title": "Heritage Kanjivaram Pure Mulberry Silk Saree in Crimson & Antique Zari",
+            "category": "saree",
+            "listing_mode": "both",
+            "price": 8499,
+            "rental_price_3_day": 2199,
+            "mrp": 45000,
+            "condition": "Like New (Pristine)",
+            "size": "Free Size (with stitched blouse 36\")",
+            "measurements": {
+                  "sareeLength": "6.3m",
+                  "blouseBust": "36\""
+            },
+            "fabric": "100% Pure Mulberry Silk with Certified Silk Mark & Real Zari",
+            "seller": "Kalyani Sundaram (Verified Seller \u2b50 5.0)",
+            "water_saved": "14,000 L",
+            "co2_offset": "24.0 kg",
+            "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=700&auto=format&fit=crop",
+            "description": "Authentic heavy bridal Kanjivaram featuring traditional temple borders, grand contrast pallu, and woven golden peacocks. Silk Mark certified.",
+            "status": "active",
+            "created_at": "2026-10-01T17:00:00Z"
+      },
+      {
+            "id": "prod-saree-2",
+            "title": "Vintage Banarasi Tanchoi Royal Blue & Antique Gold Brocade Saree",
+            "category": "saree",
+            "listing_mode": "both",
+            "price": 6999,
+            "rental_price_3_day": 1899,
+            "mrp": 36000,
+            "condition": "Like New (Pristine)",
+            "size": "Free Size (with stitched blouse 38\")",
+            "measurements": {
+                  "sareeLength": "6.2m",
+                  "blouseBust": "38\""
+            },
+            "fabric": "Pure Katan Silk with Jamdani Tanchoi Weave",
+            "seller": "Pooja Krishnan (Verified Seller \u2b50 4.9)",
+            "water_saved": "12,500 L",
+            "co2_offset": "21.0 kg",
+            "image": "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?q=80&w=700&auto=format&fit=crop",
+            "description": "Timeless royal blue and golden brocade Banarasi weave with all-over intricate floral jaal and grand ceremonial pallu.",
+            "status": "active",
+            "created_at": "2026-10-01T18:00:00Z"
+      },
+      {
+            "id": "prod-mens-sherwani-1",
+            "title": "Manyavar Imperial Emerald Velvet Zari Sherwani Set with Stole",
+            "category": "mens",
+            "listing_mode": "rent",
+            "price": 0,
+            "rental_price_3_day": 2999,
+            "mrp": 42000,
+            "condition": "Pristine Consignment",
+            "size": "40 (Medium / Chest 40\")",
+            "measurements": {
+                  "chest": "40\"",
+                  "length": "41\""
+            },
+            "fabric": "Micro-Velvet with Antique Brass Zari & Pure Silk Stole",
+            "seller": "Arjun Nambiar (Verified Consignor \u2b50 4.9)",
+            "water_saved": "12,000 L",
+            "co2_offset": "21.5 kg",
+            "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=700&auto=format&fit=crop",
+            "description": "Opulent groom/groomsman velvet sherwani with antique gold buttons, accompanied by tailored off-white churidar and raw silk brocade stole.",
+            "status": "active",
+            "created_at": "2026-10-01T19:00:00Z"
+      },
+      {
+            "id": "prod-kurta-1",
+            "title": "Chanderi Silk Embroidered A-Line Kurta Set with Kota Doria Dupatta",
+            "category": "kurta",
+            "listing_mode": "buy",
+            "price": 1499,
+            "rental_price_3_day": 0,
+            "mrp": 5490,
+            "condition": "Like New (Pristine)",
+            "size": "M",
+            "measurements": {
+                  "bust": "38\"",
+                  "kurtaLength": "44\"",
+                  "waist": "30\""
+            },
+            "fabric": "Handwoven Chanderi Silk with Zari & Pure Cotton Trousers",
+            "seller": "Suhana Mir (Verified Seller \u2b50 4.9)",
+            "water_saved": "4,800 L",
+            "co2_offset": "7.2 kg",
+            "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=700&auto=format&fit=crop",
+            "description": "Elegant sage mint Chanderi silk kurta with fine gotta and threadwork neckline, paired with tailored cigarette pants and featherlight Kota Doria dupatta.",
+            "status": "active",
+            "created_at": "2026-10-02T08:00:00Z"
+      },
+      {
+            "id": "prod-kurta-2",
+            "title": "Hand Block-Printed Mulberry Silk Anarkali Suit Set",
+            "category": "kurta",
+            "listing_mode": "both",
+            "price": 1899,
+            "rental_price_3_day": 599,
+            "mrp": 6990,
+            "condition": "Like New (Pristine)",
+            "size": "L",
+            "measurements": {
+                  "bust": "40\"",
+                  "length": "48\""
+            },
+            "fabric": "Mulberry Silk & Chanderi Blend",
+            "seller": "Tara Sengupta (Verified Seller \u2b50 5.0)",
+            "water_saved": "5,200 L",
+            "co2_offset": "8.1 kg",
+            "image": "https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=700&auto=format&fit=crop",
+            "description": "Traditional Bagru block-printed 24-kali flared Anarkali with potli button details and organza border dupatta. Semi-heavy festive wear.",
+            "status": "active",
+            "created_at": "2026-10-02T09:00:00Z"
+      },
+      {
+            "id": "prod-kurta-3",
+            "title": "FabIndia Pure Cotton Straight Kurta & Palazzo Co-ord Set",
+            "category": "kurta",
+            "listing_mode": "buy",
+            "price": 799,
+            "rental_price_3_day": 0,
+            "mrp": 2990,
+            "condition": "Like New (Pristine)",
+            "size": "S",
+            "measurements": {
+                  "bust": "36\"",
+                  "length": "40\""
+            },
+            "fabric": "100% Breathable Cotton",
+            "seller": "Aditi Joshi (Verified Seller \u2b50 4.8)",
+            "water_saved": "2,900 L",
+            "co2_offset": "4.1 kg",
+            "image": "https://images.unsplash.com/photo-1577900232427-18219b9166a0?q=80&w=700&auto=format&fit=crop",
+            "description": "Everyday breezy indigo handblock cotton kurta paired with comfortable wide-leg cropped palazzos. Soft, breathable, and shrink-resistant.",
+            "status": "active",
+            "created_at": "2026-10-02T09:30:00Z"
+      },
+      {
+            "id": "prod-dress-1",
+            "title": "Urbanic Floral Cottagecore Tiered Linen-Blend Midi Dress",
+            "category": "dress",
+            "listing_mode": "buy",
+            "price": 699,
+            "rental_price_3_day": 0,
+            "mrp": 2790,
+            "condition": "Like New (Pristine)",
+            "size": "S",
+            "measurements": {
+                  "bust": "34\"",
+                  "waist": "27\"",
+                  "length": "44\""
+            },
+            "fabric": "Breathable Linen & Rayon Blend",
+            "seller": "Pooja Verma (Verified Seller \u2b50 4.9)",
+            "water_saved": "3,600 L",
+            "co2_offset": "5.1 kg",
+            "image": "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=700&auto=format&fit=crop",
+            "description": "Dreamy floral print with adjustable tie-up shoulder straps and ruffled tiers. Complete with deep side pockets. Washed and steam sanitized.",
+            "status": "active",
+            "created_at": "2026-10-02T10:00:00Z"
+      },
+      {
+            "id": "prod-dress-2",
+            "title": "Massimo Dutti French Linen Belted Utility Shirt Dress",
+            "category": "dress",
+            "listing_mode": "buy",
+            "price": 1199,
+            "rental_price_3_day": 0,
+            "mrp": 6500,
+            "condition": "Like New (Pristine)",
+            "size": "M",
+            "measurements": {
+                  "bust": "38\"",
+                  "waist": "30\"",
+                  "length": "42\""
+            },
+            "fabric": "100% Pure Normandy Linen",
+            "seller": "Neha Mehta (Verified Seller \u2b50 5.0)",
+            "water_saved": "4,500 L",
+            "co2_offset": "6.8 kg",
+            "image": "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=700&auto=format&fit=crop",
+            "description": "Classic European tailored shirt dress with natural tortoiseshell buttons and matching wide sash belt. Crisp and immaculate.",
+            "status": "active",
+            "created_at": "2026-10-02T10:30:00Z"
+      },
+      {
+            "id": "prod-mens-shirt-1",
+            "title": "Fabindia Pure Handspun Khadi Indigo Mandarin Collar Shirt",
+            "category": "mens",
+            "listing_mode": "buy",
+            "price": 649,
+            "rental_price_3_day": 0,
+            "mrp": 2490,
+            "condition": "Like New (Pristine)",
+            "size": "L (Chest 42\")",
+            "measurements": {
+                  "chest": "42\"",
+                  "length": "29\""
+            },
+            "fabric": "100% Handspun Khadi Cotton",
+            "seller": "Kabir Varma (Verified Seller \u2b50 4.9)",
+            "water_saved": "2,700 L",
+            "co2_offset": "3.8 kg",
+            "image": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=700&auto=format&fit=crop",
+            "description": "Natural indigo dyed handspun khadi with coconut shell buttons. Gets softer with each wash. Certified authentic khadi mark.",
+            "status": "active",
+            "created_at": "2026-10-02T11:00:00Z"
+      },
+      {
+            "id": "prod-mens-shirt-2",
+            "title": "Uniqlo Relaxed French Linen Button-Down Shirt in Olive",
+            "category": "mens",
+            "listing_mode": "buy",
+            "price": 799,
+            "rental_price_3_day": 0,
+            "mrp": 3490,
+            "condition": "Gently Loved",
+            "size": "M (Chest 40\")",
+            "measurements": {
+                  "chest": "40\"",
+                  "length": "28\""
+            },
+            "fabric": "100% European Flax Linen",
+            "seller": "Dev Sharma (Verified Seller \u2b50 4.7)",
+            "water_saved": "3,100 L",
+            "co2_offset": "4.4 kg",
+            "image": "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?q=80&w=700&auto=format&fit=crop",
+            "description": "Breathable garment-washed pure linen shirt with relaxed collar. Excellent everyday staple for warm climates.",
+            "status": "active",
+            "created_at": "2026-10-02T11:30:00Z"
+      },
+      {
+            "id": "prod-mens-blazer-1",
+            "title": "Raymond Structured Navy Wool-Blend Tailored Formal Blazer",
+            "category": "mens",
+            "listing_mode": "both",
+            "price": 1699,
+            "rental_price_3_day": 499,
+            "mrp": 8990,
+            "condition": "Like New (Pristine)",
+            "size": "40 (Medium / Chest 40\")",
+            "measurements": {
+                  "chest": "40\"",
+                  "length": "30\""
+            },
+            "fabric": "Fine Merino Wool & Viscose Twill",
+            "seller": "Karan Malhotra (Verified Seller \u2b50 4.9)",
+            "water_saved": "6,200 L",
+            "co2_offset": "9.1 kg",
+            "image": "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=700&auto=format&fit=crop",
+            "description": "Impeccably tailored two-button notch lapel blazer in deep navy blue. Double back vents, contrast inner lining. Steam pressed.",
+            "status": "active",
+            "created_at": "2026-10-02T12:00:00Z"
+      },
+      {
+            "id": "prod-mens-nehru-1",
+            "title": "Raw Silk Woven Festive Nehru Jacket / Bundi Waistcoat",
+            "category": "mens",
+            "listing_mode": "both",
+            "price": 1299,
+            "rental_price_3_day": 399,
+            "mrp": 4990,
+            "condition": "Like New (Pristine)",
+            "size": "40 (Medium / Chest 40\")",
+            "measurements": {
+                  "chest": "40\"",
+                  "length": "27\""
+            },
+            "fabric": "Raw Matka Silk with Antique Metal Buttons",
+            "seller": "Vikramaditya Roy (Verified Seller \u2b50 5.0)",
+            "water_saved": "4,100 L",
+            "co2_offset": "6.0 kg",
+            "image": "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?q=80&w=700&auto=format&fit=crop",
+            "description": "Festive golden-ochre raw silk sleeveless Nehru jacket with mandarin collar and breast welt pocket. Pairs seamlessly with any kurta or shirt.",
+            "status": "active",
+            "created_at": "2026-10-02T12:30:00Z"
+      },
+      {
+            "id": "prod-top-1",
+            "title": "Zara Smocked Linen Puff Sleeve Crop Top",
+            "category": "top",
+            "listing_mode": "buy",
+            "price": 449,
+            "rental_price_3_day": 0,
+            "mrp": 2290,
+            "condition": "Like New (Pristine)",
+            "size": "S",
+            "measurements": {
+                  "bust": "34\"",
+                  "length": "16\""
+            },
+            "fabric": "100% European Linen",
+            "seller": "Ananya Sen (Verified Seller \u2b50 4.9)",
+            "water_saved": "2,400 L",
+            "co2_offset": "3.1 kg",
+            "image": "https://images.unsplash.com/photo-1534126511673-b6899657816a?q=80&w=700&auto=format&fit=crop",
+            "description": "Breezy terracotta-toned cropped linen blouse with elasticated smocked bodice. Worn twice for a brunch, washed and steam sanitized.",
+            "status": "active",
+            "created_at": "2026-10-02T13:00:00Z"
+      },
+      {
+            "id": "prod-top-2",
+            "title": "Mango Ribbed Sleeveless Knit Top in Sand",
+            "category": "top",
+            "listing_mode": "buy",
+            "price": 399,
+            "rental_price_3_day": 0,
+            "mrp": 1990,
+            "condition": "Gently Loved",
+            "size": "M",
+            "measurements": {
+                  "bust": "36\"",
+                  "length": "19\""
+            },
+            "fabric": "Organic Cotton Knit",
+            "seller": "Tanvi Kapoor (Verified Seller \u2b50 4.8)",
+            "water_saved": "1,800 L",
+            "co2_offset": "2.4 kg",
+            "image": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=700&auto=format&fit=crop",
+            "description": "Minimalist high-neck ribbed tank in warm beige. Zero pilling, immaculate elasticity.",
+            "status": "active",
+            "created_at": "2026-10-02T13:30:00Z"
+      },
+      {
+            "id": "prod-skirt-1",
+            "title": "H&M Accordion Pleated Khaki Olive Midi Skirt",
+            "category": "skirt",
+            "listing_mode": "both",
+            "price": 599,
+            "rental_price_3_day": 249,
+            "mrp": 2490,
+            "condition": "Like New (Pristine)",
+            "size": "M",
+            "measurements": {
+                  "waist": "28-30\"",
+                  "length": "31\""
+            },
+            "fabric": "Recycled Chiffon Pleat",
+            "seller": "Rhea Datta (Verified Seller \u2b50 5.0)",
+            "water_saved": "2,900 L",
+            "co2_offset": "4.2 kg",
+            "image": "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?q=80&w=700&auto=format&fit=crop",
+            "description": "Fluid accordion pleated skirt with comfortable elasticated waistband. Available for outright purchase or 3-day weekend rental.",
+            "status": "active",
+            "created_at": "2026-10-02T14:00:00Z"
+      },
+      {
+            "id": "prod-skirt-2",
+            "title": "H&M Structured High-Waist Denim A-Line Skirt",
+            "category": "skirt",
+            "listing_mode": "buy",
+            "price": 499,
+            "rental_price_3_day": 0,
+            "mrp": 2290,
+            "condition": "Like New (Pristine)",
+            "size": "S",
+            "measurements": {
+                  "waist": "26-28\"",
+                  "length": "28\""
+            },
+            "fabric": "100% Recycled Rigid Denim",
+            "seller": "Sanya Chopra (Verified Seller \u2b50 4.9)",
+            "water_saved": "3,400 L",
+            "co2_offset": "4.8 kg",
+            "image": "https://images.unsplash.com/photo-1548883354-7622d03aca27?q=80&w=700&auto=format&fit=crop",
+            "description": "Timeless mid-wash denim midi with front slit and contrast caramel topstitching. Holds silhouette crisply.",
+            "status": "active",
+            "created_at": "2026-10-02T14:30:00Z"
+      },
+      {
+            "id": "prod-blazer-1",
+            "title": "The Kanjeevaram Reborn \u2014 Upcycled Silk Festive Blazer",
+            "category": "blazer",
+            "listing_mode": "buy",
+            "price": 2800,
+            "rental_price_3_day": 0,
+            "mrp": 18000,
+            "condition": "Bespoke Atelier Creation",
+            "size": "Custom / M",
+            "measurements": {
+                  "chest": "38\"",
+                  "length": "26\""
+            },
+            "fabric": "100% Upcycled Pure Kanjeevaram Silk",
+            "seller": "Master Rafiq (Revive Atelier Guild)",
+            "water_saved": "9,200 L",
+            "co2_offset": "15.0 kg",
+            "image": "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=700&auto=format&fit=crop",
+            "description": "Crafted from a customer's 1980s heirloom Kanjeevaram silk saree into a contemporary tailored blazer with contrasting lapels.",
+            "status": "active",
+            "created_at": "2026-10-02T15:00:00Z"
+      }
+];
+
+    // ========================================================
+    // ROOT APPLICATION COMPONENT
+    // ========================================================
+    function App() {
+      // Navigation Router State: 'home' | 'shop' | 'rent' | 'atelier' | 'donate' | 'sell' | 'product'
+      const [activePage, setActivePage] = useState('home');
+      const [selectedProduct, setSelectedProduct] = useState(null);
+
+      // Inventory Data
+      const [products, setProducts] = useState(INITIAL_CATALOG);
+
+      // Global Filters
+      const [filterCategory, setFilterCategory] = useState('all');
+      const [filterMode, setFilterMode] = useState('all');
+      const [filterSize, setFilterSize] = useState('all');
+      const [filterCondition, setFilterCondition] = useState('all');
+      const [searchQuery, setSearchQuery] = useState('');
+      const [sortBy, setSortBy] = useState('featured');
+      const [rentalCategory, setRentalCategory] = useState('all');
+
+      // Cart State
+      const [cart, setCart] = useState([INITIAL_CATALOG[0], INITIAL_CATALOG[2]]);
+      const [isCartOpen, setIsCartOpen] = useState(false);
+      const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+
+      // Toast Feedback
+      const [toast, setToast] = useState(null);
+
+      const triggerToast = (msg) => {
+        setToast(msg);
+        setTimeout(() => setToast(null), 3500);
+      };
+
+      // Mobile Navigation State
+      const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+      // Sell Page Custom Dropdowns State
+      const [sellCategory, setSellCategory] = useState('top');
+      const [sellMode, setSellMode] = useState('both');
+      const [sellSize, setSellSize] = useState('M');
+      const [sellCondition, setSellCondition] = useState('Like New (Pristine)');
+
+      // Donate Page Custom Dropdowns State
+      const [donateCity, setDonateCity] = useState('DELHI-NCR');
+      const [donatePartner, setDonatePartner] = useState('Goonj — Vastra Samman');
+
+      // Sell Page Interactive Photo Upload State & Handlers
+      const [sellPhotos, setSellPhotos] = useState([
+        {
+          id: 'photo-default-1',
+          url: 'https://images.unsplash.com/photo-1534126511673-b6899657816a?q=80&w=700&auto=format&fit=crop',
+          label: 'Front View (Primary)'
+        },
+        {
+          id: 'photo-default-2',
+          url: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=700&auto=format&fit=crop',
+          label: 'Care / Brand Label'
+        }
+      ]);
+
+      const handlePhotoUpload = (e) => {
+        const files = Array.from(e.target.files || []);
+        if (files.length === 0) return;
+
+        files.forEach((file, idx) => {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            setSellPhotos(prev => [
+              ...prev,
+              {
+                id: 'upload-' + Date.now() + '-' + idx,
+                url: event.target.result,
+                label: `Uploaded Photo #${prev.length + 1}`
+              }
+            ]);
+          };
+          reader.readAsDataURL(file);
+        });
+        triggerToast(`Attached ${files.length} garment photo(s)!`);
+      };
+
+      const removePhoto = (id) => {
+        if (sellPhotos.length <= 1) {
+          triggerToast('Please keep at least 1 photo for listing verification.');
+          return;
+        }
+        setSellPhotos(prev => prev.filter(p => p.id !== id));
+      };
+
+      const addPresetPhoto = (url, label) => {
+        setSellPhotos(prev => [
+          ...prev,
+          {
+            id: 'preset-' + Date.now() + '-' + Math.random().toString(36).substr(2, 4),
+            url: url,
+            label: label
+          }
+        ]);
+        triggerToast(`Added preset: ${label}`);
+      };
+
+      // Load products from backend API
+      useEffect(() => {
+        async function fetchLiveInventory() {
+          try {
+            const res = await fetch('/api/products');
+            if (res.ok) {
+              const data = await res.json();
+              if (data.products && Array.isArray(data.products) && data.products.length > 0) {
+                setProducts(data.products);
+              }
+            }
+          } catch (e) {
+            console.log('Using seeded inventory:', e);
+          }
+        }
+        fetchLiveInventory();
+      }, []);
+
+      // Scroll to top on page navigation
+      useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, [activePage]);
+
+      // Cart management
+      const addToBag = (garment) => {
+        if (!cart.some(item => item.id === garment.id)) {
+          setCart([...cart, garment]);
+          triggerToast(`Added "${garment.title}" to your circular bag!`);
+        } else {
+          triggerToast(`"${garment.title}" is already in your bag!`);
+        }
+      };
+
+      const removeFromBag = (id) => {
+        setCart(cart.filter(item => item.id !== id));
+      };
+
+      const cartSubtotal = cart.reduce((sum, item) => sum + (item.price || item.rental_price_3_day || 0), 0);
+      const cartTotal = cartSubtotal > 0 ? cartSubtotal + 50 : 0;
+
+      // Filtered catalog
+      const filteredProducts = useMemo(() => {
+        return products.filter(p => {
+          if (filterCategory !== 'all' && p.category !== filterCategory) return false;
+          if (filterMode === 'buy') {
+            if (p.listing_mode !== 'buy' && p.listing_mode !== 'both' && p.type !== 'thrift') return false;
+          } else if (filterMode === 'rent') {
+            if (p.listing_mode !== 'rent' && p.listing_mode !== 'both' && p.type !== 'rental') return false;
+          } else if (filterMode === 'both') {
+            if (p.listing_mode !== 'both') return false;
+          }
+          if (filterSize !== 'all' && !p.size.includes(filterSize)) return false;
+          if (filterCondition !== 'all' && p.condition !== filterCondition) return false;
+          if (searchQuery.trim()) {
+            const q = searchQuery.toLowerCase();
+            const match = p.title.toLowerCase().includes(q) ||
+                          (p.fabric && p.fabric.toLowerCase().includes(q)) ||
+                          (p.seller && p.seller.toLowerCase().includes(q));
+            if (!match) return false;
+          }
+          return true;
+        }).sort((a, b) => {
+          if (sortBy === 'price-low') return (a.price || a.rental_price_3_day || 0) - (b.price || b.rental_price_3_day || 0);
+          if (sortBy === 'price-high') return (b.price || b.rental_price_3_day || 0) - (a.price || a.rental_price_3_day || 0);
+          if (sortBy === 'savings') {
+            const savA = (a.mrp - (a.price || a.rental_price_3_day || 0)) / a.mrp;
+            const savB = (b.mrp - (b.price || b.rental_price_3_day || 0)) / b.mrp;
+            return savB - savA;
+          }
+          return 0;
+        });
+      }, [products, filterCategory, filterMode, filterSize, filterCondition, searchQuery, sortBy]);
+
+      // View product details
+      const viewProduct = (p) => {
+        setSelectedProduct(p);
+        setActivePage('product');
+      };
+
+      return (
+        <div className="min-h-screen flex flex-col justify-between">
+          
+          {/* Toast Alert */}
+          {toast && (
+            <div className="fixed bottom-6 right-6 z-50 bg-forest text-white px-5 py-3 rounded-2xl shadow-2xl border border-sage-700 flex items-center gap-3 transition-all animate-bounce">
+              <Icon name="check-circle" className="w-5 h-5 text-emerald-400" />
+              <span className="text-xs font-medium">{toast}</span>
+            </div>
+          )}
+
+          {/* ======================================================== */}
+          {/* 1. TOP ANNOUNCEMENT BAR */}
+          {/* ======================================================== */}
+          <div className="bg-forest text-linen-100 text-xs py-2 px-4 border-b border-sage-800">
+            <div className="max-w-7xl mx-auto flex items-center justify-between text-[11px] sm:text-xs">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span className="font-semibold text-white">🌿 India's 1st Unified Wardrobe Lifecycle Platform:</span>
+                <span className="text-sage-200 hidden md:inline">Thrift • Rent • Upcycle • NGO Giving</span>
+              </div>
+              <div className="flex items-center gap-2 sm:gap-3 text-sage-300">
+                <a 
+                  href="./pitch.html" 
+                  target="_blank" 
+                  className="px-2.5 py-0.5 rounded-full bg-terracotta-500 hover:bg-terracotta-600 text-white font-bold transition-all shadow-xs flex items-center gap-1"
+                  title="Open Seed Investment Pitch Deck Presentation (PPT)"
+                >
+                  <span>📊</span>
+                  <span>Pitch Deck (PPT)</span>
+                </a>
+                <a 
+                  href="./documents.html#doc-analytics" 
+                  target="_blank" 
+                  className="px-2.5 py-0.5 rounded-full bg-sage-700 hover:bg-sage-600 text-white font-medium transition-all shadow-xs hidden sm:flex items-center gap-1"
+                  title="View Business Strategy & Financial Analytics"
+                >
+                  <span>📈</span>
+                  <span>Business Analytics</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* ======================================================== */}
+          {/* 2. MAIN NAVIGATION HEADER */}
+          {/* ======================================================== */}
+          <header className="bg-linen-100/95 backdrop-blur-md sticky top-0 z-40 border-b border-linen-300 shadow-xs">
+            <div className="max-w-[1440px] w-full mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between gap-4 xl:gap-8">
+              
+              {/* Brand Logo & Lockup */}
+              <div 
+                onClick={() => { setActivePage('home'); setFilterCategory('all'); setFilterMode('all'); setSearchQuery(''); setMobileMenuOpen(false); }}
+                className="flex items-center gap-3.5 cursor-pointer group select-none shrink-0"
+              >
+                <div className="w-12 h-12 rounded-full bg-linen-200 border border-sage-300 flex items-center justify-center p-1.5 shadow-sm group-hover:border-sage-500 transition-all">
+                  <svg viewBox="0 0 100 100" className="w-full h-full transform group-hover:rotate-12 transition-transform duration-500">
+                    <circle cx="50" cy="50" r="46" fill="none" stroke="#6B8572" strokeWidth="2" strokeDasharray="3 3"/>
+                    <path d="M 50 50 C 40 32, 22 32, 22 50 C 22 66, 36 70, 50 50 C 64 30, 78 34, 78 50 C 78 68, 60 68, 50 50 Z" fill="none" stroke="#6B8572" strokeWidth="4.5" strokeLinecap="round"/>
+                    <path d="M 50 50 C 38 66, 28 62, 28 50 C 28 40, 40 38, 50 50 C 60 62, 72 58, 72 50 C 72 38, 60 38, 50 50 Z" fill="none" stroke="#D48B77" strokeWidth="2.5" strokeLinecap="round"/>
+                    <circle cx="50" cy="50" r="4" fill="#203126"/>
+                  </svg>
+                </div>
+                <div>
+                  <span className="font-cormorant text-2xl sm:text-3xl font-light tracking-[0.2em] text-forest block leading-none">
+                    REVIVE <span className="font-semibold text-forest">THREADS</span>
+                  </span>
+                  <span className="text-[9px] tracking-[0.3em] uppercase text-sage-600 block mt-1 font-display font-medium">
+                    Circular Fashion • India
+                  </span>
+                </div>
+              </div>
+
+              {/* Central Navigation Pages - Single Clean Line, No Duplication, Generous Breathing Room */}
+              <nav className="hidden xl:flex items-center gap-1.5 2xl:gap-2.5 bg-white/90 p-1.5 2xl:p-2 rounded-full border border-linen-300 shadow-xs text-xs 2xl:text-sm font-medium">
+                {[
+                  { id: 'home', label: 'Home' },
+                  { id: 'shop', label: 'Shop Pre-Loved' },
+                  { id: 'rent', label: 'Occasion Rentals' },
+                  { id: 'atelier', label: 'Revive Atelier' },
+                  { id: 'donate', label: 'Donate to NGO' }
+                ].map(page => (
+                  <button
+                    key={page.id}
+                    onClick={() => { setActivePage(page.id); setMobileMenuOpen(false); }}
+                    className={`px-3.5 2xl:px-4 py-2 2xl:py-2.5 rounded-full whitespace-nowrap transition-all duration-200 ${
+                      activePage === page.id 
+                        ? 'bg-forest text-white font-semibold shadow-xs' 
+                        : 'text-sage-700 hover:text-forest hover:bg-linen-100/80'
+                    }`}
+                  >
+                    {page.label}
+                  </button>
+                ))}
+              </nav>
+
+              {/* Right Search & Action Controls - Never Clipped */}
+              <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+                
+                {/* Search Bar with auto-redirect to shop */}
+                <div className="hidden md:flex items-center relative w-32 sm:w-36 lg:w-44 xl:w-48">
+                  <Icon name="search" className="w-3.5 h-3.5 text-sage-500 absolute left-3" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value);
+                      if (activePage !== 'shop') setActivePage('shop');
+                    }}
+                    placeholder="Search wardrobe..."
+                    className="w-full pl-8 pr-2.5 py-2 text-xs bg-white border border-linen-300 rounded-full focus:outline-none focus:border-sage-500 focus:ring-1 focus:ring-sage-500 transition-all font-sans"
+                  />
+                  {searchQuery && (
+                    <button onClick={() => setSearchQuery('')} className="absolute right-2.5 text-sage-400 hover:text-forest">
+                      <Icon name="x" className="w-3 h-3" />
+                    </button>
+                  )}
+                </div>
+
+                {/* Primary Sell CTA Button (Single Distinct Location) */}
+                <button
+                  onClick={() => { setActivePage('sell'); setMobileMenuOpen(false); }}
+                  className="flex items-center gap-1.5 bg-sage-500 hover:bg-forest text-white text-xs font-semibold px-3.5 sm:px-4 py-2.5 rounded-full transition-all shadow-sm whitespace-nowrap shrink-0"
+                >
+                  <Icon name="plus" className="w-3.5 h-3.5" />
+                  <span>Sell Clothes</span>
+                </button>
+
+                {/* Shopping Bag Trigger */}
+                <button
+                  onClick={() => setIsCartOpen(true)}
+                  className="relative p-2.5 rounded-full bg-white border border-linen-300 hover:border-sage-400 text-forest transition-all shadow-sm group shrink-0"
+                >
+                  <Icon name="bag" className="w-4 h-4 text-forest group-hover:scale-110 transition-transform" />
+                  {cart.length > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-terracotta-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                      {cart.length}
+                    </span>
+                  )}
+                </button>
+
+                {/* Mobile / Tablet 3-Lines Hamburger Menu Button */}
+                <button
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className="xl:hidden p-2.5 rounded-full bg-white border border-linen-300 text-forest hover:bg-linen-100 transition-all shadow-xs shrink-0"
+                  aria-label="Toggle navigation menu"
+                >
+                  <Icon name={mobileMenuOpen ? "x" : "menu"} className="w-5 h-5" />
+                </button>
+
+              </div>
+
+            </div>
+
+            {/* Mobile / Tablet Responsive Drawer */}
+            {mobileMenuOpen && (
+              <div className="xl:hidden bg-linen-100 border-t border-linen-300 px-4 pt-3 pb-6 space-y-4 shadow-xl animate-fadeIn">
+                <div className="md:hidden relative">
+                  <Icon name="search" className="w-4 h-4 text-sage-500 absolute left-3.5 top-3" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value);
+                      if (activePage !== 'shop') setActivePage('shop');
+                    }}
+                    placeholder="Search tops, skirts, gowns..."
+                    className="w-full pl-9 pr-3 py-2.5 text-xs bg-white border border-linen-300 rounded-full focus:outline-none focus:border-sage-500 font-sans"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    { id: 'home', label: 'Home' },
+                    { id: 'shop', label: 'Shop Pre-Loved' },
+                    { id: 'rent', label: 'Occasion Rentals' },
+                    { id: 'atelier', label: 'Revive Atelier' },
+                    { id: 'donate', label: 'Donate to NGO' },
+                    { id: 'sell', label: 'Sell Clothes' }
+                  ].map(page => (
+                    <button
+                      key={page.id}
+                      onClick={() => { setActivePage(page.id); setMobileMenuOpen(false); }}
+                      className={`px-4 py-3 rounded-2xl text-left text-xs font-semibold transition-all ${
+                        activePage === page.id ? 'bg-forest text-white shadow-xs' : 'bg-white text-forest hover:bg-linen-200 border border-linen-200'
+                      }`}
+                    >
+                      {page.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </header>
+
+          {/* ======================================================== */}
+          {/* 3. DYNAMIC REACT ROUTER PAGES */}
+          {/* ======================================================== */}
+          <main className="flex-1">
+            
+            {/* ---------------- PAGE 1: HOME ---------------- */}
+            {activePage === 'home' && (
+              <div className="space-y-16">
+                
+                {/* Hero Section */}
+                <section className="hero-mesh border-b border-linen-300 py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
+                  <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                    
+                    <div className="lg:col-span-7 space-y-6">
+                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sage-100 border border-sage-200 text-sage-800 text-xs font-semibold">
+                        <span className="w-2 h-2 rounded-full bg-sage-500"></span>
+                        <span>CIRCULAR FASHION REVOLUTION • EST. 2024</span>
+                      </div>
+
+                      <h1 className="font-cormorant text-4xl sm:text-5xl lg:text-6xl font-light text-forest leading-[1.08] tracking-tight">
+                        Wear the clothes you love.<br/>
+                        <span className="italic font-normal text-terracotta-600">Give every thread a second life.</span>
+                      </h1>
+
+                      <p className="text-sage-700 text-sm sm:text-base leading-relaxed max-w-xl">
+                        Discover pre-loved everyday Zara tops, pleated skirts & linen shirts, rent luxury wedding lehengas for 3–7 day celebrations, redesign vintage sarees with master tailors, or schedule doorstep NGO pickups.
+                      </p>
+
+                      <div className="flex flex-wrap gap-3 pt-2">
+                        <button
+                          onClick={() => { setFilterMode('buy'); setActivePage('shop'); }}
+                          className="px-6 py-3 bg-forest hover:bg-sage-900 text-white font-semibold text-xs rounded-full transition-all shadow-md flex items-center gap-2"
+                        >
+                          <span>Shop Pre-Loved</span>
+                          <Icon name="arrow-right" className="w-4 h-4 text-sage-300" />
+                        </button>
+                        <button
+                          onClick={() => setActivePage('rent')}
+                          className="px-6 py-3 bg-terracotta-500 hover:bg-terracotta-600 text-white font-semibold text-xs rounded-full transition-all shadow-md flex items-center gap-2"
+                        >
+                          <Icon name="crown" className="w-4 h-4" />
+                          <span>Rent for Weddings</span>
+                        </button>
+                        <button
+                          onClick={() => setActivePage('sell')}
+                          className="px-6 py-3 bg-white hover:bg-linen-100 text-forest font-semibold text-xs rounded-full transition-all border border-linen-300 shadow-xs"
+                        >
+                          Sell Your Clothes
+                        </button>
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-4 pt-2 text-xs text-sage-600">
+                        <span className="flex items-center gap-1.5"><Icon name="shield" className="w-4 h-4 text-sage-500" /> 100% Escrow Protection</span>
+                        <span className="flex items-center gap-1.5"><Icon name="truck" className="w-4 h-4 text-sage-500" /> Free Reverse Courier</span>
+                        <span className="flex items-center gap-1.5"><Icon name="sparkles" className="w-4 h-4 text-terracotta-500" /> Ozone Steam Sanitized</span>
+                      </div>
+                    </div>
+
+                    {/* Right Spotlight Card */}
+                    <div className="lg:col-span-5 relative">
+                      <div className="bg-white p-6 rounded-3xl border border-linen-300 shadow-xl relative overflow-hidden space-y-4">
+                        <div className="flex items-center justify-between border-b border-linen-200 pb-3">
+                          <div>
+                            <div className="text-[10px] uppercase font-bold text-sage-500 tracking-wider">Collective Impact Ledger</div>
+                            <div className="text-xs font-semibold text-forest">Verified Wardrobe Diversion</div>
+                          </div>
+                          <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200 flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                            Live Counter
+                          </span>
+                        </div>
+
+                        <div className="grid grid-cols-3 gap-2 text-center bg-linen-50 p-3 rounded-2xl border border-linen-200">
+                          <div>
+                            <div className="text-lg font-bold text-forest">14,280+</div>
+                            <div className="text-[9px] text-sage-600">Garments Saved</div>
+                          </div>
+                          <div className="border-x border-linen-200">
+                            <div className="text-lg font-bold text-sage-700">18.5M L</div>
+                            <div className="text-[9px] text-sage-600">Water Saved</div>
+                          </div>
+                          <div>
+                            <div className="text-lg font-bold text-terracotta-700">38.2 T</div>
+                            <div className="text-[9px] text-sage-600">CO2 Cut</div>
+                          </div>
+                        </div>
+
+                        <div className="relative rounded-2xl overflow-hidden border border-linen-300 group">
+                          <img
+                            src="https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?q=80&w=800&auto=format&fit=crop"
+                            alt="Saree Upcycled into Modern Festive Blazer"
+                            className="w-full h-56 object-cover group-hover:scale-105 transition-all duration-500"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-forest/85 via-transparent to-transparent"></div>
+                          <div className="absolute bottom-3 left-3 right-3 text-white">
+                            <div className="inline-block bg-terracotta-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider mb-1">
+                              Atelier Spotlight
+                            </div>
+                            <div className="text-sm font-semibold">1982 Vintage Kanjeevaram Saree → Festive Blazer</div>
+                            <div className="flex justify-between items-center text-xs text-linen-200 mt-1">
+                              <span>Handcrafted by Master Rafiq, Delhi</span>
+                              <button onClick={() => setActivePage('atelier')} className="underline hover:text-white font-medium text-[11px]">Redesign Yours →</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </section>
+
+                {/* Categories Showcase Strip */}
+                <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                  <div className="text-center max-w-xl mx-auto mb-8 space-y-1">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-sage-600">Curated Daily & Occasion</span>
+                    <h2 className="font-cormorant text-3xl text-forest">Explore By Wardrobe Category</h2>
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 sm:gap-4">
+                    {[
+                      { cat: 'lehenga', mode: 'rent', label: 'Heavy Lehengas', tag: 'Rental', img: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=400&auto=format&fit=crop' },
+                      { cat: 'gown', mode: 'rent', label: 'Evening Gowns', tag: 'Rental', img: 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?q=80&w=400&auto=format&fit=crop' },
+                      { cat: 'sharara', mode: 'rent', label: 'Heavy Shararas', tag: 'Rental', img: 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?q=80&w=400&auto=format&fit=crop' },
+                      { cat: 'saree', mode: 'all', label: 'Heritage Sarees', tag: 'Buy / Rent', img: 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?q=80&w=400&auto=format&fit=crop' },
+                      { cat: 'kurta', mode: 'buy', label: 'Kurta Sets', tag: 'Buy Pre-Loved', img: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=400&auto=format&fit=crop' },
+                      { cat: 'mens', mode: 'all', label: "Men's Wardrobe", tag: 'Buy & Rent', img: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=400&auto=format&fit=crop' },
+                      { cat: 'dress', mode: 'buy', label: 'Casual Dresses', tag: 'Buy Pre-Loved', img: 'https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=400&auto=format&fit=crop' },
+                      { cat: 'top', mode: 'buy', label: 'Daily Tops & Skirts', tag: 'Buy Pre-Loved', img: 'https://images.unsplash.com/photo-1534126511673-b6899657816a?q=80&w=400&auto=format&fit=crop' }
+                    ].map(item => (
+                      <div
+                        key={item.cat}
+                        onClick={() => { setFilterCategory(item.cat); setFilterMode(item.mode); setActivePage('shop'); }}
+                        className="bg-white p-2.5 rounded-2xl border border-linen-300 hover:border-sage-400 cursor-pointer transition-all duration-300 hover:-translate-y-1 shadow-xs group text-center"
+                      >
+                        <div className="w-full h-28 rounded-xl overflow-hidden mb-2 bg-linen-100 relative">
+                          <img src={item.img} alt={item.label} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                          <span className="absolute bottom-1 right-1 text-[8px] font-bold bg-white/90 backdrop-blur-xs text-forest px-1.5 py-0.5 rounded shadow-2xs">
+                            {item.tag}
+                          </span>
+                        </div>
+                        <div className="font-semibold text-xs text-forest group-hover:text-terracotta-600 truncate">{item.label}</div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                {/* Featured Products Grid */}
+                <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                  <div className="flex items-end justify-between mb-8 border-b border-linen-300 pb-4">
+                    <div>
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-sage-600">Handpicked Quality</span>
+                      <h2 className="font-cormorant text-3xl sm:text-4xl text-forest">Featured Pre-Loved Arrivals</h2>
+                    </div>
+                    <button
+                      onClick={() => setActivePage('shop')}
+                      className="text-xs font-semibold text-terracotta-600 hover:text-terracotta-700 flex items-center gap-1"
+                    >
+                      <span>View All Pieces</span>
+                      <Icon name="arrow-right" className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                    {products.slice(0, 4).map(p => (
+                      <div key={p.id} className="bg-white rounded-2xl border border-linen-300 overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between group">
+                        <div className="relative overflow-hidden cursor-pointer bg-linen-100" onClick={() => viewProduct(p)}>
+                          <img src={p.image} alt={p.title} className="w-full h-72 object-cover object-top group-hover:scale-105 transition-all duration-500" />
+                          <div className="absolute top-2.5 left-2.5 flex flex-col gap-1">
+                            <span className="bg-white/95 backdrop-blur-xs text-forest text-[9px] font-bold px-2 py-0.5 rounded-full shadow-xs">
+                              Size: {p.size}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="p-4 flex flex-col justify-between flex-1">
+                          <div>
+                            <div className="text-[10px] uppercase font-bold text-sage-600 tracking-wider mb-1">{p.condition}</div>
+                            <h3 onClick={() => viewProduct(p)} className="font-cormorant text-xl text-forest line-clamp-1 hover:text-terracotta-600 cursor-pointer">
+                              {p.title}
+                            </h3>
+                            <div className="text-[11px] text-sage-600 mt-1 line-clamp-1">{p.fabric}</div>
+                          </div>
+
+                          <div className="pt-3 border-t border-linen-200 mt-3 flex items-center justify-between">
+                            <div>
+                              <div className="flex items-baseline gap-1.5">
+                                <span className="text-base font-bold text-forest">₹{p.price.toLocaleString('en-IN')}</span>
+                                <span className="text-xs text-sage-500 line-through">₹{p.mrp.toLocaleString('en-IN')}</span>
+                              </div>
+                            </div>
+                            <button
+                              onClick={() => addToBag(p)}
+                              className="p-2 rounded-full bg-linen-100 hover:bg-forest hover:text-white text-forest transition-all shadow-xs"
+                            >
+                              <Icon name="plus" className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                {/* Revive Atelier Teaser */}
+                <section className="bg-linen-100 py-16 border-t border-linen-300">
+                  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="bg-gradient-to-r from-sage-900 to-forest rounded-3xl p-8 sm:p-12 text-linen-100 shadow-xl relative overflow-hidden">
+                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+                        <div className="lg:col-span-7 space-y-4">
+                          <span className="inline-block px-3 py-1 bg-terracotta-500/30 border border-terracotta-400 text-terracotta-200 text-[10px] font-bold rounded-full uppercase tracking-wider">
+                            Revive Atelier Studio
+                          </span>
+                          <h2 className="font-cormorant text-3xl sm:text-5xl font-light text-white leading-tight">
+                            Don't let your grandmother's vintage silk saree sit locked in a trunk.
+                          </h2>
+                          <p className="text-sage-200 text-xs sm:text-sm leading-relaxed max-w-xl">
+                            Connect directly with India's most skilled master tailors. Transform heirloom Kanjeevarams, Banarasi dupattas, or worn denim jeans into contemporary tailored blazers, corset tops, or structured tote bags.
+                          </p>
+                          <div className="pt-2">
+                            <button
+                              onClick={() => setActivePage('atelier')}
+                              className="px-6 py-3 bg-terracotta-500 hover:bg-terracotta-600 text-white font-semibold text-xs rounded-full transition-all shadow-md flex items-center gap-2"
+                            >
+                              <Icon name="scissors" className="w-4 h-4" />
+                              <span>Explore Atelier Redesign Studio →</span>
+                            </button>
+                          </div>
+                        </div>
+                        <div className="lg:col-span-5">
+                          <img
+                            src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=700&auto=format&fit=crop"
+                            alt="Atelier Creation"
+                            className="w-full h-64 object-cover rounded-2xl shadow-lg border border-white/20"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+              </div>
+            )}
+
+            {/* ---------------- PAGE 2: SHOP CATALOG ---------------- */}
+            {activePage === 'shop' && (
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                
+                {/* Catalog Title Banner */}
+                <div className="mb-8 border-b border-linen-300 pb-5 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                  <div>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-sage-600">Curated Circular Wardrobe</span>
+                    <h1 className="font-cormorant text-3xl sm:text-4xl text-forest font-normal">
+                      {filterCategory !== 'all' ? `Category: ${filterCategory.toUpperCase()}` : 'All Wardrobe Pieces'}
+                    </h1>
+                    <p className="text-xs text-sage-600 mt-1">
+                      Showing {filteredProducts.length} authenticated garment{filteredProducts.length === 1 ? '' : 's'} with 100% Escrow Protection.
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-xs text-sage-600 font-semibold uppercase tracking-wider shrink-0">Sort By:</span>
+                    <CustomSelect
+                      value={sortBy}
+                      onChange={setSortBy}
+                      className="w-48 sm:w-52"
+                      buttonClassName="py-2 px-3.5 rounded-xl bg-white border-linen-300 text-xs shadow-2xs font-semibold"
+                      options={[
+                        { value: 'featured', label: 'Featured First' },
+                        { value: 'price-low', label: 'Price: Low to High' },
+                        { value: 'price-high', label: 'Price: High to Low' },
+                        { value: 'savings', label: 'Highest Savings %' }
+                      ]}
+                    />
+                  </div>
+                </div>
+
+                {/* 2-Column Layout: Sidebar Filters + Main Grid */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                  
+                  {/* Left Sidebar Filter Column */}
+                  <div className="lg:col-span-3 bg-white p-6 rounded-3xl border border-linen-300 shadow-xs space-y-6">
+                    <div className="flex items-center justify-between border-b border-linen-200 pb-3">
+                      <div className="font-semibold text-xs text-forest flex items-center gap-1.5">
+                        <Icon name="filter" className="w-3.5 h-3.5 text-sage-600" />
+                        <span>Filter Wardrobe</span>
+                      </div>
+                      <button
+                        onClick={() => { setFilterCategory('all'); setFilterMode('all'); setFilterSize('all'); setFilterCondition('all'); setSearchQuery(''); }}
+                        className="text-[11px] text-terracotta-600 hover:underline font-medium"
+                      >
+                        Reset All
+                      </button>
+                    </div>
+
+                    {/* Listing Mode */}
+                    <div className="space-y-2">
+                      <div className="text-[11px] font-bold uppercase tracking-wider text-sage-600">Listing Type</div>
+                      <div className="flex flex-col gap-1.5 text-xs">
+                        {[
+                          { id: 'all', label: 'All Items' },
+                          { id: 'buy', label: '🛒 Buy Only (Thrift)' },
+                          { id: 'rent', label: '👑 Rent Only (Occasion)' },
+                          { id: 'both', label: '🔄 Dual Mode (Buy or Rent)' }
+                        ].map(m => (
+                          <label key={m.id} className="flex items-center gap-2 cursor-pointer text-sage-800 hover:text-forest">
+                            <input
+                              type="radio"
+                              name="filter_mode"
+                              checked={filterMode === m.id}
+                              onChange={() => setFilterMode(m.id)}
+                              className="text-forest focus:ring-sage-500"
+                            />
+                            <span>{m.label}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Garment Categories */}
+                    <div className="space-y-2 border-t border-linen-200 pt-4">
+                      <div className="text-[11px] font-bold uppercase tracking-wider text-sage-600">Categories</div>
+                      <div className="flex flex-col gap-1 text-xs">
+                        {[
+                          { id: 'all', label: 'All Categories' },
+                          { id: 'lehenga', label: '👑 Heavy Lehengas (Rent)' },
+                          { id: 'gown', label: '✨ Heavy Gowns (Rent)' },
+                          { id: 'sharara', label: '🪡 Heavy Shararas & Ghararas (Rent)' },
+                          { id: 'saree', label: '🥻 Heritage Silk Sarees' },
+                          { id: 'kurta', label: '🌿 Kurta Sets & Semi-Heavy' },
+                          { id: 'mens', label: "👔 Men's Wardrobe" },
+                          { id: 'dress', label: '👗 Casual Dresses' },
+                          { id: 'top', label: '👚 Daily Tops & Blouses' },
+                          { id: 'skirt', label: '🧵 Pleated & Denim Skirts' },
+                          { id: 'blazer', label: '🧥 Tailored & Upcycled Blazers' },
+                          { id: 'occasion', label: '🎉 Heavy Occasion Partywear' }
+                        ].map(c => (
+                          <button
+                            key={c.id}
+                            onClick={() => setFilterCategory(c.id)}
+                            className={`text-left px-2 py-1 rounded-lg transition-all ${filterCategory === c.id ? 'bg-linen-100 font-bold text-forest' : 'text-sage-700 hover:text-forest'}`}
+                          >
+                            {c.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Size Selector */}
+                    <div className="space-y-2 border-t border-linen-200 pt-4">
+                      <div className="text-[11px] font-bold uppercase tracking-wider text-sage-600">Size</div>
+                      <div className="grid grid-cols-3 gap-1.5 text-xs">
+                        {['all', 'XS', 'S', 'M', 'L', 'XL'].map(sz => (
+                          <button
+                            key={sz}
+                            onClick={() => setFilterSize(sz)}
+                            className={`py-1 rounded-lg border text-center transition-all ${filterSize === sz ? 'bg-forest text-white border-forest font-semibold' : 'bg-linen-50 border-linen-300 text-forest hover:border-sage-400'}`}
+                          >
+                            {sz.toUpperCase()}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Condition Grade */}
+                    <div className="space-y-2 border-t border-linen-200 pt-4">
+                      <div className="text-[11px] font-bold uppercase tracking-wider text-sage-600">Condition Grade</div>
+                      <CustomSelect
+                        value={filterCondition}
+                        onChange={setFilterCondition}
+                        buttonClassName="py-2.5 px-3.5 rounded-xl bg-linen-50 border-linen-300 text-xs shadow-2xs font-medium"
+                        options={[
+                          { value: 'all', label: 'All Conditions' },
+                          { value: 'Brand New With Tags', label: 'Brand New With Tags' },
+                          { value: 'Like New (Pristine)', label: 'Like New (Pristine)' },
+                          { value: 'Gently Loved', label: 'Gently Loved' }
+                        ]}
+                      />
+                    </div>
+
+                  </div>
+
+                  {/* Main Catalog Grid */}
+                  <div className="lg:col-span-9">
+                    {filteredProducts.length === 0 ? (
+                      <div className="py-20 text-center space-y-3 bg-white rounded-3xl border border-linen-300 p-8">
+                        <div className="w-16 h-16 rounded-full bg-linen-200 mx-auto flex items-center justify-center text-sage-500">
+                          <Icon name="search" className="w-8 h-8" />
+                        </div>
+                        <h3 className="font-cormorant text-2xl text-forest">No garments matched your criteria</h3>
+                        <p className="text-xs text-sage-600 max-w-sm mx-auto">Try resetting filters to explore all available pieces in our circular wardrobe.</p>
+                        <button
+                          onClick={() => { setFilterCategory('all'); setFilterMode('all'); setFilterSize('all'); setFilterCondition('all'); setSearchQuery(''); }}
+                          className="px-5 py-2 bg-forest text-white text-xs font-semibold rounded-full shadow-xs"
+                        >
+                          Clear All Filters
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                        {filteredProducts.map(p => {
+                          const isRent = p.listing_mode === 'rent' || p.type === 'rental';
+                          const isBoth = p.listing_mode === 'both';
+
+                          return (
+                            <div key={p.id} className="bg-white rounded-2xl border border-linen-300 overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between group">
+                              <div className="relative overflow-hidden cursor-pointer bg-linen-100" onClick={() => viewProduct(p)}>
+                                <img src={p.image} alt={p.title} className="w-full h-72 object-cover object-top group-hover:scale-105 transition-all duration-500" />
+                                <div className="absolute top-2.5 left-2.5 flex flex-col gap-1">
+                                  {isBoth ? (
+                                    <span className="bg-amber-100 text-amber-900 border border-amber-300 text-[9px] font-bold px-2 py-0.5 rounded-full uppercase shadow-xs">
+                                      🔄 BUY OR RENT
+                                    </span>
+                                  ) : isRent ? (
+                                    <span className="bg-forest text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase shadow-xs">
+                                      👑 RENT ONLY
+                                    </span>
+                                  ) : (
+                                    <span className="bg-sage-600 text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase shadow-xs">
+                                      🛒 FOR SALE
+                                    </span>
+                                  )}
+                                  <span className="bg-white/95 backdrop-blur-xs text-forest text-[9px] font-bold px-2 py-0.5 rounded-full shadow-xs">
+                                    Size: {p.size}
+                                  </span>
+                                </div>
+                              </div>
+
+                              <div className="p-4 flex flex-col justify-between flex-1">
+                                <div>
+                                  <div className="text-[10px] uppercase font-bold text-sage-600 tracking-wider mb-1">{p.condition}</div>
+                                  <h3 onClick={() => viewProduct(p)} className="font-cormorant text-xl text-forest line-clamp-1 hover:text-terracotta-600 cursor-pointer">
+                                    {p.title}
+                                  </h3>
+                                  <div className="text-[11px] text-sage-600 mt-1 line-clamp-1">{p.fabric}</div>
+                                </div>
+
+                                <div className="pt-3 border-t border-linen-200 mt-3 flex items-center justify-between">
+                                  <div>
+                                    {isBoth ? (
+                                      <div>
+                                        <div className="flex items-baseline gap-1.5">
+                                          <span className="text-base font-bold text-forest">₹{p.price.toLocaleString('en-IN')}</span>
+                                          <span className="text-[10px] text-sage-600">to buy</span>
+                                        </div>
+                                        <div className="text-[11px] text-purple-700 font-semibold">
+                                          or ₹{p.rental_price_3_day} / 3-day rent
+                                        </div>
+                                      </div>
+                                    ) : isRent ? (
+                                      <div>
+                                        <div className="flex items-baseline gap-1.5">
+                                          <span className="text-base font-bold text-forest">₹{(p.rental_price_3_day || p.price).toLocaleString('en-IN')}</span>
+                                          <span className="text-[10px] text-sage-600">/ 3-day rent</span>
+                                        </div>
+                                        <div className="text-[10px] text-sage-500 line-through">MRP ₹{p.mrp.toLocaleString('en-IN')}</div>
+                                      </div>
+                                    ) : (
+                                      <div>
+                                        <div className="flex items-baseline gap-1.5">
+                                          <span className="text-base font-bold text-forest">₹{p.price.toLocaleString('en-IN')}</span>
+                                          <span className="text-xs text-sage-500 line-through">₹{p.mrp.toLocaleString('en-IN')}</span>
+                                        </div>
+                                        <div className="text-[10px] text-emerald-700 font-semibold">
+                                          Save {Math.round(((p.mrp - p.price) / p.mrp) * 100)}% off MRP
+                                        </div>
+                                      </div>
+                                    )}
+                                  </div>
+
+                                  <button
+                                    onClick={() => addToBag(p)}
+                                    className="p-2 rounded-full bg-linen-100 hover:bg-forest hover:text-white text-forest transition-all shadow-xs"
+                                  >
+                                    <Icon name="plus" className="w-4 h-4" />
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+
+                </div>
+
+              </div>
+            )}
+
+            {/* ---------------- PAGE 3: OCCASION RENTALS BOUTIQUE ---------------- */}
+            {activePage === 'rent' && (
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
+                
+                <div className="bg-gradient-to-r from-forest to-sage-900 text-white p-8 sm:p-14 rounded-3xl shadow-xl space-y-4">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-terracotta-500/30 border border-terracotta-400 text-terracotta-200 text-xs font-bold rounded-full uppercase">
+                    <Icon name="crown" className="w-3.5 h-3.5" />
+                    <span>Luxury Festive & Bridal Rental Boutique</span>
+                  </div>
+                  <h1 className="font-cormorant text-4xl sm:text-5xl font-light leading-tight">
+                    Wear Designer Wedding Elegance at 90% Less Than MRP.
+                  </h1>
+                  <p className="text-sage-200 text-xs sm:text-sm max-w-2xl leading-relaxed">
+                    Why spend ₹40,000 to ₹70,000 on a heavy bridal lehenga or sherwani worn for just 6 hours? Reserve authenticated designer pieces for 3 to 7 days, complete with dry cleaning and return courier kit.
+                  </p>
+                </div>
+
+                {/* Interactive Rental Category Filter Pills */}
+                <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-linen-300">
+                  {[
+                    { id: 'all', label: 'All Occasion Rentals' },
+                    { id: 'lehenga', label: '👑 Heavy Bridal Lehengas' },
+                    { id: 'gown', label: '✨ Evening & Gala Gowns' },
+                    { id: 'sharara', label: '🪡 Heavy Shararas & Ghararas' },
+                    { id: 'saree', label: '🥻 Heritage Silk Sarees' },
+                    { id: 'mens', label: "👔 Men's Sherwanis & Indo-Western" },
+                    { id: 'occasion', label: '🎉 Partywear & Cape Sets' }
+                  ].map(tab => (
+                    <button
+                      key={tab.id}
+                      onClick={() => setRentalCategory(tab.id)}
+                      className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
+                        rentalCategory === tab.id
+                          ? 'bg-forest text-white shadow-xs'
+                          : 'bg-white text-forest border border-linen-300 hover:border-sage-500'
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {products.filter(p => {
+                    const isRental = p.listing_mode === 'rent' || p.listing_mode === 'both' || (p.rental_price_3_day > 0) || ['lehenga', 'gown', 'sharara', 'saree', 'occasion'].includes(p.category);
+                    if (!isRental) return false;
+                    if (rentalCategory !== 'all') {
+                      if (rentalCategory === 'lehenga') return p.category === 'lehenga';
+                      if (rentalCategory === 'gown') return p.category === 'gown';
+                      if (rentalCategory === 'sharara') return p.category === 'sharara';
+                      if (rentalCategory === 'saree') return p.category === 'saree';
+                      if (rentalCategory === 'mens') return p.category === 'mens' && (p.listing_mode === 'rent' || p.rental_price_3_day > 0);
+                      if (rentalCategory === 'occasion') return p.category === 'occasion';
+                    }
+                    return true;
+                  }).map(p => (
+                    <div key={p.id} className="bg-white rounded-3xl border border-linen-300 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
+                      <div className="relative overflow-hidden cursor-pointer" onClick={() => viewProduct(p)}>
+                        <img src={p.image} alt={p.title} className="w-full h-80 object-cover object-top hover:scale-105 transition-transform duration-500" />
+                        <div className="absolute top-3 left-3 bg-forest text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-sm">
+                          👑 RENTAL EXCLUSIVE
+                        </div>
+                      </div>
+
+                      <div className="p-5 space-y-3">
+                        <div className="text-[10px] uppercase font-bold text-terracotta-600">{p.condition}</div>
+                        <h3 onClick={() => viewProduct(p)} className="font-cormorant text-2xl text-forest hover:text-terracotta-600 cursor-pointer">
+                          {p.title}
+                        </h3>
+                        <p className="text-xs text-sage-600 line-clamp-2">{p.description}</p>
+                        
+                        <div className="p-3 bg-linen-50 rounded-xl text-xs space-y-1 text-sage-700">
+                          <div>• <strong>3-Day Booking Fee:</strong> ₹{(p.rental_price_3_day || p.price).toLocaleString('en-IN')}</div>
+                          <div>• <strong>Original MRP:</strong> <span className="line-through">₹{p.mrp.toLocaleString('en-IN')}</span></div>
+                          <div>• <strong>Dry Cleaning:</strong> Ozone steam sanitized (included)</div>
+                        </div>
+
+                        <button
+                          onClick={() => { addToBag(p); setIsCartOpen(true); }}
+                          className="w-full py-3 bg-forest hover:bg-sage-900 text-white font-semibold rounded-xl text-xs shadow-md transition-all flex items-center justify-center gap-2"
+                        >
+                          <Icon name="calendar" className="w-4 h-4 text-sage-300" />
+                          <span>Reserve Rental Dates →</span>
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+              </div>
+            )}
+
+            {/* ---------------- PAGE 4: REVIVE ATELIER REDESIGN STUDIO ---------------- */}
+            {activePage === 'atelier' && (
+              <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+                
+                <div className="text-center max-w-2xl mx-auto space-y-3">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-terracotta-100 border border-terracotta-200 text-terracotta-800 text-xs font-bold rounded-full uppercase tracking-wider">
+                    <Icon name="scissors" className="w-3.5 h-3.5 text-terracotta-700" />
+                    <span>Revive Atelier Bespoke Redesign Studio</span>
+                  </div>
+                  <h1 className="font-cormorant text-4xl sm:text-5xl text-forest">Redesign Your Sentimental Clothes</h1>
+                  <p className="text-sm text-sage-700 leading-relaxed">
+                    Have vintage silk sarees or unworn denim jeans sitting in trunks? Transform them into bespoke modern tailored blazers, corset tops, or structured tote bags with master pattern-makers.
+                  </p>
+                </div>
+
+                <div className="bg-white rounded-3xl border border-linen-300 p-8 sm:p-14 shadow-lg space-y-10 text-sm">
+                  
+                  {/* Step 1: Fabric Selection */}
+                  <div className="space-y-4">
+                    <div className="font-bold text-base text-forest flex items-center gap-2">
+                      <span className="w-7 h-7 rounded-full bg-forest text-white text-xs flex items-center justify-center font-bold">1</span>
+                      <span>Select Your Raw Textile</span>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {[
+                        { title: 'Vintage Silk Saree', desc: 'Kanjeevaram, Banarasi, Paithani, or Chanderi silk' },
+                        { title: 'Worn Denim Pieces', desc: '2–3 pairs of old rigid or washed denim jeans' },
+                        { title: 'Handloom Cotton / Khadi', desc: 'Pure handspun sarees or traditional dhotis' },
+                        { title: 'Heirloom Dupatta / Shawl', desc: 'Heavy zardozi or phulkari embroidered dupattas' }
+                      ].map((item, idx) => (
+                        <label key={idx} className="p-5 border border-linen-300 rounded-2xl flex items-start gap-4 cursor-pointer hover:bg-linen-50 hover:border-forest transition-all shadow-2xs">
+                          <input type="radio" name="atelier_fabric" defaultChecked={idx === 0} className="mt-1 accent-forest" />
+                          <div>
+                            <div className="font-bold text-forest">{item.title}</div>
+                            <div className="text-xs text-sage-600 mt-0.5">{item.desc}</div>
+                          </div>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Step 2: Silhouette Selection */}
+                  <div className="space-y-4 pt-4 border-t border-linen-200">
+                    <div className="font-bold text-base text-forest flex items-center gap-2">
+                      <span className="w-7 h-7 rounded-full bg-forest text-white text-xs flex items-center justify-center font-bold">2</span>
+                      <span>Select Your Target Modern Silhouette</span>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {[
+                        { name: 'Tailored Festive Blazer', est: '₹2,400', desc: 'Structured shoulder pads, peak lapels, contrast satin lining' },
+                        { name: 'Corset Top & Co-ord Set', est: '₹1,950', desc: 'Structured boning bodice with matching wrap skirt' },
+                        { name: 'Pre-Stitched Contemporary Anarkali', est: '₹2,600', desc: 'Modern flared silhouette ready to zip and wear' },
+                        { name: 'Quilted Denim Laptop Tote', est: '₹1,400', desc: 'Reinforced leather handles and padded laptop compartment' }
+                      ].map((sil, idx) => (
+                        <label key={idx} className="p-5 border border-linen-300 rounded-2xl flex items-start justify-between gap-4 cursor-pointer hover:bg-linen-50 hover:border-forest transition-all shadow-2xs">
+                          <div className="flex items-start gap-3">
+                            <input type="radio" name="atelier_silhouette" defaultChecked={idx === 0} className="mt-1 accent-forest" />
+                            <div>
+                              <div className="font-bold text-forest">{sil.name}</div>
+                              <div className="text-xs text-sage-600 mt-0.5">{sil.desc}</div>
+                            </div>
+                          </div>
+                          <span className="text-xs font-bold text-forest bg-linen-100 px-3 py-1.5 rounded-lg shrink-0 border border-linen-200">{sil.est}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Step 3: Measurement & Contact Form */}
+                  <form onSubmit={async (e) => {
+                    e.preventDefault();
+                    const form = e.target;
+                    try {
+                      await fetch('/api/atelier-requests', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          customer_name: form.cust_name.value,
+                          customer_phone: form.cust_phone.value,
+                          fabric_type: 'Vintage Silk Saree',
+                          target_silhouette: 'Tailored Festive Blazer',
+                          quote_inr: 2400
+                        })
+                      });
+                    } catch (err) {}
+                    triggerToast('Atelier consultation request confirmed! Master Rafiq will contact you via WhatsApp.');
+                    setActivePage('home');
+                  }} className="space-y-6 pt-4 border-t border-linen-200">
+                    <div className="font-bold text-base text-forest flex items-center gap-2">
+                      <span className="w-7 h-7 rounded-full bg-forest text-white text-xs flex items-center justify-center font-bold">3</span>
+                      <span>Artisan Consultation & Doorstep Fabric Pickup</span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-xs font-semibold uppercase tracking-wider text-forest/80 mb-2">Your Full Name</label>
+                        <input name="cust_name" required defaultValue="Ananya Sen" className="w-full px-4 py-3 text-sm bg-linen-50/50 border border-linen-300 rounded-xl focus:outline-none focus:border-sage-500 focus:ring-1 focus:ring-sage-500 shadow-2xs" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold uppercase tracking-wider text-forest/80 mb-2">WhatsApp Phone Number</label>
+                        <input name="cust_phone" required defaultValue="+91 98112 45890" className="w-full px-4 py-3 text-sm bg-linen-50/50 border border-linen-300 rounded-xl focus:outline-none focus:border-sage-500 focus:ring-1 focus:ring-sage-500 shadow-2xs" />
+                      </div>
+                    </div>
+
+                    <div className="p-4 bg-amber-50 border border-amber-200 rounded-2xl text-amber-950 text-xs sm:text-sm flex items-start gap-3">
+                      <Icon name="scissors" className="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
+                      <div>
+                        <strong>Transparent Pricing Guarantee:</strong> Total estimate ₹2,400. Includes doorstep raw fabric pickup, master tailor video consultation, pattern drafting, and delivery within 10 days.
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="w-full py-4 bg-forest hover:bg-sage-900 text-white font-semibold rounded-2xl text-sm shadow-md transition-all flex items-center justify-center gap-2"
+                    >
+                      <Icon name="scissors" className="w-4 h-4 text-sage-300" />
+                      <span>Confirm Artisan Consultation & Fabric Pickup →</span>
+                    </button>
+                  </form>
+
+                </div>
+
+              </div>
+            )}
+
+            {/* ---------------- PAGE 5: DONATE TO NGO ---------------- */}
+            {activePage === 'donate' && (
+              <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+                
+                <div className="text-center max-w-2xl mx-auto space-y-3">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-100 border border-emerald-200 text-emerald-800 text-xs font-bold rounded-full uppercase tracking-wider">
+                    <Icon name="heart" className="w-3.5 h-3.5 text-emerald-700" />
+                    <span>Verified Charity Program • 80G Tax Deductible</span>
+                  </div>
+                  <h1 className="font-cormorant text-4xl sm:text-5xl text-forest">Donate Clothes with Conscience</h1>
+                  <p className="text-sm text-sage-700 leading-relaxed">
+                    Schedule a free doorstep collection. We partner directly with <strong>Goonj (Vastra Samman)</strong> and <strong>Clothes Box Foundation</strong> to redistribute dignified clothing across rural India with 100% verified impact tracking.
+                  </p>
+                </div>
+
+                <div className="bg-white p-8 sm:p-14 rounded-3xl border border-linen-300 shadow-lg space-y-8 text-sm">
+                  <div className="flex items-center justify-between border-b border-linen-200 pb-4">
+                    <div>
+                      <h3 className="font-bold text-lg text-forest">Schedule Free Doorstep Pickup</h3>
+                      <p className="text-xs text-sage-600 mt-0.5">Our courier executive collects your packaged clothes directly from your address.</p>
+                    </div>
+                    <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+                      Zero Courier Fee
+                    </span>
+                  </div>
+                  
+                  <form onSubmit={async (e) => {
+                    e.preventDefault();
+                    const form = e.target;
+                    try {
+                      await fetch('/api/donation-requests', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          donor_name: form.donor_name.value,
+                          donor_phone: form.donor_phone.value,
+                          city: donateCity,
+                          partner_ngo: donatePartner,
+                          estimated_kg: Number(form.weight.value),
+                          pickup_date: form.date.value
+                        })
+                      });
+                    } catch (err) {}
+                    triggerToast('Donation pickup scheduled! Your 80G tax receipt will be emailed.');
+                    setActivePage('home');
+                  }} className="space-y-6">
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-xs font-semibold uppercase tracking-wider text-forest/80 mb-2">Donor Full Name</label>
+                        <input name="donor_name" required defaultValue="Priyanka Saxena" className="w-full px-4 py-3 text-sm bg-linen-50/50 border border-linen-300 rounded-xl focus:outline-none focus:border-sage-500 focus:ring-1 focus:ring-sage-500 shadow-2xs font-sans" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold uppercase tracking-wider text-forest/80 mb-2">WhatsApp Phone Number</label>
+                        <input name="donor_phone" required defaultValue="+91 98100 88210" className="w-full px-4 py-3 text-sm bg-linen-50/50 border border-linen-300 rounded-xl focus:outline-none focus:border-sage-500 focus:ring-1 focus:ring-sage-500 shadow-2xs font-sans" />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      <CustomSelect
+                        label="Service City"
+                        value={donateCity}
+                        onChange={setDonateCity}
+                        options={[
+                          { value: 'DELHI-NCR', label: 'Delhi-NCR (Same-Day Pickup)' },
+                          { value: 'MUMBAI', label: 'Mumbai & MMR' },
+                          { value: 'BENGALURU', label: 'Bengaluru Urban' },
+                          { value: 'PUNE', label: 'Pune & PCMC' }
+                        ]}
+                      />
+                      <div>
+                        <label className="block text-xs font-semibold uppercase tracking-wider text-forest/80 mb-2">Estimated Package Weight (kg)</label>
+                        <input name="weight" type="number" defaultValue="5" min="1" max="50" className="w-full px-4 py-3 text-sm bg-linen-50/50 border border-linen-300 rounded-xl focus:outline-none focus:border-sage-500 focus:ring-1 focus:ring-sage-500 shadow-2xs font-sans" />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      <CustomSelect
+                        label="Beneficiary Partner NGO"
+                        value={donatePartner}
+                        onChange={setDonatePartner}
+                        options={[
+                          { value: 'Goonj — Vastra Samman', label: 'Goonj — Vastra Samman (Rural Upliftment)' },
+                          { value: 'Clothes Box Foundation', label: 'Clothes Box Foundation (Shelter Blankets & Quilts)' }
+                        ]}
+                      />
+                      <div>
+                        <label className="block text-xs font-semibold uppercase tracking-wider text-forest/80 mb-2">Preferred Pickup Date</label>
+                        <input name="date" type="date" defaultValue="2026-10-18" className="w-full px-4 py-3 text-sm bg-linen-50/50 border border-linen-300 rounded-xl focus:outline-none focus:border-sage-500 focus:ring-1 focus:ring-sage-500 shadow-2xs font-sans" />
+                      </div>
+                    </div>
+
+                    <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-emerald-950 text-xs sm:text-sm flex items-start gap-3">
+                      <Icon name="shield" className="w-5 h-5 text-emerald-700 shrink-0 mt-0.5" />
+                      <div>
+                        <strong>80G Tax Exemption Receipt:</strong> Automatically issued within 48 hours to your registered email + 500 Green Thread reward points credited to your circular profile.
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="w-full py-4 bg-emerald-700 hover:bg-emerald-800 text-white font-semibold rounded-2xl text-sm shadow-md transition-all flex items-center justify-center gap-2"
+                    >
+                      <Icon name="check" className="w-4 h-4 text-emerald-200" />
+                      <span>Confirm Free Doorstep Courier Pickup →</span>
+                    </button>
+                  </form>
+                </div>
+
+                {/* Partner NGO Profiles Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+                  <div className="p-8 bg-linen-100 rounded-3xl border border-linen-300 space-y-3 flex flex-col justify-between shadow-xs">
+                    <div>
+                      <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-sm mb-3">
+                        GOONJ
+                      </div>
+                      <h4 className="font-bold text-base text-forest">Goonj: Vastra Samman</h4>
+                      <p className="text-xs sm:text-sm text-sage-700 leading-relaxed mt-2">
+                        Transforms discarded urban clothing into development resources for flood relief, village school infrastructure, and dignity kits across tribal belts. Over 4,000 tonnes diverted annually.
+                      </p>
+                    </div>
+                    <div className="pt-4 border-t border-linen-200 flex items-center justify-between text-xs text-sage-600">
+                      <span>Verified NGO Partner</span>
+                      <span className="font-semibold text-forest">Pan-India Reach</span>
+                    </div>
+                  </div>
+
+                  <div className="p-8 bg-linen-100 rounded-3xl border border-linen-300 space-y-3 flex flex-col justify-between shadow-xs">
+                    <div>
+                      <div className="w-12 h-12 rounded-2xl bg-terracotta-100 text-terracotta-800 font-bold flex items-center justify-center text-sm mb-3">
+                        CBF
+                      </div>
+                      <h4 className="font-bold text-base text-forest">Clothes Box Foundation</h4>
+                      <p className="text-xs sm:text-sm text-sage-700 leading-relaxed mt-2">
+                        Recycles worn fabrics into heavy winter blankets and thermal quilts for homeless shelters and disaster-affected families across North India and Himalayan communities.
+                      </p>
+                    </div>
+                    <div className="pt-4 border-t border-linen-200 flex items-center justify-between text-xs text-sage-600">
+                      <span>Verified NGO Partner</span>
+                      <span className="font-semibold text-forest">Direct Shelter Distribution</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            )}
+
+            {/* ---------------- PAGE 6: SELL / CONSIGN CLOTHES ---------------- */}
+            {activePage === 'sell' && (
+              <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+                
+                <div className="text-center max-w-2xl mx-auto space-y-3">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-sage-100 border border-sage-200 text-sage-800 text-xs font-bold rounded-full uppercase tracking-wider">
+                    <Icon name="sparkles" className="w-3.5 h-3.5 text-sage-600" />
+                    <span>Circular Consignment & Resale Portal</span>
+                  </div>
+                  <h1 className="font-cormorant text-4xl sm:text-5xl text-forest">List Your Wardrobe for Sale or Rent</h1>
+                  <p className="text-sm text-sage-700 leading-relaxed">
+                    Give your unworn clothes a new home. List for outright purchase, 3-day rental bookings, or both. We handle doorstep courier pickup, 5-point quality check, ozone sanitization, and automated bank payouts.
+                  </p>
+                </div>
+
+                <div className="bg-white rounded-3xl border border-linen-300 p-8 sm:p-14 shadow-lg space-y-10">
+                  
+                  <form onSubmit={async (e) => {
+                    e.preventDefault();
+                    const form = e.target;
+                    const primaryImg = sellPhotos.length > 0 ? sellPhotos[0].url : 'https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=700&auto=format&fit=crop';
+                    const allImgs = sellPhotos.map(p => p.url);
+
+                    const payload = {
+                      seller_name: form.name.value,
+                      seller_phone: form.phone.value,
+                      seller_email: form.email.value,
+                      title: form.title.value,
+                      category: form.category.value,
+                      listing_mode: form.mode.value,
+                      mrp: Number(form.mrp.value),
+                      seller_asked_price: Number(form.price.value || 0),
+                      seller_asked_rental_price: Number(form.rental.value || 0),
+                      size: form.size.value,
+                      condition: form.condition.value,
+                      condition_notes: form.notes.value,
+                      fabric: form.fabric.value || '100% Linen Blend',
+                      image: primaryImg,
+                      images: allImgs
+                    };
+
+                    try {
+                      await fetch('/api/sell-request', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                      });
+                    } catch (err) {}
+
+                    triggerToast('Listing and photos submitted! Sent to Management Portal for review & approval.');
+                    setActivePage('home');
+                  }} className="space-y-10 text-sm">
+                    
+                    {/* Section 1: Seller Details */}
+                    <div className="p-6 sm:p-8 bg-linen-50/70 rounded-3xl border border-linen-200 space-y-4">
+                      <div className="font-bold text-base text-forest flex items-center gap-2">
+                        <span className="w-7 h-7 rounded-full bg-forest text-white text-xs flex items-center justify-center font-bold">1</span>
+                        <span>Seller Contact Information</span>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-2">
+                        <div>
+                          <label className="block text-xs font-semibold uppercase tracking-wider text-forest/80 mb-2">Full Name</label>
+                          <input name="name" required defaultValue="Sakshi Sharma" className="w-full px-4 py-3 text-sm bg-white border border-linen-300 rounded-xl focus:outline-none focus:border-sage-500 focus:ring-1 focus:ring-sage-500 transition-all shadow-2xs" />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-semibold uppercase tracking-wider text-forest/80 mb-2">WhatsApp Phone</label>
+                          <input name="phone" required defaultValue="+91 98112 77410" className="w-full px-4 py-3 text-sm bg-white border border-linen-300 rounded-xl focus:outline-none focus:border-sage-500 focus:ring-1 focus:ring-sage-500 transition-all shadow-2xs" />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-semibold uppercase tracking-wider text-forest/80 mb-2">Email Address</label>
+                          <input name="email" type="email" required defaultValue="sakshi.sharma@gmail.com" className="w-full px-4 py-3 text-sm bg-white border border-linen-300 rounded-xl focus:outline-none focus:border-sage-500 focus:ring-1 focus:ring-sage-500 transition-all shadow-2xs" />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Section 2: Garment Details */}
+                    <div className="space-y-6">
+                      <div className="font-bold text-base text-forest flex items-center gap-2">
+                        <span className="w-7 h-7 rounded-full bg-forest text-white text-xs flex items-center justify-center font-bold">2</span>
+                        <span>Garment Details & Listing Preference</span>
+                      </div>
+                      
+                      <div>
+                        <label className="block text-xs font-semibold uppercase tracking-wider text-forest/80 mb-2">Garment Title</label>
+                        <input name="title" required defaultValue="Zara Smocked Linen Puff Sleeve Crop Top" placeholder="e.g. Zara Floral Wrap Dress" className="w-full px-4 py-3 text-sm bg-linen-50/50 border border-linen-300 rounded-xl focus:outline-none focus:border-sage-500 transition-all shadow-2xs font-sans" />
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <CustomSelect
+                          name="category"
+                          label="Wardrobe Category"
+                          value={sellCategory}
+                          onChange={setSellCategory}
+                          options={[
+                            { value: 'top', label: 'Top / Blouse (Casual / Daily)' },
+                            { value: 'skirt', label: 'Pleated / A-Line Skirt' },
+                            { value: 'dress', label: 'Midi / Maxi Dress' },
+                            { value: 'kurta', label: 'Kurta Set / Semi-Heavy Ethnic' },
+                            { value: 'mens', label: "Men's Wear (Shirt / Blazer / Sherwani)" },
+                            { value: 'lehenga', label: 'Heavy Lehenga (Bridal / Sangeet)' },
+                            { value: 'gown', label: 'Heavy Gown / Evening Wear' },
+                            { value: 'sharara', label: 'Heavy Sharara / Gharara' },
+                            { value: 'saree', label: 'Heritage Silk Saree' },
+                            { value: 'blazer', label: 'Tailored Blazer' },
+                            { value: 'occasion', label: 'Heavy Partywear / Cape Set' }
+                          ]}
+                        />
+                        <CustomSelect
+                          name="mode"
+                          label="How would you like to list it?"
+                          value={sellMode}
+                          onChange={setSellMode}
+                          options={[
+                            { value: 'buy', label: 'Sell Only (Listed under Buy)' },
+                            { value: 'rent', label: 'Rent Only (Listed under Rent)' },
+                            { value: 'both', label: 'Both (Can be Bought OR Rented)' }
+                          ]}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Section 3: Interactive Garment Photo Upload */}
+                    <div className="space-y-6 pt-4 border-t border-linen-200">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div>
+                          <div className="font-bold text-base text-forest flex items-center gap-2">
+                            <span className="w-7 h-7 rounded-full bg-forest text-white text-xs flex items-center justify-center font-bold">3</span>
+                            <span>Garment Photography & Visual Evidence</span>
+                          </div>
+                          <p className="text-xs text-sage-600 mt-1">Upload clear photos showing the front, back, size/brand label, and fabric texture.</p>
+                        </div>
+                        <span className="self-start sm:self-center text-xs font-semibold px-3 py-1 bg-sage-100 text-sage-800 rounded-full border border-sage-200">
+                          {sellPhotos.length} {sellPhotos.length === 1 ? 'photo' : 'photos'} attached
+                        </span>
+                      </div>
+
+                      {/* Dropzone Box */}
+                      <div 
+                        onClick={() => document.getElementById('garment-photos-upload-input').click()}
+                        className="border-2 border-dashed border-sage-300 hover:border-forest rounded-3xl p-8 sm:p-10 bg-linen-50/70 hover:bg-white text-center cursor-pointer transition-all duration-300 group shadow-xs"
+                      >
+                        <input
+                          type="file"
+                          id="garment-photos-upload-input"
+                          accept="image/*"
+                          multiple
+                          onChange={handlePhotoUpload}
+                          className="hidden"
+                        />
+                        <div className="w-14 h-14 mx-auto mb-3 rounded-full bg-sage-100 group-hover:bg-forest text-sage-700 group-hover:text-white flex items-center justify-center transition-colors shadow-sm">
+                          <Icon name="camera" className="w-7 h-7" />
+                        </div>
+                        <div className="text-base font-bold text-forest group-hover:text-forest transition-colors">
+                          Click to Upload Garment Photos or Drag & Drop
+                        </div>
+                        <p className="text-xs text-sage-600 mt-1 max-w-md mx-auto">
+                          Upload PNG, JPG, or WEBP photos (Front view, back view, brand label, flaws if any).
+                        </p>
+                        <div className="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-terracotta-600 bg-terracotta-50 px-4 py-2 rounded-full border border-terracotta-200 shadow-2xs">
+                          <Icon name="upload" className="w-3.5 h-3.5" />
+                          <span>Browse Device Files</span>
+                        </div>
+                      </div>
+
+                      {/* Instant Sample Presets for Demoing */}
+                      <div className="p-4 bg-linen-100/70 rounded-2xl border border-linen-300 space-y-2">
+                        <div className="text-xs font-bold text-forest flex items-center gap-1.5">
+                          <Icon name="sparkles" className="w-3.5 h-3.5 text-terracotta-500" />
+                          <span>Quick demo photo presets (Click to test instantly):</span>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          {[
+                            { label: '+ Zara Crop Top', url: 'https://images.unsplash.com/photo-1534126511673-b6899657816a?q=80&w=700&auto=format&fit=crop' },
+                            { label: '+ Pure Silk Saree / Dress', url: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=700&auto=format&fit=crop' },
+                            { label: '+ Tailored Blazer', url: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=700&auto=format&fit=crop' },
+                            { label: '+ Men\'s Linen Shirt', url: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=700&auto=format&fit=crop' },
+                            { label: '+ Pleated Denim Skirt', url: 'https://images.unsplash.com/photo-1548883354-7622d03aca27?q=80&w=700&auto=format&fit=crop' }
+                          ].map((preset, idx) => (
+                            <button
+                              key={idx}
+                              type="button"
+                              onClick={() => addPresetPhoto(preset.url, preset.label.replace('+ ', ''))}
+                              className="text-xs px-3 py-1.5 bg-white hover:bg-forest hover:text-white text-forest border border-linen-300 rounded-lg transition-all shadow-2xs font-medium"
+                            >
+                              {preset.label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Live Thumbnail Grid Preview */}
+                      {sellPhotos.length > 0 && (
+                        <div className="space-y-3 pt-2">
+                          <div className="text-xs font-semibold uppercase tracking-wider text-forest/80 flex items-center justify-between">
+                            <span>Uploaded Photos ({sellPhotos.length})</span>
+                            <span className="text-[11px] text-sage-600 font-normal">First photo is used as main catalog cover</span>
+                          </div>
+                          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                            {sellPhotos.map((photo, idx) => (
+                              <div key={photo.id} className="relative rounded-2xl overflow-hidden border border-linen-300 bg-white group shadow-sm">
+                                <img src={photo.url} alt={photo.label} className="w-full h-40 object-cover object-center" />
+                                <div className="absolute top-2 left-2 bg-forest/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-md shadow-xs backdrop-blur-xs">
+                                  {idx === 0 ? 'Primary Cover' : `Photo #${idx + 1}`}
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => removePhoto(photo.id)}
+                                  className="absolute top-2 right-2 w-7 h-7 rounded-full bg-red-600 text-white hover:bg-red-700 flex items-center justify-center transition-all shadow-md"
+                                  title="Remove photo"
+                                >
+                                  <Icon name="x" className="w-4 h-4" />
+                                </button>
+                                <div className="p-2 text-[11px] font-medium text-forest truncate bg-linen-50 border-t border-linen-200">
+                                  {photo.label}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Section 4: Valuation & Sizing */}
+                    <div className="space-y-6 pt-4 border-t border-linen-200">
+                      <div className="font-bold text-base text-forest flex items-center gap-2">
+                        <span className="w-7 h-7 rounded-full bg-forest text-white text-xs flex items-center justify-center font-bold">4</span>
+                        <span>Valuation, Sizing & Fabric Composition</span>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        <div>
+                          <label className="block text-xs font-semibold uppercase tracking-wider text-forest/80 mb-2">Original MRP (₹)</label>
+                          <input name="mrp" type="number" required defaultValue="2990" className="w-full px-4 py-3 text-sm bg-linen-50/50 border border-linen-300 rounded-xl focus:outline-none focus:border-sage-500 focus:ring-1 focus:ring-sage-500 shadow-2xs" />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-semibold uppercase tracking-wider text-forest/80 mb-2">Asking Resale Price (₹)</label>
+                          <input name="price" type="number" defaultValue="799" className="w-full px-4 py-3 text-sm bg-linen-50/50 border border-linen-300 rounded-xl focus:outline-none focus:border-sage-500 focus:ring-1 focus:ring-sage-500 shadow-2xs" />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-semibold uppercase tracking-wider text-forest/80 mb-2">3-Day Rental Fee (₹)</label>
+                          <input name="rental" type="number" defaultValue="299" className="w-full px-4 py-3 text-sm bg-linen-50/50 border border-linen-300 rounded-xl focus:outline-none focus:border-sage-500 focus:ring-1 focus:ring-sage-500 shadow-2xs" />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <CustomSelect
+                          name="size"
+                          label="Garment Size"
+                          value={sellSize}
+                          onChange={setSellSize}
+                          options={[
+                            { value: 'XS', label: 'XS (Bust 32" / Waist 26")' },
+                            { value: 'S', label: 'S (Bust 34" / Waist 28")' },
+                            { value: 'M', label: 'M (Bust 36" / Waist 30")' },
+                            { value: 'L', label: 'L (Bust 38" / Waist 32")' },
+                            { value: 'XL', label: 'XL (Bust 40" / Waist 34")' },
+                            { value: 'Free Size', label: 'Free Size (Adjustable)' }
+                          ]}
+                        />
+                        <div>
+                          <label className="block text-xs font-semibold uppercase tracking-wider text-forest/80 mb-2">Fabric Composition</label>
+                          <input name="fabric" defaultValue="100% European Linen" className="w-full px-4 py-3 text-sm bg-linen-50/50 border border-linen-300 rounded-xl focus:outline-none focus:border-sage-500 focus:ring-1 focus:ring-sage-500 shadow-2xs" />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Section 5: Condition & Care */}
+                    <div className="space-y-6 pt-4 border-t border-linen-200">
+                      <div className="font-bold text-base text-forest flex items-center gap-2">
+                        <span className="w-7 h-7 rounded-full bg-forest text-white text-xs flex items-center justify-center font-bold">5</span>
+                        <span>Condition Rating & Authenticity Notes</span>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <CustomSelect
+                          name="condition"
+                          label="Condition Rating"
+                          value={sellCondition}
+                          onChange={setSellCondition}
+                          options={[
+                            { value: 'Brand New With Tags', label: 'Brand New With Tags (Unworn)' },
+                            { value: 'Like New (Pristine)', label: 'Like New (Pristine, Worn 1-2 times)' },
+                            { value: 'Gently Loved', label: 'Gently Loved (Clean, no defects)' }
+                          ]}
+                        />
+                        <div>
+                          <label className="block text-xs font-semibold uppercase tracking-wider text-forest/80 mb-2">Wear & Care Notes</label>
+                          <input name="notes" defaultValue="Worn once for a family dinner, steam sanitized, immaculate condition." className="w-full px-4 py-3 text-sm bg-linen-50/50 border border-linen-300 rounded-xl focus:outline-none focus:border-sage-500 focus:ring-1 focus:ring-sage-500 shadow-2xs" />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Section 6: Escrow Protection Notice */}
+                    <div className="p-5 bg-sage-50 border border-sage-200 rounded-2xl text-sage-900 text-xs sm:text-sm flex items-start gap-3">
+                      <Icon name="shield" className="w-5 h-5 text-sage-600 shrink-0 mt-0.5" />
+                      <div>
+                        <strong>Physical Quality Check & Escrow Payout:</strong> Every garment is collected by courier and inspected across 5 quality parameters before going live. You receive 82% of sale proceeds safely deposited into your bank account within 24 hours of delivery.
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="w-full py-4 bg-forest hover:bg-sage-900 text-white font-semibold rounded-2xl text-sm shadow-md transition-all flex items-center justify-center gap-2"
+                    >
+                      <Icon name="check" className="w-5 h-5 text-emerald-400" />
+                      <span>Submit Garment for Listing Approval →</span>
+                    </button>
+
+                  </form>
+
+                </div>
+
+              </div>
+            )}
+
+            {/* ---------------- PAGE 7: PRODUCT DETAIL VIEW ---------------- */}
+            {activePage === 'product' && selectedProduct && (
+              <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                <button
+                  onClick={() => setActivePage('shop')}
+                  className="mb-6 text-xs font-semibold text-sage-700 hover:text-forest flex items-center gap-1.5"
+                >
+                  <span>← Back to Wardrobe</span>
+                </button>
+
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start bg-white p-8 sm:p-12 rounded-3xl border border-linen-300 shadow-sm">
+                  
+                  <div className="lg:col-span-6 rounded-2xl overflow-hidden bg-linen-100 border border-linen-200">
+                    <img src={selectedProduct.image} alt={selectedProduct.title} className="w-full h-[520px] object-cover object-top" />
+                  </div>
+
+                  <div className="lg:col-span-6 space-y-6 text-xs">
+                    <div>
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-sage-100 text-sage-800">
+                          {selectedProduct.listing_mode === 'both' ? 'Buy or Rent' : selectedProduct.listing_mode === 'rent' ? 'Occasion Rental' : 'Thrift Resale'}
+                        </span>
+                        <span className="text-sage-600 font-semibold">• {selectedProduct.condition}</span>
+                      </div>
+
+                      <h1 className="font-cormorant text-3xl sm:text-4xl text-forest font-normal leading-tight">
+                        {selectedProduct.title}
+                      </h1>
+
+                      <div className="flex items-baseline gap-3 mt-3">
+                        <span className="text-3xl font-bold text-forest">₹{(selectedProduct.price || selectedProduct.rental_price_3_day).toLocaleString('en-IN')}</span>
+                        {selectedProduct.listing_mode === 'rent' && <span className="text-xs text-sage-600">/ 3-day rental</span>}
+                        <span className="text-base text-sage-500 line-through">MRP ₹{selectedProduct.mrp.toLocaleString('en-IN')}</span>
+                        <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">
+                          Save {Math.round(((selectedProduct.mrp - (selectedProduct.price || selectedProduct.rental_price_3_day)) / selectedProduct.mrp) * 100)}%
+                        </span>
+                      </div>
+                    </div>
+
+                    <p className="text-sm text-sage-700 leading-relaxed">
+                      {selectedProduct.description}
+                    </p>
+
+                    <div className="p-4 bg-linen-50 rounded-2xl border border-linen-200 space-y-2 text-sage-800">
+                      <div className="font-bold text-forest text-xs">Verified Garment Specifications:</div>
+                      <div>• <strong>Fabric:</strong> {selectedProduct.fabric}</div>
+                      <div>• <strong>Size:</strong> {selectedProduct.size}</div>
+                      <div>• <strong>Seller:</strong> {selectedProduct.seller}</div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3 text-emerald-900">
+                      <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200 flex items-center gap-2">
+                        <Icon name="droplet" className="w-5 h-5 text-emerald-600 shrink-0" />
+                        <div>
+                          <div className="font-bold text-xs">{selectedProduct.water_saved || '2,400 L'}</div>
+                          <div className="text-[10px] text-emerald-700">Freshwater Conserved</div>
+                        </div>
+                      </div>
+                      <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200 flex items-center gap-2">
+                        <Icon name="shield" className="w-5 h-5 text-emerald-600 shrink-0" />
+                        <div>
+                          <div className="font-bold text-xs">100% Escrow</div>
+                          <div className="text-[10px] text-emerald-700">Payment Protected</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={() => { addToBag(selectedProduct); setIsCartOpen(true); }}
+                      className="w-full py-4 bg-forest hover:bg-sage-900 text-white font-semibold rounded-2xl text-xs shadow-md transition-all flex items-center justify-center gap-2"
+                    >
+                      <Icon name="bag" className="w-4 h-4 text-sage-300" />
+                      <span>Add to Circular Bag →</span>
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+            )}
+
+          </main>
+
+          {/* ======================================================== */}
+          {/* 4. SHOPPING BAG SLIDE-OVER DRAWER */}
+          {/* ======================================================== */}
+          {isCartOpen && (
+            <div className="fixed inset-0 z-50 flex">
+              <div className="fixed inset-0 bg-forest/40 backdrop-blur-xs" onClick={() => setIsCartOpen(false)}></div>
+              <div className="relative ml-auto max-w-md w-full bg-white shadow-2xl flex flex-col justify-between p-6 z-10">
+                <div>
+                  <div className="flex items-center justify-between border-b border-linen-200 pb-4">
+                    <div className="flex items-center gap-2">
+                      <Icon name="bag" className="w-5 h-5 text-forest" />
+                      <h3 className="font-cormorant text-2xl text-forest">Your Circular Bag</h3>
+                    </div>
+                    <button onClick={() => setIsCartOpen(false)} className="text-sage-500 hover:text-forest p-1">
+                      <Icon name="x" className="w-5 h-5" />
+                    </button>
+                  </div>
+
+                  <div className="py-4 space-y-3 max-h-[60vh] overflow-y-auto">
+                    {cart.length === 0 ? (
+                      <div className="text-center py-10 text-sage-500">
+                        <Icon name="bag" className="w-8 h-8 mx-auto mb-2 text-sage-300" />
+                        <p className="text-xs">Your bag is empty.</p>
+                      </div>
+                    ) : (
+                      cart.map(item => (
+                        <div key={item.id} className="flex items-center gap-3 p-3 bg-linen-50 rounded-2xl border border-linen-200">
+                          <img src={item.image} alt={item.title} className="w-14 h-14 object-cover rounded-xl" />
+                          <div className="flex-1">
+                            <h4 className="font-semibold text-xs text-forest line-clamp-1">{item.title}</h4>
+                            <div className="text-[10px] text-sage-600">Size: {item.size} • {item.condition}</div>
+                            <div className="text-xs font-bold text-forest mt-0.5">₹{(item.price || item.rental_price_3_day).toLocaleString('en-IN')}</div>
+                          </div>
+                          <button onClick={() => removeFromBag(item.id)} className="text-sage-400 hover:text-red-600 p-1">
+                            <Icon name="trash" className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+
+                <div className="border-t border-linen-200 pt-4 space-y-2.5 text-xs">
+                  <div className="flex justify-between text-sage-700">
+                    <span>Subtotal:</span>
+                    <span className="font-mono font-semibold text-forest">₹{cartSubtotal.toLocaleString('en-IN')}</span>
+                  </div>
+                  <div className="flex justify-between text-sage-700">
+                    <span>Escrow Protection:</span>
+                    <span className="font-mono text-emerald-700 font-semibold">FREE (Guaranteed)</span>
+                  </div>
+                  <div className="flex justify-between text-sage-700">
+                    <span>Eco Shipping & Sanitization:</span>
+                    <span className="font-mono text-forest">₹50</span>
+                  </div>
+                  <div className="flex justify-between text-sm font-bold text-forest border-t border-linen-200 pt-2">
+                    <span>Total Payable:</span>
+                    <span className="font-mono text-base text-forest">₹{cartTotal.toLocaleString('en-IN')}</span>
+                  </div>
+
+                  <button
+                    disabled={cart.length === 0}
+                    onClick={() => { setIsCartOpen(false); setIsCheckoutOpen(true); }}
+                    className="w-full py-3 bg-forest hover:bg-sage-900 disabled:opacity-50 text-white font-semibold rounded-xl transition-all shadow-md mt-2 flex items-center justify-center gap-2"
+                  >
+                    <Icon name="lock" className="w-4 h-4 text-sage-300" />
+                    <span>Proceed to Escrow Checkout →</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ======================================================== */}
+          {/* 5. ESCROW CHECKOUT MODAL */}
+          {/* ======================================================== */}
+          {isCheckoutOpen && (
+            <div className="fixed inset-0 bg-forest/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+              <div className="bg-white rounded-3xl max-w-lg w-full border border-linen-300 shadow-2xl p-6 sm:p-8 space-y-4 max-h-[90vh] overflow-y-auto">
+                <div className="flex items-center justify-between border-b border-linen-200 pb-3">
+                  <div>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-sage-600">Secure Escrow Checkout</span>
+                    <h3 className="font-cormorant text-2xl text-forest">Delivery & Payment</h3>
+                  </div>
+                  <button onClick={() => setIsCheckoutOpen(false)} className="text-sage-500 hover:text-forest p-1">
+                    <Icon name="x" className="w-5 h-5" />
+                  </button>
+                </div>
+
+                <form onSubmit={async (e) => {
+                  e.preventDefault();
+                  const form = e.target;
+                  try {
+                    await fetch('/api/orders', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        customer_name: form.name.value,
+                        customer_phone: form.phone.value,
+                        customer_email: form.email.value,
+                        shipping_address: form.address.value,
+                        item_id: cart[0]?.id || 'prod-101',
+                        item_title: cart[0]?.title || 'Circular Garment Order',
+                        order_type: 'buy',
+                        total_amount: cartTotal,
+                        deposit_amount: 0
+                      })
+                    });
+                  } catch (err) {}
+
+                  setIsCheckoutOpen(false);
+                  setCart([]);
+                  triggerToast('Order confirmed with Escrow Protection! Tracking link dispatched via SMS.');
+                  setActivePage('home');
+                }} className="space-y-4 text-xs">
+                  <div>
+                    <label className="block font-semibold text-forest mb-1">Full Name</label>
+                    <input name="name" required defaultValue="Sneha Nair" className="w-full px-3 py-2 border border-linen-300 rounded-xl" />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2">
+                    <div>
+                      <label className="block font-semibold text-forest mb-1">Phone Number</label>
+                      <input name="phone" required defaultValue="+91 99201 33451" className="w-full px-3 py-2 border border-linen-300 rounded-xl" />
+                    </div>
+                    <div>
+                      <label className="block font-semibold text-forest mb-1">Email</label>
+                      <input name="email" type="email" required defaultValue="sneha.nair@gmail.com" className="w-full px-3 py-2 border border-linen-300 rounded-xl" />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block font-semibold text-forest mb-1">Delivery Address</label>
+                    <textarea name="address" required rows="2" defaultValue="Flat 402, Green Glen Layout, Bellandur, Bengaluru - 560103" className="w-full px-3 py-2 border border-linen-300 rounded-xl"></textarea>
+                  </div>
+
+                  <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-900 text-[11px] leading-snug">
+                    <strong>100% Escrow Protection:</strong> Funds are held securely in Escrow until you receive and inspect your items.
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full py-3.5 bg-forest hover:bg-sage-900 text-white font-semibold rounded-xl transition-all shadow-md flex items-center justify-center gap-2 text-xs"
+                  >
+                    <Icon name="lock" className="w-4 h-4 text-sage-300" />
+                    <span>Confirm Order & Lock in Escrow (₹{cartTotal.toLocaleString('en-IN')})</span>
+                  </button>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {/* ======================================================== */}
+          {/* 6. BRAND FOOTER (PURE CONSUMER BRAND) */}
+          {/* ======================================================== */}
+          <footer className="bg-forest text-linen-100 border-t border-sage-800 pt-12 pb-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-sage-800 text-xs">
+                <div className="space-y-3 md:col-span-1">
+                  <div className="font-cormorant text-2xl tracking-widest text-white">REVIVE THREADS</div>
+                  <p className="text-sage-300 leading-relaxed text-[11px]">
+                    India's unified circular fashion ecosystem. Eliminating wardrobe waste through verified peer-to-peer thrifting, occasion rentals, master artisan upcycling, and NGO partnerships.
+                  </p>
+                  <div className="text-[11px] text-sage-400">
+                    🌱 100% Escrow Protected Transactions
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="font-bold text-white uppercase tracking-wider text-[11px]">Shop Wardrobe</div>
+                  <ul className="space-y-1.5 text-sage-300">
+                    <li><button onClick={() => { setFilterCategory('top'); setFilterMode('buy'); setActivePage('shop'); }} className="hover:text-white">Daily Tops & Blouses</button></li>
+                    <li><button onClick={() => { setFilterCategory('skirt'); setFilterMode('buy'); setActivePage('shop'); }} className="hover:text-white">Pleated Midi Skirts</button></li>
+                    <li><button onClick={() => { setFilterCategory('dress'); setFilterMode('buy'); setActivePage('shop'); }} className="hover:text-white">Midi & Maxi Dresses</button></li>
+                    <li><button onClick={() => { setFilterCategory('shirt'); setFilterMode('buy'); setActivePage('shop'); }} className="hover:text-white">Men's Linen Shirts</button></li>
+                  </ul>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="font-bold text-white uppercase tracking-wider text-[11px]">Circular Services</div>
+                  <ul className="space-y-1.5 text-sage-300">
+                    <li><button onClick={() => setActivePage('rent')} className="hover:text-white">Occasion & Bridal Rentals</button></li>
+                    <li><button onClick={() => setActivePage('atelier')} className="hover:text-white">Revive Atelier (Saree Upcycling)</button></li>
+                    <li><button onClick={() => setActivePage('donate')} className="hover:text-white">Doorstep NGO Donation (Goonj)</button></li>
+                    <li><button onClick={() => setActivePage('sell')} className="hover:text-white">Sell or Consign Clothes</button></li>
+                  </ul>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="font-bold text-white uppercase tracking-wider text-[11px]">Quality & Hygiene Guarantee</div>
+                  <p className="text-[11px] text-sage-300 leading-relaxed">
+                    Every garment is inspected across 5 quality parameters and undergoes medical-grade ozone steam sanitization before dispatch.
+                  </p>
+                  <div className="text-emerald-400 font-semibold text-[11px]">
+                    14,280+ Garments Diverted From Landfills
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-sage-400 gap-2">
+                <div>© 2026 Revive Threads Technologies Pvt. Ltd. All rights reserved.</div>
+                <div className="flex items-center gap-4">
+                  <span>Ozone Sanitized</span>
+                  <span>•</span>
+                  <span>Escrow Protected</span>
+                  <span>•</span>
+                  <span>Zero Fast-Fashion Waste</span>
+                </div>
+              </div>
+            </div>
+          </footer>
+
+        </div>
+      );
+    }
+
+    // Mount React App
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

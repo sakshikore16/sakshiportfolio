@@ -1,0 +1,134 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 750' width='1200' height='750'>
+  <defs>
+    <linearGradient id='bgGrad' x1='0%' y1='0%' x2='100%' y2='100%'>
+      <stop offset='0%' stop-color='#0B1E13' />
+      <stop offset='40%' stop-color='#121212' />
+      <stop offset='100%' stop-color='#191414' />
+    </linearGradient>
+    <linearGradient id='spotGrad' x1='0%' y1='0%' x2='100%' y2='100%'>
+      <stop offset='0%' stop-color='#1ED760' />
+      <stop offset='100%' stop-color='#1DB954' />
+    </linearGradient>
+    <filter id='drop' x='-10%' y='-10%' width='130%' height='130%'>
+      <feDropShadow dx='0' dy='16' stdDeviation='24' flood-color='#000000' flood-opacity='0.65' />
+    </filter>
+    <filter id='glow' x='-20%' y='-20%' width='140%' height='140%'>
+      <feGaussianBlur stdDeviation='60' result='blur' />
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width='1200' height='750' fill='url(#bgGrad)' />
+  
+  <!-- Ambient Spotify Green Ambient Glow -->
+  <circle cx='950' cy='220' r='240' fill='#1DB954' opacity='0.16' filter='url(#glow)' />
+  <circle cx='250' cy='520' r='280' fill='#1DB954' opacity='0.08' filter='url(#glow)' />
+
+  <!-- LAPTOP FRAME (Left/Center) -->
+  <g filter='url(#drop)'>
+    <!-- Laptop Outer Screen Bezel -->
+    <rect x='100' y='110' width='720' height='450' rx='18' fill='#1E1E1E' stroke='#333333' stroke-width='3' />
+    <!-- Laptop Inner Display -->
+    <rect x='114' y='124' width='692' height='422' rx='10' fill='#121212' />
+    
+    <!-- App Navigation Header (Streamlit Dark Theme) -->
+    <rect x='114' y='124' width='692' height='44' fill='#181818' />
+    <circle cx='138' cy='146' r='5' fill='#FF5F56' />
+    <circle cx='154' cy='146' r='5' fill='#FFBD2E' />
+    <circle cx='170' cy='146' r='5' fill='#27C93F' />
+    
+    <text x='200' y='151' fill='#FFFFFF' font-family='system-ui, sans-serif' font-weight='700' font-size='13' letter-spacing='0.5'>Spotify Metrics Data &amp; MLOps Studio</text>
+    <rect x='680' y='136' width='110' height='22' rx='11' fill='#1DB954' opacity='0.2' />
+    <text x='735' y='151' fill='#1ED760' font-family='monospace' font-weight='600' font-size='10' text-anchor='middle'>Streamlit Live</text>
+
+    <!-- Sidebar in Streamlit App -->
+    <rect x='114' y='168' width='165' height='378' fill='#181818' stroke='#282828' stroke-width='1' />
+    <text x='132' y='198' fill='#B3B3B3' font-family='system-ui, sans-serif' font-size='11' font-weight='600'>FEATURE FILTERS</text>
+    
+    <!-- Sidebar Sliders -->
+    <rect x='132' y='215' width='128' height='6' rx='3' fill='#282828' />
+    <rect x='132' y='215' width='88' height='6' rx='3' fill='#1DB954' />
+    <circle cx='220' cy='218' r='6' fill='#FFFFFF' />
+    <text x='132' y='238' fill='#888888' font-family='system-ui, sans-serif' font-size='9'>Danceability &gt; 0.72</text>
+
+    <rect x='132' y='260' width='128' height='6' rx='3' fill='#282828' />
+    <rect x='132' y='260' width='64' height='6' rx='3' fill='#1DB954' />
+    <circle cx='196' cy='263' r='6' fill='#FFFFFF' />
+    <text x='132' y='283' fill='#888888' font-family='system-ui, sans-serif' font-size='9'>Energy Variance 0.58</text>
+
+    <rect x='132' y='305' width='128' height='6' rx='3' fill='#282828' />
+    <rect x='132' y='305' width='104' height='6' rx='3' fill='#1DB954' />
+    <circle cx='236' cy='308' r='6' fill='#FFFFFF' />
+    <text x='132' y='328' fill='#888888' font-family='system-ui, sans-serif' font-size='9'>ML Model: Random Forest</text>
+
+    <!-- Main Content Stage (Streamlit Metrics & Charts) -->
+    <!-- Metric KPI Cards -->
+    <rect x='295' y='184' width='155' height='72' rx='8' fill='#1E1E1E' stroke='#2D2D2D' stroke-width='1' />
+    <text x='310' y='206' fill='#A7A7A7' font-family='system-ui, sans-serif' font-size='10'>R² ACCURACY SCORE</text>
+    <text x='310' y='234' fill='#1ED760' font-family='system-ui, sans-serif' font-weight='800' font-size='20'>94.2%</text>
+    <text x='376' y='234' fill='#1DB954' font-family='monospace' font-size='10'>+3.8%</text>
+
+    <rect x='465' y='184' width='155' height='72' rx='8' fill='#1E1E1E' stroke='#2D2D2D' stroke-width='1' />
+    <text x='480' y='206' fill='#A7A7A7' font-family='system-ui, sans-serif' font-size='10'>TRACK DATA POINTS</text>
+    <text x='480' y='234' fill='#FFFFFF' font-family='system-ui, sans-serif' font-weight='800' font-size='20'>1.2M+</text>
+    <text x='546' y='234' fill='#A7A7A7' font-family='monospace' font-size='10'>Indexed</text>
+
+    <rect x='635' y='184' width='155' height='72' rx='8' fill='#1E1E1E' stroke='#2D2D2D' stroke-width='1' />
+    <text x='650' y='206' fill='#A7A7A7' font-family='system-ui, sans-serif' font-size='10'>MODEL LATENCY</text>
+    <text x='650' y='234' fill='#FFFFFF' font-family='system-ui, sans-serif' font-weight='800' font-size='20'>12ms</text>
+    <text x='716' y='234' fill='#1ED760' font-family='monospace' font-size='10'>Realtime</text>
+
+    <!-- Large Interactive Visualizer Plot -->
+    <rect x='295' y='270' width='495' height='260' rx='10' fill='#1E1E1E' stroke='#2D2D2D' stroke-width='1' />
+    <text x='315' y='298' fill='#FFFFFF' font-family='system-ui, sans-serif' font-weight='700' font-size='12'>Acoustic Features Correlation Matrix &amp; Song Clustering</text>
+    
+    <!-- Simulated Chart Line & Area -->
+    <path d='M 320 480 Q 380 430 440 450 T 540 370 T 630 390 T 720 330 L 760 340' fill='none' stroke='#1ED760' stroke-width='3.5' />
+    <path d='M 320 480 Q 380 430 440 450 T 540 370 T 630 390 T 720 330 L 760 340 L 760 500 L 320 500 Z' fill='#1ED760' opacity='0.12' />
+    
+    <!-- Secondary trendline -->
+    <path d='M 320 460 Q 400 480 480 420 T 600 440 T 700 370 L 760 380' fill='none' stroke='#535353' stroke-width='2' stroke-dasharray='4 4' />
+
+    <!-- Laptop Base Keyboard Body -->
+    <polygon points='30,560 890,560 850,578 70,578' fill='#2A2A2A' stroke='#3A3A3A' stroke-width='1.5' />
+    <rect x='410' y='560' width='100' height='7' rx='3.5' fill='#181818' />
+  </g>
+
+  <!-- MOBILE SCREEN (Right, Overlapping Laptop) -->
+  <g filter='url(#drop)' transform='translate(830, 130)'>
+    <!-- Phone Chassis -->
+    <rect x='0' y='0' width='280' height='550' rx='42' fill='#1E1E1E' stroke='#383838' stroke-width='3.5' />
+    <!-- Inner Screen Display -->
+    <rect x='10' y='10' width='260' height='530' rx='34' fill='#121212' />
+    
+    <!-- Dynamic Island / Speaker Notch -->
+    <rect x='95' y='22' width='90' height='22' rx='11' fill='#000000' />
+    <circle cx='165' cy='33' r='4' fill='#181818' />
+
+    <!-- Mobile Header -->
+    <rect x='28' y='64' width='36' height='36' rx='18' fill='#1DB954' />
+    <circle cx='46' cy='82' r='8' fill='#121212' />
+    <text x='74' y='80' fill='#FFFFFF' font-family='system-ui, sans-serif' font-weight='800' font-size='13'>Spotify ML</text>
+    <text x='74' y='93' fill='#A7A7A7' font-family='system-ui, sans-serif' font-size='9'>Mobile Viewport</text>
+
+    <!-- Mobile Cards -->
+    <rect x='25' y='116' width='230' height='105' rx='14' fill='#1E1E1E' stroke='#282828' stroke-width='1' />
+    <text x='40' y='140' fill='#A7A7A7' font-family='system-ui, sans-serif' font-size='10'>TOP PREDICTED HIT</text>
+    <text x='40' y='164' fill='#FFFFFF' font-family='system-ui, sans-serif' font-weight='700' font-size='14'>Dance Pop Wave #1</text>
+    <rect x='40' y='180' width='200' height='8' rx='4' fill='#2E2E2E' />
+    <rect x='40' y='180' width='174' height='8' rx='4' fill='url(#spotGrad)' />
+    <text x='40' y='204' fill='#1ED760' font-family='monospace' font-size='9'>Probability: 87.4%</text>
+
+    <rect x='25' y='235' width='230' height='160' rx='14' fill='#1E1E1E' stroke='#282828' stroke-width='1' />
+    <text x='40' y='260' fill='#FFFFFF' font-family='system-ui, sans-serif' font-weight='700' font-size='11'>Valence vs Energy Curve</text>
+    <!-- Mini SVG Path Chart on Phone -->
+    <path d='M 40 360 Q 80 320 120 335 T 190 285 T 235 295' fill='none' stroke='#1ED760' stroke-width='2.5' />
+    <circle cx='190' cy='285' r='4' fill='#FFFFFF' stroke='#1DB954' stroke-width='2' />
+
+    <!-- Mobile Bottom Tab Bar -->
+    <rect x='10' y='480' width='260' height='60' rx='28' fill='#181818' />
+    <circle cx='70' cy='510' r='12' fill='#1DB954' />
+    <circle cx='140' cy='510' r='10' fill='#2E2E2E' />
+    <circle cx='210' cy='510' r='10' fill='#2E2E2E' />
+  </g>
+</svg>
